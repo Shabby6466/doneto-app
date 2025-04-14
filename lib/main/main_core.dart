@@ -23,22 +23,24 @@ void initMainCore({required String enviormentPath}) async {
   // MyFirebase firebase = FirebaseImp();
   // var result = await firebase.init();
   // if (result) {
-    Bloc.observer = BlocObservers();
-    final mediaData = MediaQueryData.fromView(WidgetsBinding.instance.platformDispatcher.views.single);
-    R.setData(mediaData);
-    BaseEnv.instance.setEnv();
-    await configureDependencies();
-    // await sl.isReady<SharedPreferences>();
-    // debugRepaintRainbowEnabled = true;
-    // debugRepaintTextRainbowEnabled = true;
-    runApp(
-      MultiBlocProvider(
-        providers: [
-         
-        ],
-        child: const MyApp(),
-      ),
-    );
+  Bloc.observer = BlocObservers();
+  final mediaData = MediaQueryData.fromView(
+    WidgetsBinding.instance.platformDispatcher.views.single,
+  );
+  R.setData(mediaData);
+  BaseEnv.instance.setEnv();
+  await configureDependencies();
+  // await sl.isReady<SharedPreferences>();
+  // debugRepaintRainbowEnabled = true;
+  // debugRepaintTextRainbowEnabled = true;
+  runApp(
+    const MyApp(),
+
+    // MultiBlocProvider(
+    //   providers: [
+    //
+    //   ],
+  );
   // }
 }
 

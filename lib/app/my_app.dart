@@ -39,30 +39,27 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     var screenSize = getScreenSize();
-    return MultiBlocProvider(
-      providers: [],
-      child: ScreenUtilInit(
-        designSize: screenSize,
-        useInheritedMediaQuery: true,
-        builder:
-            (context, __) => MaterialApp.router(
-              debugShowCheckedModeBanner: false,
-              routeInformationProvider: AppRouter.router.routeInformationProvider,
-              routeInformationParser: AppRouter.router.routeInformationParser,
-              routerDelegate: AppRouter.router.routerDelegate,
-              title: 'Doneto',
-              localizationsDelegates: const [
-                AppLocalizations.delegate,
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
-              ],
-              supportedLocales: const [Locale('en')],
-              // locale: Locale(settingState.locale),
-              theme: AppTheme().lightTheme(),
-              darkTheme: AppTheme().lightTheme(),
-            ),
-      ),
+    return ScreenUtilInit(
+      designSize: screenSize,
+      useInheritedMediaQuery: true,
+      builder:
+          (context, __) => MaterialApp.router(
+            debugShowCheckedModeBanner: false,
+            routeInformationProvider: AppRouter.router.routeInformationProvider,
+            routeInformationParser: AppRouter.router.routeInformationParser,
+            routerDelegate: AppRouter.router.routerDelegate,
+            title: 'Doneto',
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: const [Locale('en')],
+            // locale: Locale(settingState.locale),
+            theme: AppTheme().lightTheme(),
+            darkTheme: AppTheme().lightTheme(),
+          ),
     );
   }
 
