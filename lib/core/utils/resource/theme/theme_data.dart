@@ -2,7 +2,7 @@ part of '../r.dart';
 
 class AppTheme {
   ThemeData lightTheme() => ThemeData(
-        fontFamily: 'Roboto',
+        fontFamily: 'Poppins',
         colorScheme: const ColorScheme.light().copyWith(
           primary: R.palette.primary,
           primaryContainer: R.palette.primaryLight,

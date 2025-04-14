@@ -4,14 +4,11 @@ part of '../r.dart';
 class Palette {
   Palette._();
 
-  static const _primary = Color.fromRGBO(6, 103, 235, 1);
-  static const _primaryLight = Color(0xff6385EF);
-  static const _primaryLight3 = Color(0xff8AA6FF);
-  static const _primaryBorder = Color(0xffBFD2F9);
-  static const _primaryLight2 = Color(0xffEBF5F3);
+  static const _primary = Color(0xff1FAA59); //#1FAA59
+  static const _primaryLight = Color(0xff1FAA59);
   static const _primaryDark = Color(0xff829DF2);
   static const _white = Color(0xffffffff);
-  static const _scBtn = Color(0xffF3F4F6);
+  static const _secondary = Color(0xffF2FDF8);
   static const _background = Color(0xffF3F4F6);
   static const _textColor = Color(0xff1B1E28);
   static const _textColor2 = Color(0xff85878B);
@@ -77,7 +74,7 @@ class Palette {
 
   Color get loginBgColor => _loginBgColor;
 
-  Color get scBtn => _scBtn;
+  Color get secondary => _secondary;
 
   Color get aColor => _aColor;
 
@@ -98,12 +95,6 @@ class Palette {
   Color get disabledColor => _disabledColor;
 
   Color get primaryLight => _primaryLight;
-
-  Color get primaryLight3 => _primaryLight3;
-
-  Color get primaryBorder => _primaryBorder;
-
-  Color get primaryLight2 => _primaryLight2;
 
   Color get textColor => _textColor;
 

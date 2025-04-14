@@ -74,7 +74,7 @@ class CustomSearchWidget extends StatelessWidget {
             ),
           ),
           filled: true,
-          fillColor: fillColor ?? R.palette.scBtn,
+          fillColor: fillColor ?? R.palette.secondary,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12.0),
             borderSide: BorderSide.none,
