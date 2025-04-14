@@ -128,7 +128,7 @@ class MyCachedNetworkImage extends StatelessWidget {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(radius.r),
           child: Image.asset(
-            R.assets.graphics.pngIcons.placeholder,
+            R.assets.graphics.pngIcons.img,
             height: height,
             width: width,
             fit: imageFit,
@@ -164,7 +164,7 @@ class MyCachedNetworkImage extends StatelessWidget {
                     width: width,
                     padding: EdgeInsets.all(errorPadding.r),
                     child: Image.asset(
-                      R.assets.graphics.pngIcons.placeholder,
+                      R.assets.graphics.pngIcons.img,
                       height: height,
                       width: width,
                       fit: imageFit,
@@ -192,7 +192,7 @@ class MyCachedNetworkImage extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(radius.r),
                 child: Image.asset(
-                  R.assets.graphics.pngIcons.placeholder,
+                  R.assets.graphics.pngIcons.img,
                   height: height,
                   width: width,
                   fit: imageFit,
@@ -208,7 +208,7 @@ class MyCachedNetworkImage extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(radius.r),
               child: Image.asset(
-                R.assets.graphics.pngIcons.placeholder,
+                R.assets.graphics.pngIcons.img,
                 height: height,
                 width: width,
                 fit: imageFit,

@@ -6,7 +6,7 @@ import 'package:go_router/go_router.dart';
 class Routes {
   /// Init routes
   static const splash = '/';
-  static const login = '/login';
+  static const auth = '/auth';
   static const intro = '/auth';
 
   static Widget errorWidget(BuildContext context, GoRouterState state) => const NotFoundScreen();

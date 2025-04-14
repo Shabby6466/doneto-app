@@ -20,7 +20,7 @@ class BackArrow extends StatelessWidget {
         child: SvgPicture.asset(
           height: 16.h,
           width: 9.w,
-          R.assets.graphics.svgIcons.backArrow,
+          R.assets.graphics.svgIcons.sendIcon,
         ),
       ),
     );

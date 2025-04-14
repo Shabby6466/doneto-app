@@ -64,6 +64,6 @@ class _MyAppState extends State<MyApp> {
   }
 
   Size getScreenSize() {
-    return const Size(375, 812);
+    return const Size(402, 874);
   }
 }

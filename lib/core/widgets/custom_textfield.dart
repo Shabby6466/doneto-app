@@ -354,7 +354,7 @@ class CustomTextField extends StatelessWidget {
                       child: Transform.scale(
                         scale: 1,
                         child: SvgPicture.asset(
-                          R.assets.graphics.svgIcons.closeIcon,
+                          R.assets.graphics.svgIcons.sendIcon,
                           height: 24.h,
                           width: 24.w,
                         ),

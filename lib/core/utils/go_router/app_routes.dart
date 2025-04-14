@@ -1,5 +1,6 @@
 import 'package:doneto/core/utils/go_router/routes_constant.dart';
 import 'package:doneto/core/utils/go_router/routes_navigation.dart';
+import 'package:doneto/modules/auth/screens/auth_index.dart';
 import 'package:doneto/modules/onbording/screen/splash_index.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -16,6 +17,11 @@ class AppRouter {
         path: Routes.splash,
         name: Routes.splash,
         builder: (context, state) => const SplashIndex(),
+      ),
+      GoRoute(
+        path: Routes.auth,
+        name: Routes.auth,
+        builder: (context, state) => const AuthIndex(),
       ),
     ],
     observers: [NavigationObserver()],

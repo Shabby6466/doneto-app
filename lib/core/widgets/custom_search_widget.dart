@@ -46,7 +46,7 @@ class CustomSearchWidget extends StatelessWidget {
                         child: Padding(
                           padding: EdgeInsets.only(right: 18.w, top: 14.h, bottom: 14.h),
                           child: SvgPicture.asset(
-                            R.assets.graphics.svgIcons.closeIcon,
+                            R.assets.graphics.svgIcons.sendIcon,
                             height: 20.h,
                             width: 20.w,
                             fit: BoxFit.contain,
