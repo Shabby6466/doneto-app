@@ -13,7 +13,7 @@ import 'package:logger/logger.dart';
 import 'package:toastification/toastification.dart';
 
 import '../../services/permissions/permission_engine.dart';
-// import 'package:doneto/core/di/di.dart';
+import 'package:doneto/core/di/di.dart';
 // import 'package:doneto/core/services/permissions/permission_engine.dart';
 // import 'package:doneto/core/utils/resource/r.dart';
 
@@ -64,7 +64,7 @@ class Utility {
 
       return DateFormat(format, locale).format(parsedDate);
     } catch (e) {
-      // sl<Logger>().e('Date formatting failed: $e');
+      sl<Logger>().e('Date formatting failed: $e');
       return '';
     }
   }

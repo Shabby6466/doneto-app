@@ -1,6 +1,4 @@
 import 'package:injectable/injectable.dart';
-import 'package:logger/logger.dart';
-import 'package:doneto/core/utils/resource/r.dart';
 
 part 'remote_data_source_imp.dart';
 
