@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/services.dart';
-import 'package:doneto/go_router/app_routes.dart';
+import 'package:doneto/core/utils/go_router/app_routes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 /// This widget is the root of application.
@@ -48,12 +48,12 @@ class _MyAppState extends State<MyApp> {
               routeInformationParser: AppRouter.router.routeInformationParser,
               routerDelegate: AppRouter.router.routerDelegate,
               title: 'Doneto',
-              localizationsDelegates: const [
-                AppLocalizations.delegate,
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
-              ],
+              // localizationsDelegates: const [
+              //   AppLocalizations.delegate,
+              //   GlobalMaterialLocalizations.delegate,
+              //   GlobalWidgetsLocalizations.delegate,
+              //   GlobalCupertinoLocalizations.delegate,
+              // ],
               supportedLocales: const [Locale('en')],
               // locale: Locale(settingState.locale),
               // theme: AppTheme().lightTheme(),

@@ -1,0 +1,115 @@
+part of '../r.dart';
+
+//// this class is used to handle different colors in app
+class Palette {
+  Palette._();
+
+  static const _primary = Color.fromRGBO(6, 103, 235, 1);
+  static const _primaryLight = Color(0xff6385EF);
+  static const _primaryLight3 = Color(0xff8AA6FF);
+  static const _primaryBorder = Color(0xffBFD2F9);
+  static const _primaryLight2 = Color(0xffEBF5F3);
+  static const _primaryDark = Color(0xff829DF2);
+  static const _white = Color(0xffffffff);
+  static const _scBtn = Color(0xffF3F4F6);
+  static const _background = Color(0xffF3F4F6);
+  static const _textColor = Color(0xff1B1E28);
+  static const _textColor2 = Color(0xff85878B);
+  static const _blue50 = Color(0xffEFF3FD);
+  static const _black = Color(0xff000000);
+  static const _white60 = Color(0xffEEEEEE);
+  static const _black2 = Color(0xff1F1F1F);
+  static const _lightBorder = Color(0xffE8E9EA);
+  static const _darkBackground = Color(0xff1B1E28);
+  static const _disabledColor = Color(0xff66686F);
+  static const _disabledText = Color(0xffB8B9BC);
+  static const _red = Color(0xffE16F6F);
+  static const _red2 = Color(0xffE1B5C3);
+  static const _yellow = Color(0xffAEFF08);
+  static const _green = Color(0xff55E8B4);
+  static const _green2 = Color(0xff63D61C);
+  static const _blue = Color(0xff93C6FF);
+  static const _lightGreen = Color(0xff81D065);
+  static const _lightGrey = Color(0xff494B53);
+  static const _grey = Color(0xffF4F4F4);
+  static const _lightGray = Color(0xff747775);
+  static const _aColor = Color(0xffefb034);
+  static const _loginBgColor = Color(0xff636AE8);
+  static const _orange = Color(0xffFFB200);
+  static const _loginBgColorLight = Color(0xffDFE1FA);
+  static const _textFieldBgColor = Color(0xffF2F2FD);
+  static const _pink = Color(0xffE8618C);
+  static const _transparent = Colors.transparent;
+
+  Color get transparent => _transparent;
+
+  Color get red2 => _red2;
+
+  Color get blue => _blue;
+
+  Color get green2 => _green2;
+
+  Color get white60 => _white60;
+
+  Color get disabledText => _disabledText;
+
+  Color get textColor2 => _textColor2;
+
+  Color get pink => _pink;
+
+  Color get black2 => _black2;
+
+  Color get loginBgColorLight => _loginBgColorLight;
+
+  Color get lightBorder => _lightBorder;
+
+  Color get lightGreen => _lightGreen;
+
+  Color get lightGrey => _lightGrey;
+
+  Color get blue50 => _blue50;
+
+  Color get gray => _grey;
+
+  Color get darkBackground => _darkBackground;
+
+  Color get textFieldBgColor => _textFieldBgColor;
+
+  Color get loginBgColor => _loginBgColor;
+
+  Color get scBtn => _scBtn;
+
+  Color get aColor => _aColor;
+
+  Color get orange => _orange;
+
+  Color get primaryDark => _primaryDark;
+
+  Color get background => _background;
+
+  Color get lightGray => _lightGray;
+
+  Color get green => _green;
+
+  Color get red => _red;
+
+  Color get yellow => _yellow;
+
+  Color get disabledColor => _disabledColor;
+
+  Color get primaryLight => _primaryLight;
+
+  Color get primaryLight3 => _primaryLight3;
+
+  Color get primaryBorder => _primaryBorder;
+
+  Color get primaryLight2 => _primaryLight2;
+
+  Color get textColor => _textColor;
+
+  Color get white => _white;
+
+  Color get primary => _primary;
+
+  Color get blackColor => _black;
+}

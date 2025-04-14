@@ -1,0 +1,163 @@
+part of '../r.dart';
+
+class AppTheme {
+  ThemeData lightTheme() => ThemeData(
+        fontFamily: 'Roboto',
+        colorScheme: const ColorScheme.light().copyWith(
+          primary: R.palette.primary,
+          primaryContainer: R.palette.primaryLight,
+          surface: R.palette.white,
+          onSurface: R.palette.textColor,
+          error: Colors.red,
+        ),
+        iconTheme: IconThemeData(
+          color: const Color.fromRGBO(142, 142, 143, 1),
+          size: 20.r,
+        ),
+        highlightColor: Colors.black.withValues(alpha: 0.1),
+        splashColor: Colors.black.withValues(alpha: 0.1),
+        scaffoldBackgroundColor: R.palette.white,
+        cardColor: R.palette.white,
+        dividerColor: Colors.grey,
+        unselectedWidgetColor: Colors.grey,
+        canvasColor: Colors.grey,
+        buttonTheme: ButtonThemeData(
+          buttonColor: R.palette.primary,
+          textTheme: ButtonTextTheme.primary,
+        ),
+        textTheme: TextTheme(
+          displayLarge: TextStyle(color: R.palette.textColor, fontSize: 20.sp, fontWeight: FontWeight.w700),
+          displayMedium: TextStyle(color: R.palette.textColor, fontSize: 14.sp, fontWeight: FontWeight.w400),
+          displaySmall: TextStyle(color: R.palette.textColor, fontSize: 18.sp, fontWeight: FontWeight.bold),
+          headlineMedium: TextStyle(color: R.palette.textColor, fontSize: 14.sp, fontWeight: FontWeight.w500),
+          headlineSmall: TextStyle(color: R.palette.textColor, fontSize: 20.sp, fontWeight: FontWeight.w500),
+          titleLarge: TextStyle(color: R.palette.textColor, fontSize: 16.sp, fontWeight: FontWeight.bold),
+          titleSmall: TextStyle(color: R.palette.textColor, fontSize: 17.sp, fontWeight: FontWeight.normal),
+          labelLarge: TextStyle(color: R.palette.textColor, fontSize: 16.sp, fontWeight: FontWeight.w400),
+          bodyLarge: TextStyle(color: R.palette.textColor, fontSize: 15.sp, fontWeight: FontWeight.w400),
+          bodyMedium: TextStyle(color: R.palette.textColor, fontSize: 17.sp, fontWeight: FontWeight.w400),
+          titleMedium: TextStyle(color: R.palette.textColor, fontSize: 14.sp, fontWeight: FontWeight.w500),
+          labelSmall: TextStyle(color: R.palette.textColor, fontSize: 10.sp, fontWeight: FontWeight.w400),
+        ),
+        useMaterial3: true,
+        dropdownMenuTheme: DropdownMenuThemeData(
+          menuStyle: MenuStyle(
+            visualDensity: VisualDensity.standard,
+            backgroundColor: WidgetStatePropertyAll<Color>(R.palette.loginBgColorLight),
+            side: WidgetStatePropertyAll<BorderSide>(BorderSide(color: R.palette.loginBgColor)),
+            fixedSize: const WidgetStatePropertyAll<Size>(Size(double.minPositive, double.infinity)),
+          ),
+          inputDecorationTheme: InputDecorationTheme(
+            border: const OutlineInputBorder(),
+            constraints: BoxConstraints(maxHeight: 68.h),
+            filled: false,
+            suffixIconColor: R.palette.textColor,
+            floatingLabelBehavior: FloatingLabelBehavior.never,
+            contentPadding: EdgeInsets.symmetric(horizontal: 16.w),
+            hintStyle: TextStyle(
+              color: R.palette.textColor,
+              fontSize: 20.sp,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          textStyle: TextStyle(color: R.palette.textColor, fontSize: 20.sp, fontWeight: FontWeight.w500),
+        ),
+        popupMenuTheme: PopupMenuThemeData(
+          color: R.palette.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.r),
+          ),
+        ),
+        datePickerTheme: DatePickerThemeData(
+          backgroundColor: R.palette.white.withValues(alpha: .9),
+          surfaceTintColor: R.palette.white.withValues(alpha: .9),
+          dayStyle: TextStyle(color: R.palette.textColor, fontSize: 14.sp, fontWeight: FontWeight.w400),
+          weekdayStyle: TextStyle(color: R.palette.textColor, fontSize: 20.sp, fontWeight: FontWeight.w500),
+          headerHeadlineStyle: TextStyle(color: R.palette.textColor, fontSize: 40.sp, fontWeight: FontWeight.w500),
+          headerHelpStyle: TextStyle(color: R.palette.textColor, fontSize: 20.sp, fontWeight: FontWeight.w500),
+          rangePickerHeaderHeadlineStyle: TextStyle(color: R.palette.textColor, fontSize: 20.sp, fontWeight: FontWeight.w500),
+          yearStyle: TextStyle(color: R.palette.textColor, fontSize: 20.sp, fontWeight: FontWeight.w500),
+          rangePickerHeaderHelpStyle: TextStyle(color: R.palette.textColor, fontSize: 20.sp, fontWeight: FontWeight.w500),
+        ), dialogTheme: DialogThemeData(backgroundColor: R.palette.white),
+      );
+
+  ThemeData darkTheme() => ThemeData(
+        fontFamily: 'Roboto',
+        colorScheme: const ColorScheme.light().copyWith(
+          primary: R.palette.primary,
+          primaryContainer: R.palette.primaryLight,
+          surface: R.palette.white,
+          onSurface: R.palette.textColor,
+          error: Colors.red,
+        ),
+        iconTheme: IconThemeData(
+          color: const Color.fromRGBO(142, 142, 143, 1),
+          size: 20.r,
+        ),
+        popupMenuTheme: PopupMenuThemeData(
+          color: R.palette.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.r),
+          ),
+        ),
+        highlightColor: Colors.black.withValues(alpha: 0.1),
+        splashColor: Colors.black.withValues(alpha: 0.1),
+        cardColor: R.palette.textColor.withValues(alpha: .6),
+        scaffoldBackgroundColor: R.palette.darkBackground,
+        dividerColor: Colors.grey,
+        unselectedWidgetColor: Colors.grey,
+        canvasColor: Colors.grey,
+        buttonTheme: ButtonThemeData(
+          buttonColor: R.palette.primary,
+          textTheme: ButtonTextTheme.primary,
+        ),
+        textTheme: TextTheme(
+          displayLarge: TextStyle(color: R.palette.white.withValues(alpha: .8), fontSize: 20.sp, fontWeight: FontWeight.w700),
+          displayMedium: TextStyle(color: R.palette.white.withValues(alpha: .8), fontSize: 14.sp, fontWeight: FontWeight.w400),
+          displaySmall: TextStyle(color: R.palette.white.withValues(alpha: .8), fontSize: 18.sp, fontWeight: FontWeight.bold),
+          headlineMedium: TextStyle(color: R.palette.white.withValues(alpha: .8), fontSize: 14.sp, fontWeight: FontWeight.w500),
+          headlineSmall: TextStyle(color: R.palette.white.withValues(alpha: .8), fontSize: 20.sp, fontWeight: FontWeight.w500),
+          titleLarge: TextStyle(color: R.palette.white.withValues(alpha: .8), fontSize: 16.sp, fontWeight: FontWeight.bold),
+          titleSmall: TextStyle(color: R.palette.white.withValues(alpha: .8), fontSize: 17.sp, fontWeight: FontWeight.normal),
+          labelLarge: TextStyle(color: R.palette.white.withValues(alpha: .8), fontSize: 16.sp, fontWeight: FontWeight.w400),
+          bodyLarge: TextStyle(color: R.palette.white.withValues(alpha: .8), fontSize: 15.sp, fontWeight: FontWeight.w400),
+          bodyMedium: TextStyle(color: R.palette.white.withValues(alpha: .8), fontSize: 17.sp, fontWeight: FontWeight.w400),
+          titleMedium: TextStyle(color: R.palette.white.withValues(alpha: 1), fontSize: 14.sp, fontWeight: FontWeight.w500),
+          labelSmall: TextStyle(color: R.palette.white.withValues(alpha: .7), fontSize: 10.sp, fontWeight: FontWeight.w400),
+        ),
+        useMaterial3: true,
+        dropdownMenuTheme: DropdownMenuThemeData(
+            menuStyle: MenuStyle(
+              visualDensity: VisualDensity.standard,
+              backgroundColor: WidgetStatePropertyAll<Color>(R.palette.textColor),
+              side: WidgetStatePropertyAll<BorderSide>(BorderSide(color: R.palette.white)),
+              fixedSize: const WidgetStatePropertyAll<Size>(Size(double.minPositive, double.infinity)),
+            ),
+            inputDecorationTheme: InputDecorationTheme(
+              border: const OutlineInputBorder(),
+              constraints: BoxConstraints(maxHeight: 68.h),
+              filled: true,
+              fillColor: R.palette.textColor.withValues(alpha: .6),
+              floatingLabelBehavior: FloatingLabelBehavior.never,
+              contentPadding: EdgeInsets.symmetric(horizontal: 16.w),
+              suffixIconColor: R.palette.white,
+              hintStyle: TextStyle(
+                color: R.palette.white.withValues(alpha: .7),
+                fontSize: 20.sp,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            textStyle: TextStyle(color: R.palette.white, fontSize: 20.sp, fontWeight: FontWeight.w500)),
+        datePickerTheme: DatePickerThemeData(
+          backgroundColor: R.palette.white.withValues(alpha: .9),
+          surfaceTintColor: R.palette.white.withValues(alpha: .9),
+          dayStyle: TextStyle(color: R.palette.textColor, fontSize: 14.sp, fontWeight: FontWeight.w400),
+          weekdayStyle: TextStyle(color: R.palette.textColor, fontSize: 20.sp, fontWeight: FontWeight.w500),
+          headerHeadlineStyle: TextStyle(color: R.palette.textColor, fontSize: 40.sp, fontWeight: FontWeight.w500),
+          headerHelpStyle: TextStyle(color: R.palette.textColor, fontSize: 20.sp, fontWeight: FontWeight.w500),
+          rangePickerHeaderHeadlineStyle: TextStyle(color: R.palette.textColor, fontSize: 20.sp, fontWeight: FontWeight.w500),
+          yearStyle: TextStyle(color: R.palette.textColor, fontSize: 20.sp, fontWeight: FontWeight.w500),
+          rangePickerHeaderHelpStyle: TextStyle(color: R.palette.textColor, fontSize: 20.sp, fontWeight: FontWeight.w500),
+        ), dialogTheme: DialogThemeData(backgroundColor: R.palette.blackColor),
+      );
+}

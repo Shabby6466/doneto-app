@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:doneto/go_router/app_routes.dart';
+import 'package:doneto/core/utils/go_router/app_routes.dart';
 import 'package:injectable/injectable.dart';
 
 
