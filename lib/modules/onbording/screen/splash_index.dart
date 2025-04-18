@@ -1,4 +1,5 @@
 import 'package:doneto/core/di/di.dart';
+import 'package:doneto/core/services/l10n/gen_l10n/app_localizations.dart';
 import 'package:doneto/core/utils/go_router/routes_constant.dart';
 import 'package:doneto/core/utils/go_router/routes_navigation.dart';
 import 'package:doneto/core/utils/resource/r.dart';
@@ -24,20 +25,49 @@ class _SplashIndexState extends State<SplashIndex> {
 
   @override
   Widget build(BuildContext context) {
+    var tr = AppLocalizations.of(context);
     return Background(
       bgColor: R.palette.primary,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Spacer(flex: 3),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 70.w),
-            child: Center(child: Image.asset(height: 108.h, width: 262.w, R.assets.graphics.pngIcons.donetoWhiteLogo)),
-          ),
-          const Spacer(),
-          Image.asset(R.assets.graphics.pngIcons.flowers),
-        ],
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 35.w),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Center(
+              child: Text(
+                'Fundraising made simple',
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.labelMedium!.copyWith(
+                  fontSize: 25.sp,
+                  color: R.palette.white,
+                  height: 1.sp,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+            SizedBox(height: 10.h),
+            Align(
+              alignment: Alignment.bottomRight,
+              child: Row(
+                children: [
+                  Expanded(child: Divider(color: R.palette.gray)),
+                  SizedBox(width: 20.w),
+                  Text(
+                    'with Doneto',
+                    textAlign: TextAlign.right,
+                    style: Theme.of(context).textTheme.labelMedium!.copyWith(
+                      fontSize: 18.sp,
+                      color: R.palette.white.withValues(alpha: 1),
+                      height: 1.sp,
+                      fontWeight: FontWeight.w200,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

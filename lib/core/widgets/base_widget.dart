@@ -29,7 +29,7 @@ class Background extends StatelessWidget {
       key: scafoldKey,
       bottomNavigationBar: bottomNavigationBar,
       resizeToAvoidBottomInset: resizeToAvoidBottomInset ?? true,
-      backgroundColor: bgColor ?? R.palette.secondary,
+      backgroundColor: bgColor ?? R.palette.white,
       appBar: appBar,
       body: safeAreaTop != null
           ? SafeArea(
