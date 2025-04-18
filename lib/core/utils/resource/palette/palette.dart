@@ -9,6 +9,7 @@ class Palette {
   static const _primaryDark = Color(0xff829DF2);
   static const _white = Color(0xffffffff);
   static const _secondary = Color(0xffF2FDF8);
+  static const _secondary2 = Color(0xffFBFFFD);
   static const _background = Color(0xffF3F4F6);
   static const _textColor = Color(0xff1B1E28);
   static const _textColor2 = Color(0xff85878B);
@@ -27,8 +28,8 @@ class Palette {
   static const _green2 = Color(0xff63D61C);
   static const _blue = Color(0xff93C6FF);
   static const _lightGreen = Color(0xff81D065);
-  static const _lightGrey = Color(0xff494B53);
-  static const _grey = Color(0xffF4F4F4);
+  static const _lightGrey = Color(0xff5E5F60);
+  static const _grey = Color(0xffF949494);
   static const _lightGray = Color(0xff747775);
   static const _aColor = Color(0xffefb034);
   static const _loginBgColor = Color(0xff636AE8);
@@ -81,6 +82,8 @@ class Palette {
   Color get orange => _orange;
 
   Color get primaryDark => _primaryDark;
+
+  Color get secondary2 => _secondary2;
 
   Color get background => _background;
 
