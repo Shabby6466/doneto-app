@@ -98,14 +98,14 @@ class MaterialTextFormField extends StatelessWidget {
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide(
-            color: controller?.text.isEmpty ?? true ? R.palette.lightBorder : R.palette.darkBackground,
+            color: controller?.text.isEmpty ?? true ? R.palette.white : R.palette.white,
             width: 1,
           ),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide(
-            color: R.palette.darkBackground,
+            color: R.palette.white,
             width: 1.5,
           ),
         ),

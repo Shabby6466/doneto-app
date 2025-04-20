@@ -1,6 +1,9 @@
 import 'package:doneto/core/utils/go_router/routes_constant.dart';
 import 'package:doneto/core/utils/go_router/routes_navigation.dart';
-import 'package:doneto/modules/auth/screens/auth_index.dart';
+import 'package:doneto/modules/auth/screens/sign_in.dart';
+import 'package:doneto/modules/auth/screens/sign_up.dart';
+import 'package:doneto/modules/auth/screens/start_screen_index.dart';
+import 'package:doneto/modules/onbording/screen/fundraising_index.dart';
 import 'package:doneto/modules/onbording/screen/splash_index.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -22,6 +25,21 @@ class AppRouter {
         path: Routes.auth,
         name: Routes.auth,
         builder: (context, state) => const AuthIndex(),
+      ),
+      GoRoute(
+        path: Routes.fundraisingIndex,
+        name: Routes.fundraisingIndex,
+          builder: (context, state) => const FundraisingIndex(),
+      ),
+      GoRoute(
+        path: Routes.signIn,
+        name: Routes.signIn,
+        builder: (context, state) => const SignInIndex(),
+      ),
+      GoRoute(
+        path: Routes.signUp,
+        name: Routes.signUp,
+        builder: (context, state) => const SignUpIndex() ,
       ),
     ],
     observers: [NavigationObserver()],

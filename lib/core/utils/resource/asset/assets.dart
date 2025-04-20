@@ -47,6 +47,8 @@ class SvgAssets {
 
   String get exploreIcon => 'assets/svg/explore_icon.svg';
 
+  String get greenArrow => 'assets/svg/green_arrow.svg';
+
   String get facebookLogo => 'assets/svg/facebook_logo.svg';
 
   String get filterIcon => 'assets/svg/filter_icon.svg';
@@ -92,6 +94,12 @@ class PngAssets {
   const PngAssets._();
 
   String get donetoLogo => 'assets/png/img.png';
+
+  String get donetoWhiteLogo => 'assets/png/doneto_white.png';
+
+  String get flowers => 'assets/png/flowers.png';
+
+  String get bgFlowers => 'assets/png/bg_flowers.png';
 
   String get img => 'assets/png/img.png';
 }

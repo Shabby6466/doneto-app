@@ -8,6 +8,9 @@ class Routes {
   static const splash = '/';
   static const auth = '/auth';
   static const intro = '/auth';
+  static const fundraisingIndex = '/fundraising_index';
+  static const signIn = '/sign_in';
+  static const signUp = '/sign_up';
 
   static Widget errorWidget(BuildContext context, GoRouterState state) => const NotFoundScreen();
 }
