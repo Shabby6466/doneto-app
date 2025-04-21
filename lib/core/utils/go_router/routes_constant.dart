@@ -9,6 +9,7 @@ class Routes {
   static const auth = '/auth';
   static const intro = '/auth';
   static const fundraisingIndex = '/fundraising_index';
+  static const fundraiserIndex = '/fundraiser_index';
   static const signIn = '/sign_in';
   static const signUp = '/sign_up';
 

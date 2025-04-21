@@ -1,10 +1,13 @@
 import 'package:doneto/core/di/di.dart';
+import 'package:doneto/core/utils/go_router/routes_constant.dart';
 import 'package:doneto/core/utils/go_router/routes_navigation.dart';
 import 'package:doneto/core/utils/resource/r.dart';
 import 'package:doneto/core/widgets/base_widget.dart';
+import 'package:doneto/modules/onbording/bloc/onboarding_bloc.dart';
 import 'package:doneto/modules/onbording/widgets/fundraiser_containers.dart';
 import 'package:doneto/modules/onbording/widgets/my_top_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class FundraisingIndex extends StatefulWidget {
@@ -40,11 +43,41 @@ class _FundraisingIndexState extends State<FundraisingIndex> {
             ),
           ),
           SizedBox(height: 48.h),
-          FundraiserContainers(svgImage: R.assets.graphics.svgIcons.yourselfIcon, title: 'yourself'),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 38.w),
+            child: FundraiserContainers(
+              svgImage: R.assets.graphics.svgIcons.yourselfIcon,
+              title: 'yourself',
+              onTap: () {
+                context.read<OnboardingBloc>().add(OnboardingIdentityEvent(onboardingIdentity: OnboardingIdentity.yourself));
+                Future.microtask(() => sl<Navigation>().push(path: Routes.fundraiserIndex));
+              },
+            ),
+          ),
           SizedBox(height: 40.h),
-          FundraiserContainers(svgImage: R.assets.graphics.svgIcons.someoneElse, title: 'someone else'),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 38.w),
+            child: FundraiserContainers(
+              svgImage: R.assets.graphics.svgIcons.someoneElse,
+              title: 'someone else',
+              onTap: () {
+                context.read<OnboardingBloc>().add(OnboardingIdentityEvent(onboardingIdentity: OnboardingIdentity.someoneElse));
+                Future.microtask(() => sl<Navigation>().push(path: Routes.fundraiserIndex));
+              },
+            ),
+          ),
           SizedBox(height: 40.h),
-          FundraiserContainers(svgImage: R.assets.graphics.svgIcons.charity, title: 'charity'),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 38.w),
+            child: FundraiserContainers(
+              svgImage: R.assets.graphics.svgIcons.charity,
+              title: 'charity',
+              onTap: () {
+                context.read<OnboardingBloc>().add(OnboardingIdentityEvent(onboardingIdentity: OnboardingIdentity.charity));
+                Future.microtask(() => sl<Navigation>().push(path: Routes.fundraiserIndex));
+              },
+            ),
+          ),
         ],
       ),
     );

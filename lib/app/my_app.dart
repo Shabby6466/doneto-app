@@ -1,5 +1,6 @@
 import 'package:doneto/core/services/l10n/gen_l10n/app_localizations.dart';
 import 'package:doneto/core/utils/resource/r.dart';
+import 'package:doneto/modules/onbording/bloc/onboarding_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/services.dart';
@@ -39,27 +40,34 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     var screenSize = getScreenSize();
-    return ScreenUtilInit(
-      designSize: screenSize,
-      useInheritedMediaQuery: true,
-      builder:
-          (context, __) => MaterialApp.router(
-            debugShowCheckedModeBanner: false,
-            routeInformationProvider: AppRouter.router.routeInformationProvider,
-            routeInformationParser: AppRouter.router.routeInformationParser,
-            routerDelegate: AppRouter.router.routerDelegate,
-            title: 'Doneto',
-            localizationsDelegates: const [
-              AppLocalizations.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
-            supportedLocales: const [Locale('en')],
-            // locale: Locale(settingState.locale),
-            theme: AppTheme().lightTheme(),
-            darkTheme: AppTheme().lightTheme(),
-          ),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<OnboardingBloc>(
+            create: (context) => OnboardingBloc()
+        ),
+      ],
+      child: ScreenUtilInit(
+        designSize: screenSize,
+        useInheritedMediaQuery: true,
+        builder:
+            (context, __) => MaterialApp.router(
+              debugShowCheckedModeBanner: false,
+              routeInformationProvider: AppRouter.router.routeInformationProvider,
+              routeInformationParser: AppRouter.router.routeInformationParser,
+              routerDelegate: AppRouter.router.routerDelegate,
+              title: 'Doneto',
+              localizationsDelegates: const [
+                AppLocalizations.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              supportedLocales: const [Locale('en')],
+              // locale: Locale(settingState.locale),
+              theme: AppTheme().lightTheme(),
+              darkTheme: AppTheme().lightTheme(),
+            ),
+      ),
     );
   }
 

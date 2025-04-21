@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FundraiserBloc extends Bloc<FundraiserEvent, FundraiserState> {
-  FundraiserBloc() : super(FundraiserChangeState.initial()) {}
+  FundraiserBloc() : super(FundraiserChangeState.initial());
 
   /// this method used as state change
   FundraiserState getBlocState({bool? loading, String? errMsg, int? currentIndex}) {
