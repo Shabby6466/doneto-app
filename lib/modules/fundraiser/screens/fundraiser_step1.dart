@@ -4,7 +4,9 @@ import 'package:doneto/core/widgets/custom_textfield.dart';
 import 'package:doneto/core/widgets/text_widget.dart';
 import 'package:doneto/modules/fundraiser/widgets/fees_notice.dart';
 import 'package:doneto/modules/fundraiser/widgets/submit_btn.dart';
+import 'package:doneto/modules/onbording/bloc/onboarding_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -70,7 +72,13 @@ class _FundraiserStep1State extends State<FundraiserStep1> {
             SizedBox(height: 45.64.h),
             Center(child: SizedBox(width: 308.w, child: const FeesNotice())),
             SizedBox(height: 23.h),
-            Center(child: SubmitBtn(onTap: () {})),
+            Center(
+              child: SubmitBtn(
+                onTap: () {
+                  context.read<OnboardingBloc>().add(NextPageEvent());
+                },
+              ),
+            ),
           ],
         ),
       ),
