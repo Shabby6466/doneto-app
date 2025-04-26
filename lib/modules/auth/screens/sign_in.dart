@@ -97,32 +97,30 @@ class _SignInIndexState extends State<SignInIndex> {
           ),
           SizedBox(height: 37.h),
 
-          Padding(
-            padding: EdgeInsets.only(left: 64.w),
-            child: Row(
-              children: [
-                Text(
-                  'Don\'t have an account?',
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Don\'t have an account?',
+                style: Theme.of(
+                  context,
+                ).textTheme.titleLarge!.copyWith(color: R.palette.lightGray, fontSize: 16.sp, fontWeight: FontWeight.w400, height: 1.h),
+              ),
+              SizedBox(width: 3.w,),
+
+              GestureDetector(
+                onTap: (){
+                  sl<Navigation>().push(path: Routes.signUp);
+
+                },
+                child: Text(
+                  'SIGN UP',
                   style: Theme.of(
                     context,
-                  ).textTheme.titleLarge!.copyWith(color: R.palette.lightGray, fontSize: 16.sp, fontWeight: FontWeight.w400, height: 1.h),
+                  ).textTheme.titleLarge!.copyWith(color: R.palette.primary, fontSize: 16.sp, fontWeight: FontWeight.w400, height: 1.h),
                 ),
-                SizedBox(width: 3.w,),
-
-                GestureDetector(
-                  onTap: (){
-                    sl<Navigation>().push(path: Routes.signUp);
-
-                  },
-                  child: Text(
-                    'SIGN UP',
-                    style: Theme.of(
-                      context,
-                    ).textTheme.titleLarge!.copyWith(color: R.palette.primary, fontSize: 16.sp, fontWeight: FontWeight.w400, height: 1.h),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
 
         ],
