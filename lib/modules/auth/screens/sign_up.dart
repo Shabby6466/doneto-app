@@ -151,26 +151,24 @@ class _SignUpIndexState extends State<SignUpIndex> {
           ),
           SizedBox(height: 26.h),
 
-          Padding(
-            padding: EdgeInsets.only(left: 64.w),
-            child: Row(
-              children: [
-                Text(
-                  'Already have an account?',
-                  style: Theme.of(
-                    context,
-                  ).textTheme.titleLarge!.copyWith(color: R.palette.lightGray, fontSize: 16.sp, fontWeight: FontWeight.w400, height: 1.h),
-                ),
-                SizedBox(width: 3.w,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Already have an account?',
+                style: Theme.of(
+                  context,
+                ).textTheme.titleLarge!.copyWith(color: R.palette.lightGray, fontSize: 16.sp, fontWeight: FontWeight.w400, height: 1.h),
+              ),
+              SizedBox(width: 3.w,),
 
-                Text(
-                  'SIGN IN',
-                  style: Theme.of(
-                    context,
-                  ).textTheme.titleLarge!.copyWith(color: R.palette.primary, fontSize: 16.sp, fontWeight: FontWeight.w400, height: 1.h),
-                ),
-              ],
-            ),
+              Text(
+                'SIGN IN',
+                style: Theme.of(
+                  context,
+                ).textTheme.titleLarge!.copyWith(color: R.palette.primary, fontSize: 16.sp, fontWeight: FontWeight.w400, height: 1.h),
+              ),
+            ],
           ),
         ],
       ),
