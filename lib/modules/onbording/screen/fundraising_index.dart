@@ -1,4 +1,5 @@
 import 'package:doneto/core/di/di.dart';
+import 'package:doneto/core/utils/go_router/routes_constant.dart';
 import 'package:doneto/core/utils/go_router/routes_navigation.dart';
 import 'package:doneto/core/utils/resource/r.dart';
 import 'package:doneto/core/widgets/base_widget.dart';
@@ -40,7 +41,11 @@ class _FundraisingIndexState extends State<FundraisingIndex> {
             ),
           ),
           SizedBox(height: 48.h),
-          FundraiserContainers(svgImage: R.assets.graphics.svgIcons.yourselfIcon, title: 'yourself'),
+          GestureDetector(
+              onTap: () {
+                sl<Navigation>().push(path: Routes.fundraisingDetails);
+              },
+              child: FundraiserContainers(svgImage: R.assets.graphics.svgIcons.yourselfIcon, title: 'yourself')),
           SizedBox(height: 40.h),
           FundraiserContainers(svgImage: R.assets.graphics.svgIcons.someoneElse, title: 'someone else'),
           SizedBox(height: 40.h),

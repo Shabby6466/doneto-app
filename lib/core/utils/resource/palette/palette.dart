@@ -28,8 +28,8 @@ class Palette {
   static const _green2 = Color(0xff63D61C);
   static const _blue = Color(0xff93C6FF);
   static const _lightGreen = Color(0xff81D065);
-  static const _lightGrey = Color(0xff5E5F60);
-  static const _grey = Color(0xffF949494);
+  static const _lightGrey = Color(0xff6E6E6E);
+  static const _grey = Color(0xffD9D9D9);
   static const _lightGray = Color(0xff747775);
   static const _aColor = Color(0xffefb034);
   static const _loginBgColor = Color(0xff636AE8);

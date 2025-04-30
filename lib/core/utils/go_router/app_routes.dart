@@ -3,6 +3,7 @@ import 'package:doneto/core/utils/go_router/routes_navigation.dart';
 import 'package:doneto/modules/auth/screens/sign_in.dart';
 import 'package:doneto/modules/auth/screens/sign_up.dart';
 import 'package:doneto/modules/auth/screens/start_screen_index.dart';
+import 'package:doneto/modules/fundraiser/screens/fundraiser_index.dart';
 import 'package:doneto/modules/onbording/screen/fundraising_index.dart';
 import 'package:doneto/modules/onbording/screen/splash_index.dart';
 import 'package:flutter/material.dart';
@@ -35,6 +36,11 @@ class AppRouter {
         path: Routes.signIn,
         name: Routes.signIn,
         builder: (context, state) => const SignInIndex(),
+      ),
+      GoRoute(
+        path: Routes.fundraisingDetails,
+        name: Routes.fundraisingDetails,
+        builder: (context, state) => const FundraiserIndex(),
       ),
       GoRoute(
         path: Routes.signUp,

@@ -41,6 +41,8 @@ class SvgAssets {
 
   String get cameraIcon => 'assets/svg/camera_icon.svg';
 
+  String get backArrow => 'assets/svg/back_arrow.svg';
+
   String get charity => 'assets/svg/charity.svg';
 
   String get easypaisa => 'assets/svg/easypaisa.svg';
@@ -48,6 +50,8 @@ class SvgAssets {
   String get exploreIcon => 'assets/svg/explore_icon.svg';
 
   String get greenArrow => 'assets/svg/green_arrow.svg';
+
+  String get nextArrow => 'assets/svg/next_arrow.svg';
 
   String get facebookLogo => 'assets/svg/facebook_logo.svg';
 

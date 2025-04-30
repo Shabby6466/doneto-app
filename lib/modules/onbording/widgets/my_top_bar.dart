@@ -1,6 +1,7 @@
 import 'package:doneto/core/utils/resource/r.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class MyTopBar extends StatefulWidget {
   final GestureTapCallback onTap;
@@ -19,7 +20,7 @@ class _MyTopBarState extends State<MyTopBar> {
       padding: EdgeInsets.only(left: 38.w),
       child: Row(
         children: [
-          GestureDetector(onTap: widget.onTap, child: Icon(Icons.arrow_back, color: R.palette.blackColor)),
+          GestureDetector(onTap: widget.onTap, child: SvgPicture.asset(R.assets.graphics.svgIcons.backArrow)),
           const Spacer(flex: 2),
           Text(
             widget.title,

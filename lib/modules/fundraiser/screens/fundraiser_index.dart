@@ -1,5 +1,15 @@
+import 'package:doneto/core/di/di.dart';
+import 'package:doneto/core/utils/go_router/routes_navigation.dart';
+import 'package:doneto/core/utils/resource/r.dart';
 import 'package:doneto/core/widgets/base_widget.dart';
-import 'package:doneto/modules/onbording/widgets/my_top_bar.dart';
+import 'package:doneto/core/widgets/text_widget.dart';
+import 'package:doneto/modules/fundraiser/bloc/fundraiser_bloc.dart';
+import 'package:doneto/modules/fundraiser/widgets/first_fundraiser_detail.dart';
+import 'package:doneto/modules/fundraiser/widgets/pages_bar.dart';
+import 'package:doneto/modules/fundraiser/widgets/second_fundraiser_detail.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/material.dart';
 
 class FundraiserIndex extends StatefulWidget {
@@ -10,29 +20,85 @@ class FundraiserIndex extends StatefulWidget {
 }
 
 class _FundraiserIndexState extends State<FundraiserIndex> {
-  final PageController _pageController = PageController();
+  static const int pagesCount = 2;
+  final PageController _pageController = PageController(initialPage: 0);
 
   @override
   Widget build(BuildContext context) {
-    return Background(
-      child: Column(
-        children: [
-          MyTopBar(onTap: () {}, title: ''),
-          Positioned(
-            left: 0,
-            right: 0,
-            bottom: 0,
-            top: 0,
-            child: PageView(
-              controller: _pageController,
-              onPageChanged: (index) {
-                // context.read<OnboardingBloc>().add(UpdatePageEvent(page: index));
-              },
-              children: [],
-            ),
+    return BlocConsumer<FundraiserBloc,FundraiserState>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        return Background(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 63.h),
+              GestureDetector(
+                onTap: () {
+                  sl<Navigation>().popFromRoute();
+                },
+                child: Padding(padding: EdgeInsets.only(left: 38.w), child: SvgPicture.asset(R.assets.graphics.svgIcons.backArrow)),
+              ),
+              SizedBox(height: 26.h),
+              PagesBar(activeSegments: state.currentIndex, totalSegments: 3),
+              SizedBox(height: 11.h),
+              Center(child: TextWidget('Step ${state.currentIndex} of 3', color: R.palette.lightGrey, size: 14.sp, weight: FontWeight.w500)),
+              SizedBox(height: 22.h),
+              Expanded(
+                child: PageView(
+                  controller: _pageController,
+                  onPageChanged: (index) {
+                    context.read<FundraiserBloc>().add(FundraiserPageChangeEvent(currentIndex: index));
+                  },
+                  children: const [FirstFundraiserDetail(), SecondFundraiserDetail()],
+                ),
+              ),
+              state.currentIndex == pagesCount
+                  ? Center(
+                    child: Container(
+                      height: 294.h,
+                      width: 48.w,
+                      decoration: BoxDecoration(shape: BoxShape.circle, color: R.palette.primary),
+                      child: Center(
+                        child: Text(
+                          'preview fundraiser',
+                          style: Theme.of(context).textTheme.displayLarge!.copyWith(
+                            color: R.palette.white,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w500,
+                            fontFamily: 'Poppins',
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                  : Center(
+                    child: GestureDetector(
+                      onTap: () {
+                        if (state.currentIndex < pagesCount) {
+                          context.read<FundraiserBloc>().add(FundraiserPageChangeEvent(currentIndex: state.currentIndex + 1));
+                        }
+                        _pageController.animateToPage(state.currentIndex, duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
+                      },
+                      child: Container(
+                        height: 63.h,
+                        width: 63.w,
+                        decoration: BoxDecoration(shape: BoxShape.circle, color: R.palette.primary),
+                        child: Center(child: SvgPicture.asset(R.assets.graphics.svgIcons.whiteDone)),
+                      ),
+                    ),
+                  ),
+              SizedBox(height: 56.h),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
   }
 }

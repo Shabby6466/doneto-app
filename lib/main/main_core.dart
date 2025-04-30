@@ -1,17 +1,13 @@
 // coverage: false
 // coverage:ignore-file
 
-import 'dart:io';
 
 import 'package:doneto/app/my_app.dart';
 import 'package:doneto/core/di/di.dart';
 import 'package:doneto/core/utils/base_env.dart';
-import 'package:firebase_app_check/firebase_app_check.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../core/utils/bloc_observer/bloc_observer.dart';
 import '../core/utils/resource/r.dart';

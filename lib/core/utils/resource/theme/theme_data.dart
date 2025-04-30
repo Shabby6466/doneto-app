@@ -82,7 +82,7 @@ class AppTheme {
       );
 
   ThemeData darkTheme() => ThemeData(
-        fontFamily: 'Roboto',
+        fontFamily: 'Poppins',
         colorScheme: const ColorScheme.light().copyWith(
           primary: R.palette.primary,
           primaryContainer: R.palette.primaryLight,
