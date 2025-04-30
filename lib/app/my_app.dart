@@ -1,6 +1,6 @@
 import 'package:doneto/core/services/l10n/gen_l10n/app_localizations.dart';
 import 'package:doneto/core/utils/resource/r.dart';
-import 'package:doneto/modules/onbording/bloc/onboarding_bloc.dart';
+import 'package:doneto/modules/fundraiser/bloc/fundraiser_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/services.dart';
@@ -42,8 +42,8 @@ class _MyAppState extends State<MyApp> {
     var screenSize = getScreenSize();
     return MultiBlocProvider(
       providers: [
-        BlocProvider<OnboardingBloc>(
-            create: (context) => OnboardingBloc()
+        BlocProvider<FundraiserBloc>(
+          create: (context) => FundraiserBloc(),
         ),
       ],
       child: ScreenUtilInit(

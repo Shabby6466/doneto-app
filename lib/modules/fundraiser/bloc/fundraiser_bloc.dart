@@ -2,7 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FundraiserBloc extends Bloc<FundraiserEvent, FundraiserState> {
-  FundraiserBloc() : super(FundraiserChangeState.initial());
+  FundraiserBloc() : super(FundraiserChangeState.initial()) {
+    on<FundraiserPageChangeEvent>(_fundraiserPageChangeEvent);
+  }
+
+  void _fundraiserPageChangeEvent(FundraiserPageChangeEvent event, Emitter<FundraiserState> emit) {
+    emit(getBlocState(currentIndex: event.currentIndex));
+  }
 
   /// this method used as state change
   FundraiserState getBlocState({bool? loading, String? errMsg, int? currentIndex}) {
@@ -29,3 +35,9 @@ class FundraiserChangeState extends FundraiserState {
 /// bloc events
 @immutable
 abstract class FundraiserEvent {}
+
+class FundraiserPageChangeEvent extends FundraiserEvent {
+  int currentIndex;
+
+  FundraiserPageChangeEvent({required this.currentIndex});
+}

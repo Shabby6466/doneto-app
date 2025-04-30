@@ -24,12 +24,12 @@ class Palette {
   static const _red = Color(0xffE16F6F);
   static const _red2 = Color(0xffE1B5C3);
   static const _yellow = Color(0xffAEFF08);
-  static const _green = Color(0xff1FAA59);
+  static const _green = Color(0xff55E8B4);
   static const _green2 = Color(0xff63D61C);
   static const _blue = Color(0xff93C6FF);
   static const _lightGreen = Color(0xff81D065);
-  static const _lightGrey = Color(0xffD9D9D9);
-  static const _grey = Color(0xff6E6E6E);
+  static const _lightGrey = Color(0xff6E6E6E);
+  static const _grey = Color(0xffD9D9D9);
   static const _lightGray = Color(0xff747775);
   static const _aColor = Color(0xffefb034);
   static const _loginBgColor = Color(0xff636AE8);

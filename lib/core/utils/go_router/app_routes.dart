@@ -38,14 +38,14 @@ class AppRouter {
         builder: (context, state) => const SignInIndex(),
       ),
       GoRoute(
+        path: Routes.fundraisingDetails,
+        name: Routes.fundraisingDetails,
+        builder: (context, state) => const FundraiserIndex(),
+      ),
+      GoRoute(
         path: Routes.signUp,
         name: Routes.signUp,
         builder: (context, state) => const SignUpIndex() ,
-      ),
-      GoRoute(
-        path: Routes.fundraiserIndex,
-        name: Routes.fundraiserIndex,
-        builder: (context, state) => const FundraiserIndex(),
       ),
     ],
     observers: [NavigationObserver()],

@@ -2,14 +2,15 @@ import 'package:doneto/core/di/di.dart';
 import 'package:doneto/core/utils/go_router/routes_navigation.dart';
 import 'package:doneto/core/utils/resource/r.dart';
 import 'package:doneto/core/widgets/base_widget.dart';
-import 'package:doneto/modules/fundraiser/screens/fundraiser_step1.dart';
-import 'package:doneto/modules/fundraiser/screens/fundraiser_step2.dart';
-import 'package:doneto/modules/fundraiser/screens/fundraiser_step3.dart';
-import 'package:doneto/modules/onbording/bloc/onboarding_bloc.dart';
-import 'package:flutter/material.dart';
+import 'package:doneto/core/widgets/text_widget.dart';
+import 'package:doneto/modules/fundraiser/bloc/fundraiser_bloc.dart';
+import 'package:doneto/modules/fundraiser/widgets/first_fundraiser_detail.dart';
+import 'package:doneto/modules/fundraiser/widgets/pages_bar.dart';
+import 'package:doneto/modules/fundraiser/widgets/second_fundraiser_detail.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter/material.dart';
 
 class FundraiserIndex extends StatefulWidget {
   const FundraiserIndex({super.key});
@@ -19,79 +20,85 @@ class FundraiserIndex extends StatefulWidget {
 }
 
 class _FundraiserIndexState extends State<FundraiserIndex> {
-  final PageController _pageController = PageController();
+  static const int pagesCount = 2;
+  final PageController _pageController = PageController(initialPage: 0);
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<OnboardingBloc, OnboardingState>(
+    return BlocConsumer<FundraiserBloc,FundraiserState>(
       listener: (context, state) {},
       builder: (context, state) {
-        void nextPage(BuildContext context) {
-          if (state.currentPage == 2) {
-          } else {
-            context.read<OnboardingBloc>().add(NextPageEvent());
-          }
-        }
-
-        void backPress(BuildContext context) {
-          if (state.currentPage == 0) {
-            if (sl<Navigation>().canPop()) {
-              sl<Navigation>().popFromRoute();
-            }
-          } else {
-            context.read<OnboardingBloc>().add(BackPageEvent());
-          }
-        }
-
         return Background(
-          safeAreaTop: true,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 10.h),
+              SizedBox(height: 63.h),
               GestureDetector(
                 onTap: () {
-                  backPress(context);
+                  sl<Navigation>().popFromRoute();
                 },
                 child: Padding(padding: EdgeInsets.only(left: 38.w), child: SvgPicture.asset(R.assets.graphics.svgIcons.backArrow)),
               ),
               SizedBox(height: 26.h),
-              SizedBox(
-                height: 10.h,
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  separatorBuilder: (context, index) => SizedBox(width: 16.w, height: 10.h),
-                  itemCount: 3,
-                  itemBuilder: (context, index) {
-                    return Container(height: 10.h, width: 127.w, color: state.currentPage == index ? R.palette.green : R.palette.lightGrey);
-                  },
-                ),
-              ),
+              PagesBar(activeSegments: state.currentIndex, totalSegments: 3),
               SizedBox(height: 11.h),
-              Center(
-                child: Text(
-                  'Step ${state.currentPage + 1} of 3',
-                  style: Theme.of(
-                    context,
-                  ).textTheme.titleLarge!.copyWith(color: R.palette.gray, fontSize: 14.sp, fontWeight: FontWeight.w800, height: 14.h / 14.h),
-                ),
-              ),
+              Center(child: TextWidget('Step ${state.currentIndex} of 3', color: R.palette.lightGrey, size: 14.sp, weight: FontWeight.w500)),
               SizedBox(height: 22.h),
               Expanded(
                 child: PageView(
                   controller: _pageController,
-                  onPageChanged: (value) {
-                    context.read<OnboardingBloc>().add(UpdatePageEvent(page: value));
+                  onPageChanged: (index) {
+                    context.read<FundraiserBloc>().add(FundraiserPageChangeEvent(currentIndex: index));
                   },
-                  physics: const NeverScrollableScrollPhysics(),
-                  scrollDirection: Axis.horizontal,
-                  children: [const FundraiserStep1(), const FundraiserStep2(), const FundraiserStep3()],
+                  children: const [FirstFundraiserDetail(), SecondFundraiserDetail()],
                 ),
               ),
+              state.currentIndex == pagesCount
+                  ? Center(
+                    child: Container(
+                      height: 294.h,
+                      width: 48.w,
+                      decoration: BoxDecoration(shape: BoxShape.circle, color: R.palette.primary),
+                      child: Center(
+                        child: Text(
+                          'preview fundraiser',
+                          style: Theme.of(context).textTheme.displayLarge!.copyWith(
+                            color: R.palette.white,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w500,
+                            fontFamily: 'Poppins',
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                  : Center(
+                    child: GestureDetector(
+                      onTap: () {
+                        if (state.currentIndex < pagesCount) {
+                          context.read<FundraiserBloc>().add(FundraiserPageChangeEvent(currentIndex: state.currentIndex + 1));
+                        }
+                        _pageController.animateToPage(state.currentIndex, duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
+                      },
+                      child: Container(
+                        height: 63.h,
+                        width: 63.w,
+                        decoration: BoxDecoration(shape: BoxShape.circle, color: R.palette.primary),
+                        child: Center(child: SvgPicture.asset(R.assets.graphics.svgIcons.whiteDone)),
+                      ),
+                    ),
+                  ),
+              SizedBox(height: 56.h),
             ],
           ),
         );
       },
     );
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
   }
 }

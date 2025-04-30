@@ -41,6 +41,8 @@ class SvgAssets {
 
   String get cameraIcon => 'assets/svg/camera_icon.svg';
 
+  String get backArrow => 'assets/svg/back_arrow.svg';
+
   String get charity => 'assets/svg/charity.svg';
 
   String get easypaisa => 'assets/svg/easypaisa.svg';
@@ -90,8 +92,6 @@ class SvgAssets {
   String get whiteDone => 'assets/svg/white_done.svg';
 
   String get yourselfIcon => 'assets/svg/yourself_icon.svg';
-
-  String get backArrow => 'assets/svg/back_arrow.svg';
 }
 
 class PngAssets {
