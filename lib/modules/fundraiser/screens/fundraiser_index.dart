@@ -4,6 +4,7 @@ import 'package:doneto/core/utils/resource/r.dart';
 import 'package:doneto/core/widgets/base_widget.dart';
 import 'package:doneto/core/widgets/text_widget.dart';
 import 'package:doneto/modules/fundraiser/bloc/fundraiser_bloc.dart';
+import 'package:doneto/modules/fundraiser/widgets/fundraiser_step3.dart';
 import 'package:doneto/modules/fundraiser/widgets/first_fundraiser_detail.dart';
 import 'package:doneto/modules/fundraiser/widgets/pages_bar.dart';
 import 'package:doneto/modules/fundraiser/widgets/second_fundraiser_detail.dart';
@@ -20,13 +21,20 @@ class FundraiserIndex extends StatefulWidget {
 }
 
 class _FundraiserIndexState extends State<FundraiserIndex> {
-  static const int pagesCount = 2;
+  static const int pagesCount = 3;
   final PageController _pageController = PageController(initialPage: 0);
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return BlocConsumer<FundraiserBloc,FundraiserState>(
-      listener: (context, state) {},
+    return BlocConsumer<FundraiserBloc, FundraiserState>(
+      listener: (context, state) {
+        _pageController.animateToPage(state.currentIndex, duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
+      },
       builder: (context, state) {
         return Background(
           child: Column(
@@ -35,14 +43,20 @@ class _FundraiserIndexState extends State<FundraiserIndex> {
               SizedBox(height: 63.h),
               GestureDetector(
                 onTap: () {
-                  sl<Navigation>().popFromRoute();
+                  if (state.currentIndex > 0) {
+                    context.read<FundraiserBloc>().add(FundraiserPageChangeEvent(currentIndex: state.currentIndex - 1));
+                  } else {
+                    if (sl<Navigation>().canPop()) {
+                      sl<Navigation>().popFromRoute();
+                    }
+                  }
                 },
                 child: Padding(padding: EdgeInsets.only(left: 38.w), child: SvgPicture.asset(R.assets.graphics.svgIcons.backArrow)),
               ),
               SizedBox(height: 26.h),
-              PagesBar(activeSegments: state.currentIndex, totalSegments: 3),
+              PagesBar(activeSegments: (state.currentIndex + 1), totalSegments: 3),
               SizedBox(height: 11.h),
-              Center(child: TextWidget('Step ${state.currentIndex} of 3', color: R.palette.lightGrey, size: 14.sp, weight: FontWeight.w500)),
+              Center(child: TextWidget('Step ${state.currentIndex +  1} of 3', color: R.palette.lightGrey, size: 14.sp, weight: FontWeight.w500)),
               SizedBox(height: 22.h),
               Expanded(
                 child: PageView(
@@ -50,7 +64,7 @@ class _FundraiserIndexState extends State<FundraiserIndex> {
                   onPageChanged: (index) {
                     context.read<FundraiserBloc>().add(FundraiserPageChangeEvent(currentIndex: index));
                   },
-                  children: const [FirstFundraiserDetail(), SecondFundraiserDetail()],
+                  children: const [FirstFundraiserDetail(), SecondFundraiserDetail(), FundraiserStep3()],
                 ),
               ),
               state.currentIndex == pagesCount
@@ -78,13 +92,12 @@ class _FundraiserIndexState extends State<FundraiserIndex> {
                         if (state.currentIndex < pagesCount) {
                           context.read<FundraiserBloc>().add(FundraiserPageChangeEvent(currentIndex: state.currentIndex + 1));
                         }
-                        _pageController.animateToPage(state.currentIndex, duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
                       },
                       child: Container(
                         height: 63.h,
                         width: 63.w,
                         decoration: BoxDecoration(shape: BoxShape.circle, color: R.palette.primary),
-                        child: Center(child: SvgPicture.asset(R.assets.graphics.svgIcons.whiteDone)),
+                        child: Center(child: SvgPicture.asset(R.assets.graphics.svgIcons.nextArrow)),
                       ),
                     ),
                   ),
