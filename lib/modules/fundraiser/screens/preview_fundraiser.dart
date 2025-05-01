@@ -2,6 +2,7 @@ import 'package:doneto/core/di/di.dart';
 import 'package:doneto/core/utils/go_router/routes_navigation.dart';
 import 'package:doneto/core/utils/resource/r.dart';
 import 'package:doneto/core/widgets/base_widget.dart';
+import 'package:doneto/core/widgets/text_widget.dart';
 import 'package:doneto/modules/onbording/widgets/my_top_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -20,6 +21,7 @@ class _PreviewFundraiserState extends State<PreviewFundraiser> {
     return Background(
       safeAreaTop: true,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           MyTopBar(
             onTap: () {
@@ -53,6 +55,11 @@ class _PreviewFundraiserState extends State<PreviewFundraiser> {
                 ),
               ],
             ),
+          ),
+          SizedBox(height: 13.h),
+          Padding(
+            padding: EdgeInsets.only(left: 20.w),
+            child: Row(children: [TextWidget('Support to provide clean\nwater to the unprivilleged', size: 20.h, weight: FontWeight.w700)]),
           ),
         ],
       ),
