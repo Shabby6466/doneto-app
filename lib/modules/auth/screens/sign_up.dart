@@ -1,4 +1,5 @@
 import 'package:doneto/core/di/di.dart';
+import 'package:doneto/core/utils/go_router/routes_constant.dart';
 import 'package:doneto/core/utils/go_router/routes_navigation.dart';
 import 'package:doneto/core/utils/resource/r.dart';
 import 'package:doneto/core/widgets/base_widget.dart';
@@ -162,11 +163,16 @@ class _SignUpIndexState extends State<SignUpIndex> {
               ),
               SizedBox(width: 3.w,),
 
-              Text(
-                'SIGN IN',
-                style: Theme.of(
-                  context,
-                ).textTheme.titleLarge!.copyWith(color: R.palette.primary, fontSize: 16.sp, fontWeight: FontWeight.w400, height: 1.h),
+              GestureDetector(
+                onTap: (){
+                  sl<Navigation>().push(path: Routes.signIn);
+                },
+                child: Text(
+                  'SIGN IN',
+                  style: Theme.of(
+                    context,
+                  ).textTheme.titleLarge!.copyWith(color: R.palette.primary, fontSize: 16.sp, fontWeight: FontWeight.w400, height: 1.h),
+                ),
               ),
             ],
           ),
