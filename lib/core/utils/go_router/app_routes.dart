@@ -4,6 +4,7 @@ import 'package:doneto/modules/auth/screens/sign_in.dart';
 import 'package:doneto/modules/auth/screens/sign_up.dart';
 import 'package:doneto/modules/auth/screens/start_screen_index.dart';
 import 'package:doneto/modules/fundraiser/screens/fundraiser_index.dart';
+import 'package:doneto/modules/fundraiser/screens/preview_fundraiser.dart';
 import 'package:doneto/modules/onbording/screen/fundraising_index.dart';
 import 'package:doneto/modules/onbording/screen/splash_index.dart';
 import 'package:flutter/material.dart';
@@ -46,6 +47,11 @@ class AppRouter {
         path: Routes.signUp,
         name: Routes.signUp,
         builder: (context, state) => const SignUpIndex() ,
+      ),
+      GoRoute(
+        path: Routes.previewFundraiser,
+        name: Routes.previewFundraiser,
+        builder: (context, state) => const PreviewFundraiser() ,
       ),
     ],
     observers: [NavigationObserver()],

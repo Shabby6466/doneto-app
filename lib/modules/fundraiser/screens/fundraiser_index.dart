@@ -1,4 +1,5 @@
 import 'package:doneto/core/di/di.dart';
+import 'package:doneto/core/utils/go_router/routes_constant.dart';
 import 'package:doneto/core/utils/go_router/routes_navigation.dart';
 import 'package:doneto/core/utils/resource/r.dart';
 import 'package:doneto/core/widgets/base_widget.dart';
@@ -83,21 +84,26 @@ class _FundraiserIndexState extends State<FundraiserIndex> {
                   child: state.currentIndex == 2
                       ? Center(
                     key: const ValueKey('previewBtn'),
-                    child: Container(
-                      height: 48.h,
-                      width: 294.w,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16.r),
-                        color: R.palette.primary,
-                      ),
-                      child: Center(
-                        child: Text(
-                          'preview fundraiser',
-                          style: Theme.of(context).textTheme.displayLarge!.copyWith(
-                            color: R.palette.white,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w500,
-                            fontFamily: 'Poppins',
+                    child: GestureDetector(
+                      onTap: (){
+                        sl<Navigation>().push(path: Routes.previewFundraiser);
+                      },
+                      child: Container(
+                        height: 48.h,
+                        width: 294.w,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16.r),
+                          color: R.palette.primary,
+                        ),
+                        child: Center(
+                          child: Text(
+                            'preview fundraiser',
+                            style: Theme.of(context).textTheme.displayLarge!.copyWith(
+                              color: R.palette.white,
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: 'Poppins',
+                            ),
                           ),
                         ),
                       ),
