@@ -14,25 +14,28 @@ class FundraiserContainers extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: Container(
-        padding: EdgeInsets.only(top: 14.h, bottom: 15.h, left: 17.w),
-        height: 60.h,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16.r),
-          color: R.palette.white,
-          boxShadow: [BoxShadow(color: R.palette.blackColor.withValues(alpha: 0.15), blurRadius: 10.r, offset: const Offset(0, 4))],
-        ),
-        child: Row(
-          children: [
-            SvgPicture.asset(svgImage),
-            SizedBox(width: 16.w),
-            Text(
-              title,
-              style: Theme.of(
-                context,
-              ).textTheme.labelMedium!.copyWith(fontSize: 16.sp, fontWeight: FontWeight.w500, height: 1.h, color: R.palette.blackColor),
-            ),
-          ],
+      child: Padding(
+        padding:  EdgeInsets.symmetric(horizontal: 38.w),
+        child: Container(
+          padding: EdgeInsets.only(top: 14.h, bottom: 15.h, left: 17.w),
+          height: 60.h,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16.r),
+            color: R.palette.white,
+            boxShadow: [BoxShadow(color: R.palette.blackColor.withValues(alpha: 0.15), blurRadius: 10.r, offset: const Offset(0, 4))],
+          ),
+          child: Row(
+            children: [
+              SvgPicture.asset(svgImage),
+              SizedBox(width: 16.w),
+              Text(
+                title,
+                style: Theme.of(
+                  context,
+                ).textTheme.labelMedium!.copyWith(fontSize: 16.sp, fontWeight: FontWeight.w500, height: 1.h, color: R.palette.blackColor),
+              ),
+            ],
+          ),
         ),
       ),
     );

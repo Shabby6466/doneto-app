@@ -37,7 +37,7 @@ class FundraiserChangeState extends FundraiserState {
 abstract class FundraiserEvent {}
 
 class FundraiserPageChangeEvent extends FundraiserEvent {
-  int currentIndex;
+  final int currentIndex;
 
   FundraiserPageChangeEvent({required this.currentIndex});
 }
