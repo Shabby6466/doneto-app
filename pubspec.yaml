@@ -69,6 +69,7 @@ dependencies:
   firebase_app_check: ^0.3.2+5
   toastification: ^3.0.2
   dotted_border: ^2.1.0
+  fl_chart: ^0.71.0
 
 dev_dependencies:
   flutter_test:
