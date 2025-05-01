@@ -26,9 +26,11 @@ class Palette {
   static const _yellow = Color(0xffAEFF08);
   static const _green = Color(0xff55E8B4);
   static const _green2 = Color(0xff63D61C);
+  static const _green3 = Color(0xffEDFFF8);
   static const _blue = Color(0xff93C6FF);
   static const _lightGreen = Color(0xff81D065);
   static const _lightGrey = Color(0xff6E6E6E);
+  static const _lightGrey2 = Color(0xffE8F3ED);
   static const _grey = Color(0xffD9D9D9);
   static const _lightGray = Color(0xff747775);
   static const _aColor = Color(0xffefb034);
@@ -65,6 +67,8 @@ class Palette {
 
   Color get lightGrey => _lightGrey;
 
+  Color get lightGrey2 => _lightGrey2;
+
   Color get blue50 => _blue50;
 
   Color get gray => _grey;
@@ -90,6 +94,8 @@ class Palette {
   Color get lightGray => _lightGray;
 
   Color get green => _green;
+
+  Color get green3 => _green3;
 
   Color get red => _red;
 
