@@ -37,10 +37,11 @@ class _FundraiserIndexState extends State<FundraiserIndex> {
       },
       builder: (context, state) {
         return Background(
+          safeAreaTop: true,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 63.h),
+              SizedBox(height: 20.h),
               GestureDetector(
                 onTap: () {
                   if (state.currentIndex > 0) {

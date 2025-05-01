@@ -17,7 +17,7 @@ class _MyTopBarState extends State<MyTopBar> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(left: 38.w),
+      padding: EdgeInsets.only(left: 38.w,top: 20.h),
       child: Row(
         children: [
           GestureDetector(onTap: widget.onTap, child: SvgPicture.asset(R.assets.graphics.svgIcons.backArrow)),
