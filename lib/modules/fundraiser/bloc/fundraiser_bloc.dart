@@ -29,7 +29,7 @@ abstract class FundraiserState {
 class FundraiserChangeState extends FundraiserState {
   const FundraiserChangeState({required super.loading, required super.errMsg, required super.currentIndex});
 
-  factory FundraiserChangeState.initial() => const FundraiserChangeState(loading: false, errMsg: '', currentIndex: 1);
+  factory FundraiserChangeState.initial() => const FundraiserChangeState(loading: false, errMsg: '', currentIndex: 0);
 }
 
 /// bloc events
@@ -37,7 +37,7 @@ class FundraiserChangeState extends FundraiserState {
 abstract class FundraiserEvent {}
 
 class FundraiserPageChangeEvent extends FundraiserEvent {
-  int currentIndex;
+  final int currentIndex;
 
   FundraiserPageChangeEvent({required this.currentIndex});
 }

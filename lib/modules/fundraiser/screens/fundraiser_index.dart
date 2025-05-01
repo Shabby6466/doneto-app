@@ -67,12 +67,28 @@ class _FundraiserIndexState extends State<FundraiserIndex> {
                   children: const [FirstFundraiserDetail(), SecondFundraiserDetail(), FundraiserStep3()],
                 ),
               ),
-              state.currentIndex == pagesCount
-                  ? Center(
+              SizedBox(
+                height: 63.h,
+                child: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 300),
+                  switchInCurve: Curves.easeOutBack,
+                  switchOutCurve: Curves.easeIn,
+                  transitionBuilder: (child, animation) {
+                    return FadeTransition(
+                      opacity: animation,
+                      child: ScaleTransition(scale: animation, child: child),
+                    );
+                  },
+                  child: state.currentIndex == 2
+                      ? Center(
+                    key: const ValueKey('previewBtn'),
                     child: Container(
-                      height: 294.h,
-                      width: 48.w,
-                      decoration: BoxDecoration(shape: BoxShape.circle, color: R.palette.primary),
+                      height: 48.h,
+                      width: 294.w,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16.r),
+                        color: R.palette.primary,
+                      ),
                       child: Center(
                         child: Text(
                           'preview fundraiser',
@@ -86,11 +102,14 @@ class _FundraiserIndexState extends State<FundraiserIndex> {
                       ),
                     ),
                   )
-                  : Center(
+                      : Center(
+                    key: const ValueKey('nextCircle'),
                     child: GestureDetector(
                       onTap: () {
                         if (state.currentIndex < pagesCount) {
-                          context.read<FundraiserBloc>().add(FundraiserPageChangeEvent(currentIndex: state.currentIndex + 1));
+                          context
+                              .read<FundraiserBloc>()
+                              .add(FundraiserPageChangeEvent(currentIndex: state.currentIndex + 1));
                         }
                       },
                       child: Container(
@@ -101,6 +120,8 @@ class _FundraiserIndexState extends State<FundraiserIndex> {
                       ),
                     ),
                   ),
+                ),
+              ),
               SizedBox(height: 56.h),
             ],
           ),
