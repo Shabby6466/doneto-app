@@ -68,7 +68,6 @@ abstract class LocalDataSource {
 
   Future<String> getToken(String key);
 
-
   Future<bool> getThemeMode();
 
   Future<bool> setThemeMode(String params);

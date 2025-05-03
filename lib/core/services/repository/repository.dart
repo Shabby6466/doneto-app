@@ -16,5 +16,7 @@ abstract class Repository {
    Future<bool> saveToken(String params);
 
    Future<String> getAuthToken(NoParams params);
+
+   Future<bool> deleteAll();
   
 }

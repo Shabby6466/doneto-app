@@ -25,6 +25,7 @@ import 'package:doneto/core/services/permissions/permission_service.dart'
     as _i671;
 import 'package:doneto/core/services/repository/repository.dart' as _i578;
 import 'package:doneto/core/utils/go_router/routes_navigation.dart' as _i11;
+import 'package:doneto/modules/auth/usecase/delete_token_usecase.dart' as _i694;
 import 'package:doneto/modules/auth/usecase/get_token_usecase.dart' as _i398;
 import 'package:doneto/modules/auth/usecase/google_auth_usecase.dart' as _i730;
 import 'package:doneto/modules/auth/usecase/save_token_usecase.dart' as _i610;
@@ -95,6 +96,11 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.singletonAsync<_i730.GoogleAuthUseCase>(
       () async => _i730.GoogleAuthUseCase(
+        repository: await getAsync<_i578.Repository>(),
+      ),
+    );
+    gh.singletonAsync<_i694.DeleteTokenUseCase>(
+      () async => _i694.DeleteTokenUseCase(
         repository: await getAsync<_i578.Repository>(),
       ),
     );

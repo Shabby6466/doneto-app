@@ -23,4 +23,9 @@ class RepositoryImpl implements Repository {
   Future<String> getAuthToken(NoParams params) {
     return localDataSource.getToken(R.storageKeys.authToken);
   }
+
+  @override
+  Future<bool> deleteAll() {
+   return localDataSource.deleteAll();
+  }
 }

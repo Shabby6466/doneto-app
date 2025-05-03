@@ -2,6 +2,7 @@ import 'package:doneto/core/di/di.dart';
 import 'package:doneto/core/network_calls/dio_wrapper/index.dart';
 import 'package:doneto/core/services/firebase_auth/firebase_auth_service.dart';
 import 'package:doneto/core/services/usecases/usecase.dart';
+import 'package:doneto/modules/auth/usecase/delete_token_usecase.dart';
 import 'package:doneto/modules/auth/usecase/get_token_usecase.dart';
 import 'package:doneto/modules/auth/usecase/save_token_usecase.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -9,14 +10,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  AuthBloc({required this.saveTokenUseCase, required this.getTokenUseCase}) : super(AuthChangeState.initial()) {
+  AuthBloc({required this.saveTokenUseCase, required this.getTokenUseCase, required this.deleteTokenUseCase}) : super(AuthChangeState.initial()) {
     on<SignInUsingGoogleEvent>(_signInUsingGoogle);
     on<ClearAuthStateEvent>(clearAuthState);
     on<GetTokenEvent>(_getToken);
+    on<LogoutEvent>(_logout);
   }
 
   final SaveTokenUseCase saveTokenUseCase;
   final GetTokenUseCase getTokenUseCase;
+  final DeleteTokenUseCase deleteTokenUseCase;
 
   Future<void> _signInUsingGoogle(SignInUsingGoogleEvent event, Emitter<AuthState> emit) async {
     emit(getBlocState(loading: true));
@@ -26,6 +29,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(GoogleLoginSuccessState(userCredential: cred, loading: false, errMsg: ''));
     } on DefaultFailure catch (e) {
       emit(GoogleLoginFailedState(userCredential: state.userCredential, loading: false, errMsg: e.message));
+    }
+  }
+
+  Future<void> _logout(LogoutEvent event, Emitter<AuthState> emit) async {
+    emit(getBlocState(loading: true));
+    try {
+      await sl<FirebaseAuthService>().signOut();
+      deleteTokenUseCase.call(NoParams());
+      emit(LogoutSuccessState(userCredential: state.userCredential, loading: false, errMsg: ''));
+    } on DefaultFailure catch (e) {
+      emit(LogoutFailedState(userCredential: state.userCredential, loading: false, errMsg: e.message));
     }
   }
 
@@ -72,6 +86,14 @@ class GoogleLoginFailedState extends AuthState {
   const GoogleLoginFailedState({required super.loading, required super.userCredential, required super.errMsg});
 }
 
+class LogoutSuccessState extends AuthState {
+  const LogoutSuccessState({required super.loading, required super.userCredential, required super.errMsg});
+}
+
+class LogoutFailedState extends AuthState {
+  const LogoutFailedState({required super.loading, required super.userCredential, required super.errMsg});
+}
+
 class TokenFoundState extends AuthState {
   const TokenFoundState({required super.loading, required super.userCredential, required super.errMsg});
 }
@@ -89,3 +111,5 @@ class ClearAuthStateEvent extends AuthEvent {}
 class SignInUsingGoogleEvent extends AuthEvent {}
 
 class GetTokenEvent extends AuthEvent {}
+
+class LogoutEvent extends AuthEvent {}
