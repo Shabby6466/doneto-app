@@ -115,6 +115,22 @@ class LocalDataSourceImpl implements LocalDataSource {
   }
 
   @override
+  Future<String> getToken(String key) async {
+    try {
+      final jwtToken = sharedPreferences.getString(key) ?? '';
+
+      if (jwtToken.isEmpty) {
+        throw const DefaultFailure('token_not_found');
+      }
+      return jwtToken;
+    } on PlatformException catch (_) {
+      throw const DefaultFailure('token_not_found');
+    } on Exception catch (_) {
+      throw const DefaultFailure('token_not_found');
+    }
+  }
+
+  @override
   Future<String> getValue(String key) async {
     return sharedPreferences.getString(key) ?? '';
   }
@@ -130,6 +146,7 @@ class LocalDataSourceImpl implements LocalDataSource {
     await sharedPreferences.setString(R.storageKeys.themeMode, params);
     return true;
   }
+
 
 // @override
 // Future<File> downloadQrView(ShareQrCodeInput params) async {

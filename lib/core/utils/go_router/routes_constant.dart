@@ -12,6 +12,8 @@ class Routes {
   static const fundraisingDetails = '/fundraising_details';
   static const signIn = '/sign_in';
   static const signUp = '/sign_up';
+  static const bottomTab = '/bottom_tab';
+  static const fundraiserPublishResponse = '/fundraiser_publish_response';
   static const previewFundraiser = '/preview_fundraiser';
 
   static Widget errorWidget(BuildContext context, GoRouterState state) => const NotFoundScreen();

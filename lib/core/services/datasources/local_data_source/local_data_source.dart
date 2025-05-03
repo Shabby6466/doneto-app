@@ -1,4 +1,6 @@
 // import 'package:flutter/services.dart';
+import 'package:doneto/core/network_calls/dio_wrapper/index.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
@@ -64,6 +66,7 @@ abstract class LocalDataSource {
   /// if unsuccessful the response will be [DefaultFailure]
   Future<bool> clearLocalStorage();
 
+  Future<String> getToken(String key);
 
   Future<bool> getThemeMode();
 

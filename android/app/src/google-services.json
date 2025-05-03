@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "193694257664",
+    "project_id": "doneto-15610",
+    "storage_bucket": "doneto-15610.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:193694257664:android:4bf3277ba94bdd42b87ee5",
+        "android_client_info": {
+          "package_name": "com.terarare.doneto"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "193694257664-2906oq1acs8jkperqe3f936ath0q0bq9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.terarare.doneto",
+            "certificate_hash": "1c173cf8e3f78feccb67a530d94285e85f6edbf8"
+          }
+        },
+        {
+          "client_id": "193694257664-sp92erp3rdtob2k72amntg4p88osnt49.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAK9mdXTSn1RDCoxHfXVud7umznln1mjss"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "193694257664-sp92erp3rdtob2k72amntg4p88osnt49.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

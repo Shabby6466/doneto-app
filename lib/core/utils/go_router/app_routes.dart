@@ -3,7 +3,9 @@ import 'package:doneto/core/utils/go_router/routes_navigation.dart';
 import 'package:doneto/modules/auth/screens/sign_in.dart';
 import 'package:doneto/modules/auth/screens/sign_up.dart';
 import 'package:doneto/modules/auth/screens/start_screen_index.dart';
+import 'package:doneto/modules/bottom_tab/screens/bottom_tab.dart';
 import 'package:doneto/modules/fundraiser/screens/fundraiser_index.dart';
+import 'package:doneto/modules/fundraiser/screens/fundraiser_publish_response.dart';
 import 'package:doneto/modules/fundraiser/screens/preview_fundraiser.dart';
 import 'package:doneto/modules/onbording/screen/fundraising_index.dart';
 import 'package:doneto/modules/onbording/screen/splash_index.dart';
@@ -34,6 +36,11 @@ class AppRouter {
           builder: (context, state) => const FundraisingIndex(),
       ),
       GoRoute(
+        path: Routes.bottomTab,
+        name: Routes.bottomTab,
+        builder: (context, state) => const BottomTab(),
+      ),
+      GoRoute(
         path: Routes.signIn,
         name: Routes.signIn,
         builder: (context, state) => const SignInIndex(),
@@ -47,6 +54,11 @@ class AppRouter {
         path: Routes.signUp,
         name: Routes.signUp,
         builder: (context, state) => const SignUpIndex() ,
+      ),
+      GoRoute(
+        path: Routes.fundraiserPublishResponse,
+        name: Routes.fundraiserPublishResponse,
+        builder: (context, state) => const FundraiserPublishResponse() ,
       ),
       GoRoute(
         path: Routes.previewFundraiser,

@@ -76,7 +76,7 @@ class MaterialTextFormField extends StatelessWidget {
         contentPadding: contentPadding ?? EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
         filled: readOnly ? true : filled,
         alignLabelWithHint: true,
-        fillColor: readOnly ? Theme.of(context).cardColor.withValues(alpha: .5) : Theme.of(context).cardColor,
+        fillColor: readOnly ? Theme.of(context).cardColor.withValues(alpha: .5) : R.palette.secondary2,
         counterText: '',
         errorStyle: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w400, fontSize: 10.sp),
         labelText: labelText,
