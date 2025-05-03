@@ -1,6 +1,8 @@
 // coverage: false
 // coverage:ignore-file
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:injectable/injectable.dart';
 import 'package:intl/intl.dart';
@@ -25,6 +27,13 @@ abstract class RegisterModule {
 
   @LazySingleton()
   Future<SharedPreferences> get sharedPreferences async => await SharedPreferences.getInstance();
+
+  @LazySingleton()
+  FirebaseAuth get firebaseAuth => FirebaseAuth.instance;
+
+  @LazySingleton()
+  GoogleSignIn get googleSignIn => GoogleSignIn();
+
 
   @LazySingleton()
   NumberFormat get numberFormat => NumberFormat.currency(decimalDigits: 2, symbol: '');

@@ -19,6 +19,7 @@ class _SignUpIndexState extends State<SignUpIndex> {
   @override
   Widget build(BuildContext context) {
     return Background(
+      bgColor: R.palette.secondary,
       safeAreaTop: true,
       child: Column(
         children: [
@@ -160,13 +161,20 @@ class _SignUpIndexState extends State<SignUpIndex> {
                   context,
                 ).textTheme.titleLarge!.copyWith(color: R.palette.lightGray, fontSize: 16.sp, fontWeight: FontWeight.w400, height: 1.h),
               ),
-              SizedBox(width: 3.w,),
+              SizedBox(width: 3.w),
 
-              Text(
-                'SIGN IN',
-                style: Theme.of(
-                  context,
-                ).textTheme.titleLarge!.copyWith(color: R.palette.primary, fontSize: 16.sp, fontWeight: FontWeight.w400, height: 1.h),
+              GestureDetector(
+                onTap: () {
+                  if (sl<Navigation>().canPop()) {
+                    sl<Navigation>().popFromRoute();
+                  }
+                },
+                child: Text(
+                  'SIGN IN',
+                  style: Theme.of(
+                    context,
+                  ).textTheme.titleLarge!.copyWith(color: R.palette.primary, fontSize: 16.sp, fontWeight: FontWeight.w400, height: 1.h),
+                ),
               ),
             ],
           ),
