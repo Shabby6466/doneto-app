@@ -58,6 +58,7 @@ class _SignUpIndexState extends State<SignUpIndex> {
         return Background(
           bgColor: R.palette.secondary2,
           safeAreaTop: true,
+          child : SingleChildScrollView(
           child: Column(
             children: [
               MyTopBar(
@@ -301,6 +302,7 @@ class _SignUpIndexState extends State<SignUpIndex> {
               ),
               SizedBox(height: 60.h),
             ],
+          ),
           ),
         );
       },
