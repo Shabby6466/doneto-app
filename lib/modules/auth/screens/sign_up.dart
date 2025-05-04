@@ -56,7 +56,7 @@ class _SignUpIndexState extends State<SignUpIndex> {
       },
       builder: (context, state) {
         return Background(
-          bgColor: R.palette.secondary,
+          bgColor: R.palette.secondary2,
           safeAreaTop: true,
           child: Column(
             children: [
