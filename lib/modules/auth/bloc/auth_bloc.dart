@@ -10,11 +10,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  AuthBloc({required this.saveTokenUseCase, required this.getTokenUseCase, required this.deleteTokenUseCase}) : super(AuthChangeState.initial()) {
+  AuthBloc({
+    required this.saveTokenUseCase,
+    required this.getTokenUseCase,
+    required this.deleteTokenUseCase,
+    //
+  }) : super(AuthChangeState.initial()) {
     on<SignInUsingGoogleEvent>(_signInUsingGoogle);
     on<ClearAuthStateEvent>(clearAuthState);
     on<GetTokenEvent>(_getToken);
     on<LogoutEvent>(_logout);
+    on<SignInWithEmailEvent>(_signInWithEmail);
+    on<SignUpWithEmailEvent>(_signUpWithEmail);
   }
 
   final SaveTokenUseCase saveTokenUseCase;
@@ -52,6 +59,30 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
+  Future<void> _signUpWithEmail(SignUpWithEmailEvent event, Emitter<AuthState> emit) async {
+    emit(getBlocState(loading: true));
+    try {
+      final cred = await sl<FirebaseAuthService>().signUpWithEmail(event.email, event.password);
+      await saveTokenUseCase.call(cred!.user!.uid);
+      emit(TokenFoundState(userCredential: state.userCredential, loading: false, errMsg: ''));
+      emit(SignUpWithEmailSuccessState(userCredential: cred, loading: false, errMsg: ''));
+    } on DefaultFailure catch (e) {
+      emit(SignUpWithEmailFailedState(userCredential: state.userCredential, loading: false, errMsg: e.message));
+    }
+  }
+
+  Future<void> _signInWithEmail(SignInWithEmailEvent event, Emitter<AuthState> emit) async {
+    emit(getBlocState(loading: true));
+    try {
+      final cred = await sl<FirebaseAuthService>().signInWithEmail(event.email, event.password);
+      await saveTokenUseCase.call(cred!.user!.uid);
+      emit(TokenFoundState(userCredential: state.userCredential, loading: false, errMsg: ''));
+      emit(SignInWithEmailSuccessState(userCredential: cred, loading: false, errMsg: ''));
+    } on DefaultFailure catch (e) {
+      emit(SignInWitheEmailFailedState(userCredential: state.userCredential, loading: false, errMsg: e.message));
+    }
+  }
+
   void clearAuthState(ClearAuthStateEvent event, Emitter<AuthState> emit) {
     emit(AuthChangeState.initial());
   }
@@ -65,7 +96,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 /// bloc states
 @immutable
 class AuthState {
-  const AuthState({required this.loading, required this.userCredential, required this.errMsg});
+  const AuthState({
+    required this.loading,
+    required this.userCredential,
+    required this.errMsg,
+    //
+  });
 
   final bool loading;
   final String errMsg;
@@ -102,6 +138,22 @@ class TokenNotFoundState extends AuthState {
   const TokenNotFoundState({required super.loading, required super.userCredential, required super.errMsg});
 }
 
+class SignInWithEmailSuccessState extends AuthState {
+  const SignInWithEmailSuccessState({required super.loading, required super.userCredential, required super.errMsg});
+}
+
+class SignInWitheEmailFailedState extends AuthState {
+  const SignInWitheEmailFailedState({required super.loading, required super.userCredential, required super.errMsg});
+}
+
+class SignUpWithEmailFailedState extends AuthState {
+  const SignUpWithEmailFailedState({required super.loading, required super.userCredential, required super.errMsg});
+}
+
+class SignUpWithEmailSuccessState extends AuthState {
+  const SignUpWithEmailSuccessState({required super.loading, required super.userCredential, required super.errMsg});
+}
+
 /// bloc events
 @immutable
 class AuthEvent {}
@@ -113,3 +165,23 @@ class SignInUsingGoogleEvent extends AuthEvent {}
 class GetTokenEvent extends AuthEvent {}
 
 class LogoutEvent extends AuthEvent {}
+
+class SignInWithEmailEvent extends AuthEvent {
+  final String email;
+  final String password;
+
+  SignInWithEmailEvent({required this.email, required this.password});
+}
+
+class SignUpWithEmailEvent extends AuthEvent {
+  final String email;
+  final String password;
+  final String confirmPassword;
+
+  SignUpWithEmailEvent({
+    required this.email,
+    required this.password,
+    required this.confirmPassword,
+    //
+  });
+}
