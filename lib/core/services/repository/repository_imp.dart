@@ -3,9 +3,11 @@ part of 'repository.dart';
 @LazySingleton(as: Repository)
 class RepositoryImpl implements Repository {
   final LocalDataSource localDataSource;
+  final FirebaseAuthService firebaseAuthService;
   final RemoteDataSource remoteDataSource;
   RepositoryImpl({
     required this.localDataSource,
+    required this.firebaseAuthService,
     required this.remoteDataSource,
   });
 
@@ -28,4 +30,16 @@ class RepositoryImpl implements Repository {
   Future<bool> deleteAll() {
    return localDataSource.deleteAll();
   }
+
+  @override
+  Future<UserCredential?> signInWithEmail(String email, String password) {
+    return firebaseAuthService.signInWithEmail(email, password);
+  }
+
+  @override
+  Future<UserCredential?> signUpWithEmail(String email, String password) {
+   return firebaseAuthService.signUpWithEmail(email, password);
+  }
+
+
 }

@@ -10,6 +10,7 @@ import 'package:doneto/modules/onbording/widgets/my_top_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../../../core/di/di.dart';
 
 class SignInIndex extends StatefulWidget {
@@ -20,6 +21,9 @@ class SignInIndex extends StatefulWidget {
 }
 
 class _SignInIndexState extends State<SignInIndex> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
@@ -28,6 +32,12 @@ class _SignInIndexState extends State<SignInIndex> {
           sl<Navigation>().go(Routes.bottomTab);
         }
         if (state is GoogleLoginFailedState) {
+          Utility.showError(context, state.errMsg);
+        }
+        if (state is SignInWithEmailSuccessState) {
+          sl<Navigation>().go(Routes.bottomTab);
+        }
+        if (state is SignInWitheEmailFailedState) {
           Utility.showError(context, state.errMsg);
         }
       },
@@ -70,7 +80,13 @@ class _SignInIndexState extends State<SignInIndex> {
               SizedBox(height: 13.h),
               Padding(
                 padding: EdgeInsets.only(left: 51.w, right: 63.w),
-                child: MaterialTextFormField(labelText: 'Email', errorText: '', onChange: (e) {}),
+                child: MaterialTextFormField(
+                  controller: _emailController,
+                  labelText: 'Email',
+                  errorText: '',
+                  onChange: (e) {},
+                  //
+                ),
               ),
               SizedBox(height: 13.h),
               Padding(
@@ -88,10 +104,27 @@ class _SignInIndexState extends State<SignInIndex> {
               SizedBox(height: 13.h),
               Padding(
                 padding: EdgeInsets.only(left: 51.w, right: 63.w),
-                child: MaterialTextFormField(labelText: 'Password', errorText: '', onChange: (e) {}),
+                child: MaterialTextFormField(
+                  controller: _passwordController,
+                  labelText: 'Password',
+                  errorText: '',
+                  onChange: (e) {},
+                  //
+                ),
               ),
               SizedBox(height: 37.h),
-              MyCustomButton(onTap: () {}, title: 'sign in'),
+              MyCustomButton(
+                onTap: () {
+                  context.read<AuthBloc>().add(
+                    SignInWithEmailEvent(
+                      email: _emailController.text,
+                      password: _passwordController.text,
+                      //
+                    ),
+                  );
+                },
+                title: 'sign in',
+              ),
               SizedBox(height: 26.h),
               Text(
                 'or sign in with',
@@ -100,18 +133,30 @@ class _SignInIndexState extends State<SignInIndex> {
                 ).textTheme.titleLarge!.copyWith(color: R.palette.lightGray, fontSize: 16.sp, fontWeight: FontWeight.w400, height: 1.h),
               ),
               SizedBox(height: 38.16.h),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  MyIconButton(
-                    onTap: () {
-                      context.read<AuthBloc>().add(SignInUsingGoogleEvent());
-                    },
-                    image: R.assets.graphics.svgIcons.googleLogo,
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 50.w),
+                child: GestureDetector(
+                  onTap: () {
+                    context.read<AuthBloc>().add(SignInUsingGoogleEvent());
+                  },
+                  child: Container(
+                    padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 16.w),
+                    height: 50.h,
+                    decoration: BoxDecoration(color: R.palette.primary.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(16.r)),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(R.assets.graphics.svgIcons.googleLogo),
+                        SizedBox(width: 15.w),
+                        Text(
+                          'Sign In With Google',
+                          style: Theme.of(context).textTheme.labelSmall!.copyWith(fontSize: 15.sp, height: 1.3.h, fontWeight: FontWeight.w500),
+                        ),
+                      ],
+                    ),
                   ),
-                  MyIconButton(onTap: () {}, image: R.assets.graphics.svgIcons.facebookLogo),
-                  MyIconButton(onTap: () {}, image: R.assets.graphics.svgIcons.googleLogo),
-                ],
+                ),
               ),
               SizedBox(height: 37.h),
 

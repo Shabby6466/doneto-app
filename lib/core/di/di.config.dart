@@ -91,6 +91,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingletonAsync<_i578.Repository>(
       () async => _i578.RepositoryImpl(
         localDataSource: await getAsync<_i803.LocalDataSource>(),
+        firebaseAuthService: gh<_i452.FirebaseAuthService>(),
         remoteDataSource: gh<_i213.RemoteDataSource>(),
       ),
     );

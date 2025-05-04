@@ -28,7 +28,7 @@ class _AuthIndexState extends State<AuthIndex> {
             children: [
               ClipPath(
                 clipper: BottomWaveClipper(),
-                child: Container(width: 402.w, height: 368.h, color: Colors.red, child: Image.asset(R.assets.graphics.pngIcons.bgFlowers, fit: BoxFit.fill)),
+                child: SizedBox(width: 402.w, height: 368.h, child: Image.asset(R.assets.graphics.pngIcons.bgFlowers, fit: BoxFit.fill)),
               ),
               Center(
                 child: Text(
