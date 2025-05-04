@@ -41,7 +41,13 @@ class _SignUpIndexState extends State<SignUpIndex> {
         if (state is GoogleLoginFailedState) {
           Utility.showError(context, state.errMsg);
         }
-        if (state is SignUpWithEmailSuccessState) {
+        if (state is EmailVerificationRequiredState) {
+          Utility.showSuccess(context, state.errMsg);
+        }
+        if (state is EmailVerificationFailedState) {
+          Utility.showError(context, state.errMsg);
+        }
+        if (state is EmailVerifiedState) {
           sl<Navigation>().go(Routes.bottomTab);
         }
         if (state is SignUpWithEmailFailedState) {
@@ -58,150 +64,180 @@ class _SignUpIndexState extends State<SignUpIndex> {
                 onTap: () {
                   if (sl<Navigation>().canPop()) {
                     sl<Navigation>().popFromRoute();
+                    context.read<AuthBloc>().add(ClearAuthStateEvent());
                   }
                 },
                 title: '',
               ),
-              SizedBox(height: 45.h),
-              Text(
-                'Create your account',
-                style: Theme.of(
-                  context,
-                ).textTheme.titleMedium!.copyWith(color: R.palette.primary, fontSize: 26.72.sp, fontWeight: FontWeight.w800, height: 1.h),
-              ),
-              SizedBox(height: 41.h),
-              Padding(
-                padding: EdgeInsets.only(left: 51.w),
-                child: Align(
-                  alignment: Alignment.centerLeft,
+              if (state is EmailVerificationRequiredState || state is EmailVerificationFailedState || state is EmailVerificationLoadingState) ...[
+                // verification section
+                const Spacer(),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20.w),
                   child: Text(
-                    'Name',
+                    textAlign: TextAlign.center,
+                    state.errMsg,
                     style: Theme.of(
                       context,
-                    ).textTheme.titleLarge!.copyWith(color: R.palette.lightGray, fontSize: 16.sp, fontWeight: FontWeight.w400, height: 1.h),
+                    ).textTheme.titleMedium!.copyWith(color: R.palette.primary, fontSize: 26.72.sp, fontWeight: FontWeight.w800, height: 1.h),
                   ),
                 ),
-              ),
-              SizedBox(height: 13.h),
-              Padding(
-                padding: EdgeInsets.only(left: 51.w, right: 63.w),
-                child: MaterialTextFormField(
-                  controller: _nameController,
-                  labelText: 'Name',
-                  errorText: '',
-                  onChange: (e) {},
+                SizedBox(height: 41.h),
+                MyCustomButton(
+                  onTap: () {
+                    context.read<AuthBloc>().add(CheckEmailVerifiedEvent());
+                  },
+                  title: 'Verified Email',
                   //
                 ),
-              ),
-              SizedBox(height: 13.h),
-              Padding(
-                padding: EdgeInsets.only(left: 51.w),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Email',
-                    style: Theme.of(
-                      context,
-                    ).textTheme.titleLarge!.copyWith(color: R.palette.lightGray, fontSize: 16.sp, fontWeight: FontWeight.w400, height: 1.h),
-                  ),
-                ),
-              ),
-              SizedBox(height: 13.h),
-              Padding(
-                padding: EdgeInsets.only(left: 51.w, right: 63.w),
-                child: MaterialTextFormField(
-                  controller: _emailController,
-                  labelText: 'Email',
-                  errorText: '',
-                  onChange: (e) {},
-                  //
-                ),
-              ),
-              SizedBox(height: 13.h),
-              Padding(
-                padding: EdgeInsets.only(left: 51.w),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Password',
-                    style: Theme.of(
-                      context,
-                    ).textTheme.titleLarge!.copyWith(color: R.palette.lightGray, fontSize: 16.sp, fontWeight: FontWeight.w400, height: 1.h),
-                  ),
-                ),
-              ),
-              SizedBox(height: 13.h),
-              Padding(
-                padding: EdgeInsets.only(left: 51.w, right: 63.w),
-                child: MaterialTextFormField(
-                  controller: _passwordController,
-                  labelText: 'Password',
-                  errorText: '',
-                  onChange: (e) {},
-                  //
-                ),
-              ),
-              SizedBox(height: 13.h),
-              Padding(
-                padding: EdgeInsets.only(left: 51.w),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Confirm Password',
-                    style: Theme.of(
-                      context,
-                    ).textTheme.titleLarge!.copyWith(color: R.palette.lightGray, fontSize: 16.sp, fontWeight: FontWeight.w400, height: 1.h),
-                  ),
-                ),
-              ),
-              SizedBox(height: 13.h),
-              Padding(
-                padding: EdgeInsets.only(left: 51.w, right: 63.w),
-                child: MaterialTextFormField(
-                  controller: _confirmPasswordController,
-                  labelText: 'Confirm Password',
-                  errorText: '',
-                  onChange: (e) {},
-                  //
-                ),
-              ),
-              SizedBox(height: 18.h),
-              Padding(
-                padding: EdgeInsets.only(left: 64.w),
-                child: Row(
-                  children: [
-                    Text(
-                      'I understood the',
-                      style: Theme.of(
-                        context,
-                      ).textTheme.titleLarge!.copyWith(color: R.palette.lightGray, fontSize: 12.sp, fontWeight: FontWeight.w400, height: 1.h),
-                    ),
-                    SizedBox(width: 4.5.w),
-
-                    Text(
-                      'terms and policy.',
-                      style: Theme.of(
-                        context,
-                      ).textTheme.titleLarge!.copyWith(color: R.palette.primary, fontSize: 12.sp, fontWeight: FontWeight.w400, height: 1.h),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 25.h),
-              MyCustomButton(
-                onTap: () {
-                  context.read<AuthBloc>().add(
-                    SignUpWithEmailEvent(
-                      email: _emailController.text,
-                      password: _passwordController.text,
-                      confirmPassword: _confirmPasswordController.text,
-                      //
-                    ),
-                  );
-                },
-                title: 'sign up',
+                const Spacer(),
                 //
-              ),
+              ]
+              else ...[
+                // sign up section
+                SizedBox(height: 45.h),
+                Text(
+                  'Create your account',
+                  style: Theme.of(
+                    context,
+                  ).textTheme.titleMedium!.copyWith(color: R.palette.primary, fontSize: 26.72.sp, fontWeight: FontWeight.w800, height: 1.h),
+                ),
+                SizedBox(height: 41.h),
+                Padding(
+                  padding: EdgeInsets.only(left: 51.w),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Name',
+                      style: Theme.of(
+                        context,
+                      ).textTheme.titleLarge!.copyWith(color: R.palette.lightGray, fontSize: 16.sp, fontWeight: FontWeight.w400, height: 1.h),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 13.h),
+                Padding(
+                  padding: EdgeInsets.only(left: 51.w, right: 63.w),
+                  child: MaterialTextFormField(
+                    controller: _nameController,
+                    labelText: 'Name',
+                    errorText: '',
+                    onChange: (e) {},
+                    //
+                  ),
+                ),
+                SizedBox(height: 13.h),
+                Padding(
+                  padding: EdgeInsets.only(left: 51.w),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Email',
+                      style: Theme.of(
+                        context,
+                      ).textTheme.titleLarge!.copyWith(color: R.palette.lightGray, fontSize: 16.sp, fontWeight: FontWeight.w400, height: 1.h),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 13.h),
+                Padding(
+                  padding: EdgeInsets.only(left: 51.w, right: 63.w),
+                  child: MaterialTextFormField(
+                    controller: _emailController,
+                    labelText: 'Email',
+                    errorText: '',
+                    onChange: (e) {},
+                    //
+                  ),
+                ),
+                SizedBox(height: 13.h),
+                Padding(
+                  padding: EdgeInsets.only(left: 51.w),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Password',
+                      style: Theme.of(
+                        context,
+                      ).textTheme.titleLarge!.copyWith(color: R.palette.lightGray, fontSize: 16.sp, fontWeight: FontWeight.w400, height: 1.h),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 13.h),
+                Padding(
+                  padding: EdgeInsets.only(left: 51.w, right: 63.w),
+                  child: MaterialTextFormField(
+                    controller: _passwordController,
+                    labelText: 'Password',
+                    errorText: '',
+                    onChange: (e) {},
+                    //
+                  ),
+                ),
+                SizedBox(height: 13.h),
+                Padding(
+                  padding: EdgeInsets.only(left: 51.w),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Confirm Password',
+                      style: Theme.of(
+                        context,
+                      ).textTheme.titleLarge!.copyWith(color: R.palette.lightGray, fontSize: 16.sp, fontWeight: FontWeight.w400, height: 1.h),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 13.h),
+                Padding(
+                  padding: EdgeInsets.only(left: 51.w, right: 63.w),
+                  child: MaterialTextFormField(
+                    controller: _confirmPasswordController,
+                    labelText: 'Confirm Password',
+                    errorText: '',
+                    onChange: (e) {},
+                    //
+                  ),
+                ),
+                SizedBox(height: 18.h),
+                Padding(
+                  padding: EdgeInsets.only(left: 64.w),
+                  child: Row(
+                    children: [
+                      Text(
+                        'I understood the',
+                        style: Theme.of(
+                          context,
+                        ).textTheme.titleLarge!.copyWith(color: R.palette.lightGray, fontSize: 12.sp, fontWeight: FontWeight.w400, height: 1.h),
+                      ),
+                      SizedBox(width: 4.5.w),
+
+                      Text(
+                        'terms and policy.',
+                        style: Theme.of(
+                          context,
+                        ).textTheme.titleLarge!.copyWith(color: R.palette.primary, fontSize: 12.sp, fontWeight: FontWeight.w400, height: 1.h),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 25.h),
+                MyCustomButton(
+                  onTap: () {
+                    context.read<AuthBloc>().add(
+                      SignUpWithEmailEvent(
+                        email: _emailController.text,
+                        password: _passwordController.text,
+                        confirmPassword: _confirmPasswordController.text,
+                        //
+                      ),
+                    );
+                  },
+                  title: 'sign up',
+                  //
+                ),
+
+                ///
+              ],
               SizedBox(height: 26.h),
               Text(
                 'or sign up with',
@@ -263,6 +299,7 @@ class _SignUpIndexState extends State<SignUpIndex> {
                   ),
                 ],
               ),
+              SizedBox(height: 60.h),
             ],
           ),
         );

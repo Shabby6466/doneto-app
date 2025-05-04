@@ -21,12 +21,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<GetTokenEvent>(_getToken);
     on<LogoutEvent>(_logout);
     on<SignInWithEmailEvent>(_signInWithEmail);
+    on<CheckEmailVerifiedEvent>(checkEmailVerified);
     on<SignUpWithEmailEvent>(_signUpWithEmail);
+    on<ClearState>(_clearState);
   }
 
   final SaveTokenUseCase saveTokenUseCase;
   final GetTokenUseCase getTokenUseCase;
   final DeleteTokenUseCase deleteTokenUseCase;
+
+  void _clearState(ClearState event, Emitter<AuthState> emit) {
+    emit(AuthChangeState.initial());
+  }
 
   Future<void> _signInUsingGoogle(SignInUsingGoogleEvent event, Emitter<AuthState> emit) async {
     emit(getBlocState(loading: true));
@@ -61,13 +67,61 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<void> _signUpWithEmail(SignUpWithEmailEvent event, Emitter<AuthState> emit) async {
     emit(getBlocState(loading: true));
+    if (event.password != event.confirmPassword) {
+      emit(
+        SignUpWithEmailFailedState(
+          userCredential: state.userCredential,
+          loading: false,
+          errMsg: 'Passwords don’t match',
+          //
+        ),
+      );
+      return;
+    }
     try {
       final cred = await sl<FirebaseAuthService>().signUpWithEmail(event.email, event.password);
-      await saveTokenUseCase.call(cred!.user!.uid);
-      emit(TokenFoundState(userCredential: state.userCredential, loading: false, errMsg: ''));
-      emit(SignUpWithEmailSuccessState(userCredential: cred, loading: false, errMsg: ''));
+      emit(
+        EmailVerificationRequiredState(
+          userCredential: cred,
+          loading: false,
+          errMsg: 'A verification e-mail has been sent. Please check your inbox.',
+          //
+        ),
+      );
     } on DefaultFailure catch (e) {
-      emit(SignUpWithEmailFailedState(userCredential: state.userCredential, loading: false, errMsg: e.message));
+      emit(
+        SignUpWithEmailFailedState(
+          userCredential: state.userCredential,
+          loading: false,
+          errMsg: e.message,
+          //
+        ),
+      );
+    }
+  }
+
+  Future<void> checkEmailVerified(CheckEmailVerifiedEvent event, Emitter<AuthState> emit) async {
+    emit(const EmailVerificationLoadingState(
+        userCredential: null, loading: true, errMsg: 'Checking…'
+    ));
+    try {
+      final user = sl<FirebaseAuth>().currentUser;
+      await user?.reload();
+
+      if (user?.emailVerified ?? false) {
+        await saveTokenUseCase.call(user!.uid);
+        emit(EmailVerifiedState(userCredential: state.userCredential, loading: false, errMsg: ''));
+      } else {
+        emit(
+          EmailVerificationFailedState(
+            userCredential: state.userCredential,
+            loading: false,
+            errMsg: 'Your e-mail is still not verified. Please check your inbox.',
+          ),
+        );
+      }
+    } catch (e) {
+      emit(EmailVerificationFailedState(userCredential: state.userCredential, loading: false, errMsg: 'Could not check verification. Try again.'));
     }
   }
 
@@ -138,6 +192,10 @@ class TokenNotFoundState extends AuthState {
   const TokenNotFoundState({required super.loading, required super.userCredential, required super.errMsg});
 }
 
+class EmailVerificationFailedState extends AuthState {
+  const EmailVerificationFailedState({required super.loading, required super.userCredential, required super.errMsg});
+}
+
 class SignInWithEmailSuccessState extends AuthState {
   const SignInWithEmailSuccessState({required super.loading, required super.userCredential, required super.errMsg});
 }
@@ -152,6 +210,24 @@ class SignUpWithEmailFailedState extends AuthState {
 
 class SignUpWithEmailSuccessState extends AuthState {
   const SignUpWithEmailSuccessState({required super.loading, required super.userCredential, required super.errMsg});
+}
+
+class EmailVerificationRequiredState extends AuthState {
+  const EmailVerificationRequiredState({
+    required super.loading,
+    required super.userCredential,
+    required super.errMsg,
+    //
+  });
+}
+
+class EmailVerifiedState extends AuthState {
+  const EmailVerifiedState({
+    required super.loading,
+    required super.userCredential,
+    required super.errMsg,
+    //
+  });
 }
 
 /// bloc events
@@ -171,6 +247,21 @@ class SignInWithEmailEvent extends AuthEvent {
   final String password;
 
   SignInWithEmailEvent({required this.email, required this.password});
+}
+
+class ClearState extends AuthEvent {}
+
+class EmailVerificationSentEvent extends AuthEvent {}
+
+class CheckEmailVerifiedEvent extends AuthEvent {}
+
+class EmailVerificationLoadingState extends AuthState {
+  const EmailVerificationLoadingState({
+    required super.userCredential,
+    required super.loading,
+    required super.errMsg,
+    //
+  });
 }
 
 class SignUpWithEmailEvent extends AuthEvent {
