@@ -29,6 +29,13 @@ class _SignUpIndexState extends State<SignUpIndex> {
   @override
   void initState() {
     super.initState();
+
+    // Clear text fields to reset state
+    _emailController.clear();
+    _passwordController.clear();
+
+    // Clear any previous auth state
+    context.read<AuthBloc>().add(ClearAuthStateEvent());
   }
 
   @override
