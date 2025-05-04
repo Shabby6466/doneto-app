@@ -74,7 +74,7 @@ class FirebaseAuthServiceImp implements FirebaseAuthService {
       return credential;
     } on FirebaseAuthException catch (e) {
       sl<Logger>().e('SIGN UP ERROR | $e');
-      throw DefaultFailure(e.message ?? 'Could not sign up with email/password.');
+      throw DefaultFailure(e.message ?? 'Something went wrong');
     } catch (e, stack) {
       sl<Logger>().e('SIGN UP UNKNOWN ERROR | $e', stackTrace: stack);
 

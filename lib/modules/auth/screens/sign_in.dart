@@ -25,6 +25,12 @@ class _SignInIndexState extends State<SignInIndex> {
   final TextEditingController _passwordController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    context.read<AuthBloc>().add(ClearAuthStateEvent());
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
