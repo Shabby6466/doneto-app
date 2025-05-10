@@ -9,6 +9,7 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:cloud_firestore/cloud_firestore.dart' as _i974;
 import 'package:dio/dio.dart' as _i361;
 import 'package:doneto/core/di/register_modules.dart' as _i159;
 import 'package:doneto/core/network_calls/dio_wrapper/index.dart' as _i966;
@@ -55,9 +56,19 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i59.FirebaseAuth>(() => registerModule.firebaseAuth);
     gh.lazySingleton<_i116.GoogleSignIn>(() => registerModule.googleSignIn);
     gh.lazySingleton<_i602.NumberFormat>(() => registerModule.numberFormat);
+    gh.lazySingleton<_i974.FirebaseFirestore>(
+      () => registerModule.firebaseFirestore,
+    );
     gh.lazySingleton<_i361.Dio>(() => dioModule.dio);
     gh.lazySingleton<_i671.PermissionService>(
       () => _i671.PermissionsServiceImp(),
+    );
+    gh.singleton<_i452.FirebaseService>(
+      () => _i452.FirebaseServiceImp(
+        gh<_i59.FirebaseAuth>(),
+        gh<_i116.GoogleSignIn>(),
+        gh<_i974.FirebaseFirestore>(),
+      ),
     );
     gh.lazySingleton<_i966.ErrorHandler>(() => _i966.ErrorHandlerImpl());
     gh.lazySingleton<_i966.HttpApiCalls>(
@@ -74,12 +85,6 @@ extension GetItInjectableX on _i174.GetIt {
       ),
     );
     gh.singleton<_i11.Navigation>(() => _i11.NavigationImpl());
-    gh.singleton<_i452.FirebaseAuthService>(
-      () => _i452.FirebaseAuthServiceImp(
-        gh<_i59.FirebaseAuth>(),
-        gh<_i116.GoogleSignIn>(),
-      ),
-    );
     gh.lazySingletonAsync<_i803.LocalDataSource>(
       () async => _i803.LocalDataSourceImpl(
         sharedPreferences: await getAsync<_i460.SharedPreferences>(),
@@ -91,7 +96,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingletonAsync<_i578.Repository>(
       () async => _i578.RepositoryImpl(
         localDataSource: await getAsync<_i803.LocalDataSource>(),
-        firebaseAuthService: gh<_i452.FirebaseAuthService>(),
+        firebaseAuthService: gh<_i452.FirebaseService>(),
         remoteDataSource: gh<_i213.RemoteDataSource>(),
       ),
     );
