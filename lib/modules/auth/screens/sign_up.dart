@@ -29,6 +29,13 @@ class _SignUpIndexState extends State<SignUpIndex> {
   @override
   void initState() {
     super.initState();
+
+    // Clear text fields to reset state
+    _emailController.clear();
+    _passwordController.clear();
+
+    // Clear any previous auth state
+    context.read<AuthBloc>().add(ClearAuthStateEvent());
   }
 
   @override
@@ -56,8 +63,9 @@ class _SignUpIndexState extends State<SignUpIndex> {
       },
       builder: (context, state) {
         return Background(
-          bgColor: R.palette.secondary,
+          bgColor: R.palette.secondary2,
           safeAreaTop: true,
+          child : SingleChildScrollView(
           child: Column(
             children: [
               MyTopBar(
@@ -301,6 +309,7 @@ class _SignUpIndexState extends State<SignUpIndex> {
               ),
               SizedBox(height: 60.h),
             ],
+          ),
           ),
         );
       },
