@@ -3,7 +3,7 @@ part of 'repository.dart';
 @LazySingleton(as: Repository)
 class RepositoryImpl implements Repository {
   final LocalDataSource localDataSource;
-  final FirebaseAuthService firebaseAuthService;
+  final FirebaseService firebaseAuthService;
   final RemoteDataSource remoteDataSource;
   RepositoryImpl({
     required this.localDataSource,

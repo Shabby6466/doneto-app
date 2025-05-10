@@ -37,7 +37,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<void> _signInUsingGoogle(SignInUsingGoogleEvent event, Emitter<AuthState> emit) async {
     emit(getBlocState(loading: true));
     try {
-      final cred = await sl<FirebaseAuthService>().signInWithGoogle();
+      final cred = await sl<FirebaseService>().signInWithGoogle();
       await saveTokenUseCase.call(cred!.user!.uid);
       emit(GoogleLoginSuccessState(userCredential: cred, loading: false, errMsg: ''));
     } on DefaultFailure catch (e) {
@@ -48,7 +48,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<void> _logout(LogoutEvent event, Emitter<AuthState> emit) async {
     emit(getBlocState(loading: true));
     try {
-      await sl<FirebaseAuthService>().signOut();
+      await sl<FirebaseService>().signOut();
       deleteTokenUseCase.call(NoParams());
       emit(LogoutSuccessState(userCredential: state.userCredential, loading: false, errMsg: ''));
     } on DefaultFailure catch (e) {
@@ -79,7 +79,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       return;
     }
     try {
-      final cred = await sl<FirebaseAuthService>().signUpWithEmail(event.email, event.password);
+      final cred = await sl<FirebaseService>().signUpWithEmail(event.email, event.password);
       emit(
         EmailVerificationRequiredState(
           userCredential: cred,
@@ -128,7 +128,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<void> _signInWithEmail(SignInWithEmailEvent event, Emitter<AuthState> emit) async {
     emit(getBlocState(loading: true));
     try {
-      final cred = await sl<FirebaseAuthService>().signInWithEmail(event.email, event.password);
+      final cred = await sl<FirebaseService>().signInWithEmail(event.email, event.password);
       await saveTokenUseCase.call(cred!.user!.uid);
       emit(TokenFoundState(userCredential: state.userCredential, loading: false, errMsg: ''));
       emit(SignInWithEmailSuccessState(userCredential: cred, loading: false, errMsg: ''));

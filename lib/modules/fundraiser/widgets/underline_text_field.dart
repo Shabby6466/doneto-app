@@ -16,16 +16,28 @@ class UnderlineTextField extends StatelessWidget {
   /// Controller for reading / writing the field’s value.
   final TextEditingController? controller;
 
-  const UnderlineTextField({super.key, this.hintText = '', this.suffixText, this.readOnly = false, this.onTap, this.controller});
+  final void Function(String val) onChange;
+
+  const UnderlineTextField({
+    super.key,
+    this.hintText = '',
+    this.suffixText,
+    this.readOnly = false,
+    this.onTap,
+    this.controller,
+    required this.onChange,
+    //
+  });
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
       controller: controller,
       readOnly: readOnly,
       onTap: onTap,
       keyboardType: TextInputType.number,
       style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+      onChanged: (e) => onChange(e),
       decoration: InputDecoration(
         hintText: hintText,
         hintStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: Colors.grey[500]),
@@ -42,7 +54,6 @@ class UnderlineTextField extends StatelessWidget {
   }
 }
 
-
 class MultilineTextArea extends StatelessWidget {
   /// Controller to read/write the text
   final TextEditingController controller;
@@ -56,13 +67,7 @@ class MultilineTextArea extends StatelessWidget {
   /// Called when user taps the expand icon
   final VoidCallback? onExpand;
 
-  const MultilineTextArea({
-    super.key,
-    required this.controller,
-    this.hintText = '',
-    this.label = '',
-    this.onExpand,
-  });
+  const MultilineTextArea({super.key, required this.controller, this.hintText = '', this.label = '', this.onExpand});
 
   @override
   Widget build(BuildContext context) {
@@ -70,18 +75,11 @@ class MultilineTextArea extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (label.isNotEmpty)
-          Text(
-            label,
-            style: Theme.of(context).textTheme.bodyMedium,
-          ),
+        if (label.isNotEmpty) Text(label, style: Theme.of(context).textTheme.bodyMedium),
         const SizedBox(height: 8),
         Container(
           height: 160,
-          decoration: BoxDecoration(
-            border: Border.all(color: borderColor),
-            borderRadius: BorderRadius.circular(8),
-          ),
+          decoration: BoxDecoration(border: Border.all(color: borderColor), borderRadius: BorderRadius.circular(8)),
           child: Stack(
             children: [
               // the actual input
@@ -92,11 +90,7 @@ class MultilineTextArea extends StatelessWidget {
                   keyboardType: TextInputType.multiline,
                   maxLines: null,
                   expands: true,
-                  decoration: InputDecoration(
-                    hintText: hintText,
-                    hintStyle: TextStyle(color: Colors.grey.shade500),
-                    border: InputBorder.none,
-                  ),
+                  decoration: InputDecoration(hintText: hintText, hintStyle: TextStyle(color: Colors.grey.shade500), border: InputBorder.none),
                   style: Theme.of(context).textTheme.bodyLarge,
                 ),
               ),
@@ -105,14 +99,7 @@ class MultilineTextArea extends StatelessWidget {
                 Positioned(
                   bottom: 8,
                   right: 8,
-                  child: GestureDetector(
-                    onTap: onExpand,
-                    child: Icon(
-                      Icons.open_in_full,
-                      size: 18,
-                      color: Colors.grey.shade600,
-                    ),
-                  ),
+                  child: GestureDetector(onTap: onExpand, child: Icon(Icons.open_in_full, size: 18, color: Colors.grey.shade600)),
                 ),
             ],
           ),
