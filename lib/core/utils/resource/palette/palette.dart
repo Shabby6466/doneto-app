@@ -39,9 +39,11 @@ class Palette {
   static const _loginBgColorLight = Color(0xffDFE1FA);
   static const _textFieldBgColor = Color(0xffF2F2FD);
   static const _pink = Color(0xffE8618C);
+  static const _skin = Color(0xffF8F8F8);
   static const _transparent = Colors.transparent;
 
   Color get transparent => _transparent;
+  Color get skin => _skin;
 
   Color get red2 => _red2;
 

@@ -36,7 +36,7 @@ class _HomeIndexState extends State<HomeIndex> {
             const CustomSearchBar(),
             SizedBox(height: 34.h),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 18.w),
+              padding: EdgeInsets.only(left:18.w ,right: 18.w),
               child: Text(
                 'Fundraise for the people and causes you care about',
                 style: Theme.of(context).textTheme.labelMedium!.copyWith(
