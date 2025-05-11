@@ -6,8 +6,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 class MyTopBar extends StatefulWidget {
   final GestureTapCallback onTap;
   final String title;
+  final bool? showBackBtn;
 
-  const MyTopBar({super.key, required this.onTap, required this.title});
+  const MyTopBar({super.key, required this.onTap, required this.title, this.showBackBtn});
 
   @override
   State<MyTopBar> createState() => _MyTopBarState();
@@ -17,10 +18,22 @@ class _MyTopBarState extends State<MyTopBar> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(left: 38.w,top: 20.h),
+      padding: EdgeInsets.only(left: 38.w, top: 20.h),
       child: Row(
         children: [
-          GestureDetector(onTap: widget.onTap, child: SvgPicture.asset(R.assets.graphics.svgIcons.backArrow)),
+          Visibility(
+            visible: widget.showBackBtn ?? true,
+            maintainState: true,
+            maintainAnimation: true,
+            maintainSize: true,
+            child: GestureDetector(
+              onTap: widget.onTap,
+              child: SvgPicture.asset(
+                R.assets.graphics.svgIcons.backArrow,
+                //
+              ),
+            ),
+          ),
           const Spacer(flex: 2),
           Text(
             widget.title,

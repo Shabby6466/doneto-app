@@ -2,6 +2,8 @@
 // coverage:ignore-file
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloudinary_public/cloudinary_public.dart';
+import 'package:doneto/core/utils/base_env.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:image_picker/image_picker.dart';
@@ -35,10 +37,12 @@ abstract class RegisterModule {
   @LazySingleton()
   GoogleSignIn get googleSignIn => GoogleSignIn();
 
-
   @LazySingleton()
   NumberFormat get numberFormat => NumberFormat.currency(decimalDigits: 2, symbol: '');
 
   @LazySingleton()
   FirebaseFirestore get firebaseFirestore => FirebaseFirestore.instance;
+
+  @LazySingleton()
+  CloudinaryPublic get cloudinaryPublic => CloudinaryPublic(BaseEnv.instance.cloudinaryCloudName, 'doneto_unsigned', cache: true);
 }

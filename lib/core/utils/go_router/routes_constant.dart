@@ -13,6 +13,7 @@ class Routes {
   static const signIn = '/sign_in';
   static const signUp = '/sign_up';
   static const bottomTab = '/bottom_tab';
+  static const createProfile = '/create_profile';
   static const fundraiserPublishResponse = '/fundraiser_publish_response';
   static const previewFundraiser = '/preview_fundraiser';
 

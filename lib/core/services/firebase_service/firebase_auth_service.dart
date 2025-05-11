@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:doneto/core/di/di.dart';
 import 'package:doneto/core/network_calls/dio_wrapper/index.dart';
-import 'package:doneto/core/widgets/funraiser_model.dart';
+import 'package:doneto/core/widgets/fundraiser_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';

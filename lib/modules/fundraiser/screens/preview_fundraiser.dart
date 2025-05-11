@@ -52,7 +52,7 @@ class _PreviewFundraiserState extends State<PreviewFundraiser> {
               width: double.infinity,
               child: Stack(
                 children: [
-                  Image.asset(R.assets.graphics.pngIcons.bgFlowers, fit: BoxFit.cover, width: double.infinity),
+                  Image.network(state.imageUrl, fit: BoxFit.fill, width: double.infinity),
                   Positioned(
                     right: 6,
                     top: 6,

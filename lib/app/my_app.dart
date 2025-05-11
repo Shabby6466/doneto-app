@@ -4,10 +4,12 @@ import 'package:doneto/core/utils/resource/r.dart';
 import 'package:doneto/modules/auth/bloc/auth_bloc.dart';
 import 'package:doneto/modules/auth/usecase/delete_token_usecase.dart';
 import 'package:doneto/modules/auth/usecase/get_token_usecase.dart';
+import 'package:doneto/modules/auth/usecase/get_user_profile_usecase.dart';
 import 'package:doneto/modules/auth/usecase/save_token_usecase.dart';
 import 'package:doneto/modules/bottom_tab/bloc/bottom_tab_bloc.dart';
 import 'package:doneto/modules/fundraiser/bloc/fundraiser_bloc.dart';
 import 'package:doneto/modules/fundraiser/usecases/create_fundraiser_draft_usecase.dart';
+import 'package:doneto/modules/fundraiser/usecases/save_user_profile_usecase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/services.dart';
@@ -53,6 +55,8 @@ class _MyAppState extends State<MyApp> {
           create:
               (context) => FundraiserBloc(
                 createFundraiserDraftUseCase: sl<CreateFundraiserDraftUseCase>(),
+                saveUserProfileUsecase: sl<SaveUserProfileUsecase>(),
+                saveTokenUseCase: sl<SaveTokenUseCase>(),
                 //
               ),
         ),
@@ -63,6 +67,7 @@ class _MyAppState extends State<MyApp> {
                 saveTokenUseCase: sl<SaveTokenUseCase>(),
                 getTokenUseCase: sl<GetTokenUseCase>(),
                 deleteTokenUseCase: sl<DeleteTokenUseCase>(),
+                getUserProfileUseCase: sl<GetUserProfileUseCase>(),
               ),
         ),
       ],

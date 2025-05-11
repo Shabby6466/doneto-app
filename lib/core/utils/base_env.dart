@@ -20,6 +20,7 @@ class BaseEnv {
   late String _androidFirebaseMessageId;
   late String _androidFirebaseAppId;
   late String _androidFirebaseProjectId;
+  late String _cloudinaryCloudName;
 
   void setEnv() {
     _url = dotenv.env['BASE_URL'] ?? '';
@@ -32,7 +33,10 @@ class BaseEnv {
     _androidFirebaseAppId = dotenv.env['ANDROID_FIREBASE_APP_ID'] ?? '';
     _androidFirebaseMessageId = dotenv.env['ANDROID_FIREBASE_MESSAGE_ID'] ?? '';
     _androidFirebaseProjectId = dotenv.env['ANDROID_FIREBASE_PROJECT_ID'] ?? '';
+    _cloudinaryCloudName = dotenv.env['CLOUDINARY_NAME'] ?? '';
   }
+
+  String get cloudinaryCloudName => _cloudinaryCloudName;
 
   String get url => _url;
 

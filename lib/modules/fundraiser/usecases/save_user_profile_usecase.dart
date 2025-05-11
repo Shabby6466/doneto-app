@@ -4,13 +4,13 @@ import 'package:doneto/core/widgets/fundraiser_model.dart';
 import 'package:injectable/injectable.dart';
 
 @singleton
-class CreateFundraiserDraftUseCase extends UseCase<Fundraiser, String> {
+class SaveUserProfileUsecase extends UseCase<UserProfile, void> {
   final Repository repository;
 
-  CreateFundraiserDraftUseCase({required this.repository});
+  SaveUserProfileUsecase({required this.repository});
 
   @override
-  Future<String> call(Fundraiser params) async {
-    return await repository.createFundraiserDraft(params);
+  Future<void> call(UserProfile params) async {
+    return await repository.saveUserProfile(params);
   }
 }
