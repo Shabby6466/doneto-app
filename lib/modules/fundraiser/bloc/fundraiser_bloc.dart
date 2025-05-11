@@ -5,6 +5,7 @@ import 'package:doneto/core/services/firebase_service/firebase_auth_service.dart
 import 'package:doneto/core/widgets/fundraiser_model.dart';
 import 'package:doneto/modules/auth/usecase/save_token_usecase.dart';
 import 'package:doneto/modules/fundraiser/usecases/create_fundraiser_draft_usecase.dart';
+import 'package:doneto/modules/fundraiser/usecases/get_my_fundraisers_useCase.dart';
 import 'package:doneto/modules/fundraiser/usecases/save_user_profile_usecase.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,7 @@ class FundraiserBloc extends Bloc<FundraiserEvent, FundraiserState> {
     required this.createFundraiserDraftUseCase,
     required this.saveUserProfileUsecase,
     required this.saveTokenUseCase,
+    required this.getMyFundraisersUseCase,
     //
   }) : super(FundraiserChangeState.initial()) {
     on<FundraiserPageChangeEvent>(_fundraiserPageChangeEvent);
@@ -35,6 +37,7 @@ class FundraiserBloc extends Bloc<FundraiserEvent, FundraiserState> {
 
   final CreateFundraiserDraftUseCase createFundraiserDraftUseCase;
   final SaveUserProfileUsecase saveUserProfileUsecase;
+  final GetMyFundraisersUseCase getMyFundraisersUseCase;
   final SaveTokenUseCase saveTokenUseCase;
 
   void _uploadImage(FundraiserMediaUploadedEvent event, Emitter<FundraiserState> emit) {
@@ -44,6 +47,16 @@ class FundraiserBloc extends Bloc<FundraiserEvent, FundraiserState> {
   void _emailChange(EmailChangeEvent event, Emitter<FundraiserState> emit) {
     emit(getBlocState(email: event.email));
   }
+
+  // Future<void> _getMyFundraisers(GetMyFundraiserEvent event, Emitter<FundraiserState> emit) async {
+  //   try {
+  //     emit(getBlocState(loading: true));
+  //     final res = await getMyFundraisersUseCase.call(NoParams());
+  //     sl<Logger>().f('My Fundraisers | $res');
+  //   } on DefaultFailure catch (e) {
+  //     emit(getBlocState(loading: false, errMsg: e.message));
+  //   }
+  // }
 
   Future<void> _saveUserProfile(CreateUserProfileEvent event, Emitter<FundraiserState> emit) async {
     try {
@@ -382,3 +395,5 @@ class FundraiserMediaUploadedEvent extends FundraiserEvent {
 }
 
 class CreateUserProfileEvent extends FundraiserEvent {}
+
+class GetMyFundraiserEvent extends FundraiserEvent {}
