@@ -28,6 +28,7 @@ class _SplashIndexState extends State<SplashIndex> {
       listener: (context, state) {
         if (state is TokenFoundState) {
           sl<Navigation>().go(Routes.bottomTab);
+          context.read<AuthBloc>().add(GetUserProfileEvent());
         }
         if (state is TokenNotFoundState) {
           sl<Navigation>().go(Routes.auth);

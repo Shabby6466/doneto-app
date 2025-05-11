@@ -10,6 +10,7 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:cloud_firestore/cloud_firestore.dart' as _i974;
+import 'package:cloudinary_public/cloudinary_public.dart' as _i524;
 import 'package:dio/dio.dart' as _i361;
 import 'package:doneto/core/di/register_modules.dart' as _i159;
 import 'package:doneto/core/network_calls/dio_wrapper/index.dart' as _i966;
@@ -30,10 +31,14 @@ import 'package:doneto/core/services/repository/repository.dart' as _i578;
 import 'package:doneto/core/utils/go_router/routes_navigation.dart' as _i11;
 import 'package:doneto/modules/auth/usecase/delete_token_usecase.dart' as _i694;
 import 'package:doneto/modules/auth/usecase/get_token_usecase.dart' as _i398;
+import 'package:doneto/modules/auth/usecase/get_user_profile_usecase.dart'
+    as _i888;
 import 'package:doneto/modules/auth/usecase/google_auth_usecase.dart' as _i730;
 import 'package:doneto/modules/auth/usecase/save_token_usecase.dart' as _i610;
 import 'package:doneto/modules/fundraiser/usecases/create_fundraiser_draft_usecase.dart'
     as _i286;
+import 'package:doneto/modules/fundraiser/usecases/save_user_profile_usecase.dart'
+    as _i799;
 import 'package:firebase_auth/firebase_auth.dart' as _i59;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:google_sign_in/google_sign_in.dart' as _i116;
@@ -62,6 +67,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i602.NumberFormat>(() => registerModule.numberFormat);
     gh.lazySingleton<_i974.FirebaseFirestore>(
       () => registerModule.firebaseFirestore,
+    );
+    gh.lazySingleton<_i524.CloudinaryPublic>(
+      () => registerModule.cloudinaryPublic,
     );
     gh.lazySingleton<_i361.Dio>(() => dioModule.dio);
     gh.lazySingleton<_i671.PermissionService>(
@@ -132,6 +140,16 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.singletonAsync<_i286.CreateFundraiserDraftUseCase>(
       () async => _i286.CreateFundraiserDraftUseCase(
+        repository: await getAsync<_i578.Repository>(),
+      ),
+    );
+    gh.singletonAsync<_i799.SaveUserProfileUsecase>(
+      () async => _i799.SaveUserProfileUsecase(
+        repository: await getAsync<_i578.Repository>(),
+      ),
+    );
+    gh.singletonAsync<_i888.GetUserProfileUseCase>(
+      () async => _i888.GetUserProfileUseCase(
         repository: await getAsync<_i578.Repository>(),
       ),
     );

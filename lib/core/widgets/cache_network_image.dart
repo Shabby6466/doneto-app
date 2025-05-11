@@ -39,10 +39,10 @@ class CircularCacheNetworkImage extends StatelessWidget {
         ),
         child: ClipOval(
           child: Image.asset(
-            R.assets.graphics.pngIcons.img,
+            R.assets.graphics.pngIcons.bgFlowers,
             width: 30.w,
             height: 30.h,
-            fit: BoxFit.cover,
+            fit: BoxFit.fill,
           ),
         ),
       );

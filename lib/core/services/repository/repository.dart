@@ -1,7 +1,7 @@
 import 'package:doneto/core/services/firebase_service/firestore_service.dart';
 import 'package:doneto/core/services/usecases/usecase.dart';
 import 'package:doneto/core/utils/resource/r.dart';
-import 'package:doneto/core/widgets/funraiser_model.dart';
+import 'package:doneto/core/widgets/fundraiser_model.dart';
 import 'package:doneto/modules/auth/usecase/google_auth_usecase.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:injectable/injectable.dart';
@@ -33,4 +33,10 @@ abstract class Repository {
   Future<Fundraiser> getFundraiserById(String id);
 
   Stream<List<Fundraiser>> watchMyFundraisers();
+
+  Future<void> saveUserProfile(UserProfile draft);
+
+  Future<UserProfile> getUserProfile(NoParams params);
+
+  Stream<UserProfile> watchUserProfile(String uid);
 }

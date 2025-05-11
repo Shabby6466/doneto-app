@@ -7,6 +7,8 @@ import 'package:doneto/core/widgets/base_widget.dart';
 import 'package:doneto/core/widgets/custom_textfield.dart';
 import 'package:doneto/core/widgets/my_button.dart';
 import 'package:doneto/modules/auth/bloc/auth_bloc.dart';
+import 'package:doneto/modules/fundraiser/bloc/fundraiser_bloc.dart';
+import 'package:doneto/modules/fundraiser/widgets/doneto_button.dart';
 import 'package:doneto/modules/onbording/widgets/my_top_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,7 +38,7 @@ class _SignUpIndexState extends State<SignUpIndex> {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is GoogleLoginSuccessState && state is! LoginBeforeFundraiserState) {
-          sl<Navigation>().go(Routes.bottomTab);
+          sl<Navigation>().go(Routes.createProfile);
         }
         if (state is GoogleLoginSuccessState && state is LoginBeforeFundraiserState) {
           sl<Navigation>().go(Routes.fundraisingIndex);
@@ -51,7 +53,7 @@ class _SignUpIndexState extends State<SignUpIndex> {
           Utility.showError(context, state.errMsg);
         }
         if (state is EmailVerifiedState) {
-          sl<Navigation>().go(Routes.bottomTab);
+          sl<Navigation>().go(Routes.createProfile);
         }
         if (state is SignUpWithEmailFailedState) {
           Utility.showError(context, state.errMsg);
@@ -59,6 +61,7 @@ class _SignUpIndexState extends State<SignUpIndex> {
       },
       builder: (context, state) {
         return Background(
+          resizeToAvoidBottomInset: true,
           bgColor: R.palette.secondary,
           safeAreaTop: true,
           child: Column(
@@ -223,85 +226,90 @@ class _SignUpIndexState extends State<SignUpIndex> {
                   ),
                 ),
                 SizedBox(height: 25.h),
-                MyCustomButton(
-                  onTap: () {
-                    context.read<AuthBloc>().add(
-                      SignUpWithEmailEvent(
-                        email: _emailController.text,
-                        password: _passwordController.text,
-                        confirmPassword: _confirmPasswordController.text,
-                        //
-                      ),
-                    );
-                  },
-                  title: 'sign up',
-                  //
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 50.w),
+                  child: DonetoButton(
+                    onTap: () {
+                      context.read<AuthBloc>().add(
+                        SignUpWithEmailEvent(
+                          email: _emailController.text,
+                          password: _passwordController.text,
+                          confirmPassword: _confirmPasswordController.text,
+                          //
+                        ),
+                      );
+                    },
+                    loading: state.loading,
+                    title: 'sign up',
+                    //
+                  ),
                 ),
 
                 ///
-              ],
-              SizedBox(height: 26.h),
-              Text(
-                'or sign up with',
-                style: Theme.of(
-                  context,
-                ).textTheme.titleLarge!.copyWith(color: R.palette.lightGray, fontSize: 16.sp, fontWeight: FontWeight.w400, height: 1.h),
-              ),
-              SizedBox(height: 23.h),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 50.w),
-                child: GestureDetector(
-                  onTap: () {
-                    context.read<AuthBloc>().add(SignInUsingGoogleEvent());
-                  },
-                  child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 16.w),
-                    height: 50.h,
-                    decoration: BoxDecoration(color: R.palette.primary.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(16.r)),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset(R.assets.graphics.svgIcons.googleLogo),
-                        SizedBox(width: 15.w),
-                        Text(
-                          'Sign In With Google',
-                          style: Theme.of(context).textTheme.labelSmall!.copyWith(fontSize: 15.sp, height: 1.3.h, fontWeight: FontWeight.w500),
-                        ),
-                      ],
+                SizedBox(height: 26.h),
+                Text(
+                  'or sign up with',
+                  style: Theme.of(
+                    context,
+                  ).textTheme.titleLarge!.copyWith(color: R.palette.lightGray, fontSize: 16.sp, fontWeight: FontWeight.w400, height: 1.h),
+                ),
+                SizedBox(height: 23.h),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 50.w),
+                  child: GestureDetector(
+                    onTap: () {
+                      context.read<FundraiserBloc>().add(EmailChangeEvent(email: _emailController.text));
+                      context.read<AuthBloc>().add(SignInUsingGoogleEvent());
+                    },
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 16.w),
+                      height: 50.h,
+                      decoration: BoxDecoration(color: R.palette.primary.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(16.r)),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(R.assets.graphics.svgIcons.googleLogo),
+                          SizedBox(width: 15.w),
+                          Text(
+                            'Sign In With Google',
+                            style: Theme.of(context).textTheme.labelSmall!.copyWith(fontSize: 15.sp, height: 1.3.h, fontWeight: FontWeight.w500),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-              SizedBox(height: 26.h),
+                SizedBox(height: 26.h),
 
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Already have an account?',
-                    style: Theme.of(
-                      context,
-                    ).textTheme.titleLarge!.copyWith(color: R.palette.lightGray, fontSize: 16.sp, fontWeight: FontWeight.w400, height: 1.h),
-                  ),
-                  SizedBox(width: 3.w),
-
-                  GestureDetector(
-                    onTap: () {
-                      if (sl<Navigation>().canPop()) {
-                        sl<Navigation>().popFromRoute();
-                      }
-                    },
-                    child: Text(
-                      'SIGN IN',
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Already have an account?',
                       style: Theme.of(
                         context,
-                      ).textTheme.titleLarge!.copyWith(color: R.palette.primary, fontSize: 16.sp, fontWeight: FontWeight.w400, height: 1.h),
+                      ).textTheme.titleLarge!.copyWith(color: R.palette.lightGray, fontSize: 16.sp, fontWeight: FontWeight.w400, height: 1.h),
                     ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 60.h),
+                    SizedBox(width: 3.w),
+
+                    GestureDetector(
+                      onTap: () {
+                        if (sl<Navigation>().canPop()) {
+                          sl<Navigation>().popFromRoute();
+                        }
+                      },
+                      child: Text(
+                        'SIGN IN',
+                        style: Theme.of(
+                          context,
+                        ).textTheme.titleLarge!.copyWith(color: R.palette.primary, fontSize: 16.sp, fontWeight: FontWeight.w400, height: 1.h),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 60.h),
+              ],
             ],
           ),
         );

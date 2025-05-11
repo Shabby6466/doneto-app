@@ -1,5 +1,6 @@
 import 'package:doneto/core/utils/go_router/routes_constant.dart';
 import 'package:doneto/core/utils/go_router/routes_navigation.dart';
+import 'package:doneto/modules/auth/screens/create_profile.dart';
 import 'package:doneto/modules/auth/screens/sign_in.dart';
 import 'package:doneto/modules/auth/screens/sign_up.dart';
 import 'package:doneto/modules/auth/screens/start_screen_index.dart';
@@ -24,6 +25,11 @@ class AppRouter {
         path: Routes.splash,
         name: Routes.splash,
         builder: (context, state) => const SplashIndex(),
+      ),
+      GoRoute(
+        path: Routes.createProfile,
+        name: Routes.createProfile,
+        builder: (context, state) => const CreateProfile(),
       ),
       GoRoute(
         path: Routes.auth,
