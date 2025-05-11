@@ -35,8 +35,11 @@ class _SignUpIndexState extends State<SignUpIndex> {
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
-        if (state is GoogleLoginSuccessState) {
+        if (state is GoogleLoginSuccessState && state is! LoginBeforeFundraiserState) {
           sl<Navigation>().go(Routes.bottomTab);
+        }
+        if (state is GoogleLoginSuccessState && state is LoginBeforeFundraiserState) {
+          sl<Navigation>().go(Routes.fundraisingIndex);
         }
         if (state is GoogleLoginFailedState) {
           Utility.showError(context, state.errMsg);
@@ -92,8 +95,7 @@ class _SignUpIndexState extends State<SignUpIndex> {
                 ),
                 const Spacer(),
                 //
-              ]
-              else ...[
+              ] else ...[
                 // sign up section
                 SizedBox(height: 45.h),
                 Text(

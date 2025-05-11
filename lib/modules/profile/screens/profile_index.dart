@@ -285,7 +285,7 @@ class _ProfileIndexState extends State<ProfileIndex> {
                               style: TextStyle(color: R.palette.primary),
                             ),
 
-                            TextSpan(
+                            const TextSpan(
                               text: ' to inspire people to help',
                               style: TextStyle(color: Colors.black),
                             ),
@@ -296,8 +296,8 @@ class _ProfileIndexState extends State<ProfileIndex> {
                       Row(
                         children: [
                           
-                          Text('share profile '),
-                          SvgPicture.asset(R.assets.graphics.svgIcons.nextArrow,colorFilter:ColorFilter.mode(Colors.black, BlendMode.srcATop),width:10.w,height:5.h),
+                          const Text('share profile '),
+                          SvgPicture.asset(R.assets.graphics.svgIcons.nextArrow,colorFilter:const ColorFilter.mode(Colors.black, BlendMode.srcATop),width:10.w,height:5.h),
                         ],
                       ),
                     ],

@@ -34,14 +34,20 @@ class _SignInIndexState extends State<SignInIndex> {
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
-        if (state is GoogleLoginSuccessState) {
+        if (state is GoogleLoginSuccessState && state is! LoginBeforeFundraiserState) {
           sl<Navigation>().go(Routes.bottomTab);
         }
         if (state is GoogleLoginFailedState) {
           Utility.showError(context, state.errMsg);
         }
-        if (state is SignInWithEmailSuccessState) {
+        if (state is SignInWithEmailSuccessState && state is! LoginBeforeFundraiserState) {
           sl<Navigation>().go(Routes.bottomTab);
+        }
+        if (state is GoogleLoginSuccessState && state is LoginBeforeFundraiserState) {
+          sl<Navigation>().go(Routes.fundraisingIndex);
+        }
+        if (state is SignInWithEmailSuccessState && state is LoginBeforeFundraiserState) {
+          sl<Navigation>().go(Routes.fundraisingIndex);
         }
         if (state is SignInWitheEmailFailedState) {
           Utility.showError(context, state.errMsg);

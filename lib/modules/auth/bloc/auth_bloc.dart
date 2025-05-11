@@ -1,6 +1,6 @@
 import 'package:doneto/core/di/di.dart';
 import 'package:doneto/core/network_calls/dio_wrapper/index.dart';
-import 'package:doneto/core/services/firebase_auth/firebase_auth_service.dart';
+import 'package:doneto/core/services/firebase_service/firebase_auth_service.dart';
 import 'package:doneto/core/services/usecases/usecase.dart';
 import 'package:doneto/modules/auth/usecase/delete_token_usecase.dart';
 import 'package:doneto/modules/auth/usecase/get_token_usecase.dart';
@@ -24,6 +24,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<CheckEmailVerifiedEvent>(checkEmailVerified);
     on<SignUpWithEmailEvent>(_signUpWithEmail);
     on<ClearState>(_clearState);
+    on<LoginBeforeFundraiserEvent>(_loginBeforeFundraiser);
   }
 
   final SaveTokenUseCase saveTokenUseCase;
@@ -32,6 +33,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   void _clearState(ClearState event, Emitter<AuthState> emit) {
     emit(AuthChangeState.initial());
+  }
+
+  void _loginBeforeFundraiser(LoginBeforeFundraiserEvent event, Emitter<AuthState> emit) {
+    emit(LoginBeforeFundraiserState(loading: state.loading, userCredential: state.userCredential, errMsg: state.errMsg));
   }
 
   Future<void> _signInUsingGoogle(SignInUsingGoogleEvent event, Emitter<AuthState> emit) async {
@@ -101,9 +106,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   Future<void> checkEmailVerified(CheckEmailVerifiedEvent event, Emitter<AuthState> emit) async {
-    emit(const EmailVerificationLoadingState(
-        userCredential: null, loading: true, errMsg: 'Checking…'
-    ));
+    emit(const EmailVerificationLoadingState(userCredential: null, loading: true, errMsg: 'Checking…'));
     try {
       final user = sl<FirebaseAuth>().currentUser;
       await user?.reload();
@@ -212,6 +215,10 @@ class SignUpWithEmailSuccessState extends AuthState {
   const SignUpWithEmailSuccessState({required super.loading, required super.userCredential, required super.errMsg});
 }
 
+class LoginBeforeFundraiserState extends AuthState {
+  const LoginBeforeFundraiserState({required super.loading, required super.userCredential, required super.errMsg});
+}
+
 class EmailVerificationRequiredState extends AuthState {
   const EmailVerificationRequiredState({
     required super.loading,
@@ -263,6 +270,8 @@ class EmailVerificationLoadingState extends AuthState {
     //
   });
 }
+
+class LoginBeforeFundraiserEvent extends AuthEvent {}
 
 class SignUpWithEmailEvent extends AuthEvent {
   final String email;

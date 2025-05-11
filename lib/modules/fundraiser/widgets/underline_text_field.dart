@@ -16,6 +16,8 @@ class UnderlineTextField extends StatelessWidget {
   /// Controller for reading / writing the field’s value.
   final TextEditingController? controller;
 
+  final TextInputType? inputType;
+
   final void Function(String val) onChange;
 
   const UnderlineTextField({
@@ -24,6 +26,7 @@ class UnderlineTextField extends StatelessWidget {
     this.suffixText,
     this.readOnly = false,
     this.onTap,
+    this.inputType,
     this.controller,
     required this.onChange,
     //
@@ -35,7 +38,7 @@ class UnderlineTextField extends StatelessWidget {
       controller: controller,
       readOnly: readOnly,
       onTap: onTap,
-      keyboardType: TextInputType.number,
+      keyboardType: inputType ?? TextInputType.text,
       style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
       onChanged: (e) => onChange(e),
       decoration: InputDecoration(
@@ -67,7 +70,17 @@ class MultilineTextArea extends StatelessWidget {
   /// Called when user taps the expand icon
   final VoidCallback? onExpand;
 
-  const MultilineTextArea({super.key, required this.controller, this.hintText = '', this.label = '', this.onExpand});
+  final void Function(String val) onChange;
+
+  const MultilineTextArea({
+    super.key,
+    required this.controller,
+    this.hintText = '',
+    this.label = '',
+    this.onExpand,
+    required this.onChange,
+    //
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -90,6 +103,7 @@ class MultilineTextArea extends StatelessWidget {
                   keyboardType: TextInputType.multiline,
                   maxLines: null,
                   expands: true,
+                  onChanged: (e) => onChange(e),
                   decoration: InputDecoration(hintText: hintText, hintStyle: TextStyle(color: Colors.grey.shade500), border: InputBorder.none),
                   style: Theme.of(context).textTheme.bodyLarge,
                 ),

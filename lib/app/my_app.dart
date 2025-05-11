@@ -7,6 +7,7 @@ import 'package:doneto/modules/auth/usecase/get_token_usecase.dart';
 import 'package:doneto/modules/auth/usecase/save_token_usecase.dart';
 import 'package:doneto/modules/bottom_tab/bloc/bottom_tab_bloc.dart';
 import 'package:doneto/modules/fundraiser/bloc/fundraiser_bloc.dart';
+import 'package:doneto/modules/fundraiser/usecases/create_fundraiser_draft_usecase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/services.dart';
@@ -48,7 +49,13 @@ class _MyAppState extends State<MyApp> {
     var screenSize = getScreenSize();
     return MultiBlocProvider(
       providers: [
-        BlocProvider<FundraiserBloc>(create: (context) => FundraiserBloc()),
+        BlocProvider<FundraiserBloc>(
+          create:
+              (context) => FundraiserBloc(
+                createFundraiserDraftUseCase: sl<CreateFundraiserDraftUseCase>(),
+                //
+              ),
+        ),
         BlocProvider<BottomTabBloc>(create: (context) => BottomTabBloc()),
         BlocProvider<AuthBloc>(
           create:

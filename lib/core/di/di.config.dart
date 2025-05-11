@@ -18,8 +18,10 @@ import 'package:doneto/core/services/datasources/local_data_source/local_data_so
     as _i803;
 import 'package:doneto/core/services/datasources/remote_data_source/remote_data_source.dart'
     as _i213;
-import 'package:doneto/core/services/firebase_auth/firebase_auth_service.dart'
-    as _i452;
+import 'package:doneto/core/services/firebase_service/firebase_auth_service.dart'
+    as _i594;
+import 'package:doneto/core/services/firebase_service/firestore_service.dart'
+    as _i780;
 import 'package:doneto/core/services/permissions/permission_engine.dart'
     as _i524;
 import 'package:doneto/core/services/permissions/permission_service.dart'
@@ -30,6 +32,8 @@ import 'package:doneto/modules/auth/usecase/delete_token_usecase.dart' as _i694;
 import 'package:doneto/modules/auth/usecase/get_token_usecase.dart' as _i398;
 import 'package:doneto/modules/auth/usecase/google_auth_usecase.dart' as _i730;
 import 'package:doneto/modules/auth/usecase/save_token_usecase.dart' as _i610;
+import 'package:doneto/modules/fundraiser/usecases/create_fundraiser_draft_usecase.dart'
+    as _i286;
 import 'package:firebase_auth/firebase_auth.dart' as _i59;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:google_sign_in/google_sign_in.dart' as _i116;
@@ -63,14 +67,20 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i671.PermissionService>(
       () => _i671.PermissionsServiceImp(),
     );
-    gh.singleton<_i452.FirebaseService>(
-      () => _i452.FirebaseServiceImp(
+    gh.singleton<_i594.FirebaseService>(
+      () => _i594.FirebaseServiceImp(
         gh<_i59.FirebaseAuth>(),
         gh<_i116.GoogleSignIn>(),
         gh<_i974.FirebaseFirestore>(),
       ),
     );
     gh.lazySingleton<_i966.ErrorHandler>(() => _i966.ErrorHandlerImpl());
+    gh.lazySingleton<_i780.FireStoreService>(
+      () => _i780.FirebaseServiceImp(
+        gh<_i59.FirebaseAuth>(),
+        gh<_i974.FirebaseFirestore>(),
+      ),
+    );
     gh.lazySingleton<_i966.HttpApiCalls>(
       () => _i966.DioWrapperImpl(
         dio: gh<_i361.Dio>(),
@@ -90,15 +100,16 @@ extension GetItInjectableX on _i174.GetIt {
         sharedPreferences: await getAsync<_i460.SharedPreferences>(),
       ),
     );
-    gh.lazySingleton<_i524.PermissionEngine>(
-      () => _i524.PermissionEngineImp(gh<_i671.PermissionService>()),
-    );
     gh.lazySingletonAsync<_i578.Repository>(
       () async => _i578.RepositoryImpl(
         localDataSource: await getAsync<_i803.LocalDataSource>(),
-        firebaseAuthService: gh<_i452.FirebaseService>(),
+        fireStoreService: gh<_i780.FireStoreService>(),
+        firebaseAuthService: gh<_i594.FirebaseService>(),
         remoteDataSource: gh<_i213.RemoteDataSource>(),
       ),
+    );
+    gh.lazySingleton<_i524.PermissionEngine>(
+      () => _i524.PermissionEngineImp(gh<_i671.PermissionService>()),
     );
     gh.singletonAsync<_i730.GoogleAuthUseCase>(
       () async => _i730.GoogleAuthUseCase(
@@ -118,6 +129,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singletonAsync<_i398.GetTokenUseCase>(
       () async =>
           _i398.GetTokenUseCase(repository: await getAsync<_i578.Repository>()),
+    );
+    gh.singletonAsync<_i286.CreateFundraiserDraftUseCase>(
+      () async => _i286.CreateFundraiserDraftUseCase(
+        repository: await getAsync<_i578.Repository>(),
+      ),
     );
     return this;
   }
