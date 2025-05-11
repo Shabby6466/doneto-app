@@ -4,12 +4,10 @@ part of 'repository.dart';
 class RepositoryImpl implements Repository {
   final LocalDataSource localDataSource;
   final FirebaseService firebaseAuthService;
+  final FireStoreService fireStoreService;
   final RemoteDataSource remoteDataSource;
-  RepositoryImpl({
-    required this.localDataSource,
-    required this.firebaseAuthService,
-    required this.remoteDataSource,
-  });
+
+  RepositoryImpl({required this.localDataSource, required this.fireStoreService, required this.firebaseAuthService, required this.remoteDataSource});
 
   @override
   Future<GoogleAuthOutputs> googleAuth(GoogleAuthInput params) {
@@ -28,7 +26,7 @@ class RepositoryImpl implements Repository {
 
   @override
   Future<bool> deleteAll() {
-   return localDataSource.deleteAll();
+    return localDataSource.deleteAll();
   }
 
   @override
@@ -38,8 +36,26 @@ class RepositoryImpl implements Repository {
 
   @override
   Future<UserCredential?> signUpWithEmail(String email, String password) {
-   return firebaseAuthService.signUpWithEmail(email, password);
+    return firebaseAuthService.signUpWithEmail(email, password);
   }
 
+  @override
+  Future<String> createFundraiserDraft(Fundraiser draft) {
+    return fireStoreService.createFundraiserDraft(draft);
+  }
 
+  @override
+  Future<Fundraiser> getFundraiserById(String id) {
+    return fireStoreService.getFundraiserById(id);
+  }
+
+  @override
+  Future<void> updateFundraiser(Fundraiser updated) {
+    return fireStoreService.updateFundraiser(updated);
+  }
+
+  @override
+  Stream<List<Fundraiser>> watchMyFundraisers() {
+    return fireStoreService.watchMyFundraisers();
+  }
 }

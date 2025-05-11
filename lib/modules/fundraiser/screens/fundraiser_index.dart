@@ -58,7 +58,7 @@ class _FundraiserIndexState extends State<FundraiserIndex> {
               SizedBox(height: 26.h),
               PagesBar(activeSegments: (state.currentIndex + 1), totalSegments: 3),
               SizedBox(height: 11.h),
-              Center(child: TextWidget('Step ${state.currentIndex +  1} of 3', color: R.palette.lightGrey, size: 14.sp, weight: FontWeight.w500)),
+              Center(child: TextWidget('Step ${state.currentIndex + 1} of 3', color: R.palette.lightGrey, size: 14.sp, weight: FontWeight.w500)),
               SizedBox(height: 22.h),
               Expanded(
                 child: PageView(
@@ -66,7 +66,12 @@ class _FundraiserIndexState extends State<FundraiserIndex> {
                   onPageChanged: (index) {
                     context.read<FundraiserBloc>().add(FundraiserPageChangeEvent(currentIndex: index));
                   },
-                  children: const [FirstFundraiserDetail(), SecondFundraiserDetail(), FundraiserStep3()],
+                  children: const [
+                    FirstFundraiserDetail(),
+                    SecondFundraiserDetail(),
+                    FundraiserStep3(),
+                    //
+                  ],
                 ),
               ),
               SizedBox(
@@ -76,57 +81,50 @@ class _FundraiserIndexState extends State<FundraiserIndex> {
                   switchInCurve: Curves.easeOutBack,
                   switchOutCurve: Curves.easeIn,
                   transitionBuilder: (child, animation) {
-                    return FadeTransition(
-                      opacity: animation,
-                      child: ScaleTransition(scale: animation, child: child),
-                    );
+                    return FadeTransition(opacity: animation, child: ScaleTransition(scale: animation, child: child));
                   },
-                  child: state.currentIndex == 2
-                      ? Center(
-                    key: const ValueKey('previewBtn'),
-                    child: GestureDetector(
-                      onTap: (){
-                        sl<Navigation>().push(path: Routes.previewFundraiser);
-                      },
-                      child: Container(
-                        height: 48.h,
-                        width: 294.w,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16.r),
-                          color: R.palette.primary,
-                        ),
-                        child: Center(
-                          child: Text(
-                            'preview fundraiser',
-                            style: Theme.of(context).textTheme.displayLarge!.copyWith(
-                              color: R.palette.white,
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w500,
-                              fontFamily: 'Poppins',
+                  child:
+                      state.currentIndex == 2
+                          ? Center(
+                            key: const ValueKey('previewBtn'),
+                            child: GestureDetector(
+                              onTap: () {
+                                sl<Navigation>().push(path: Routes.previewFundraiser);
+                              },
+                              child: Container(
+                                height: 48.h,
+                                width: 294.w,
+                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(16.r), color: R.palette.primary),
+                                child: Center(
+                                  child: Text(
+                                    'preview fundraiser',
+                                    style: Theme.of(context).textTheme.displayLarge!.copyWith(
+                                      color: R.palette.white,
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: 'Poppins',
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
+                          : Center(
+                            key: const ValueKey('nextCircle'),
+                            child: GestureDetector(
+                              onTap: () {
+                                if (state.currentIndex < pagesCount) {
+                                  context.read<FundraiserBloc>().add(FundraiserPageChangeEvent(currentIndex: state.currentIndex + 1));
+                                }
+                              },
+                              child: Container(
+                                height: 63.h,
+                                width: 63.w,
+                                decoration: BoxDecoration(shape: BoxShape.circle, color: R.palette.primary),
+                                child: Center(child: SvgPicture.asset(R.assets.graphics.svgIcons.nextArrow)),
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                    ),
-                  )
-                      : Center(
-                    key: const ValueKey('nextCircle'),
-                    child: GestureDetector(
-                      onTap: () {
-                        if (state.currentIndex < pagesCount) {
-                          context
-                              .read<FundraiserBloc>()
-                              .add(FundraiserPageChangeEvent(currentIndex: state.currentIndex + 1));
-                        }
-                      },
-                      child: Container(
-                        height: 63.h,
-                        width: 63.w,
-                        decoration: BoxDecoration(shape: BoxShape.circle, color: R.palette.primary),
-                        child: Center(child: SvgPicture.asset(R.assets.graphics.svgIcons.nextArrow)),
-                      ),
-                    ),
-                  ),
                 ),
               ),
               SizedBox(height: 56.h),

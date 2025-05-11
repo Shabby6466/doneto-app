@@ -1,3 +1,6 @@
+import 'package:doneto/core/di/di.dart';
+import 'package:doneto/core/utils/go_router/routes_constant.dart';
+import 'package:doneto/core/utils/go_router/routes_navigation.dart';
 import 'package:doneto/core/utils/resource/r.dart';
 import 'package:doneto/core/widgets/base_widget.dart';
 import 'package:doneto/modules/fundraiser/widgets/doneto_button.dart';
@@ -43,9 +46,14 @@ class _SendIndexState extends State<SendIndex> {
           ),
           SizedBox(height: 18.h),
           Padding(
-            padding:  EdgeInsets.only(left: 18.w,right: 190.w),
-            child: DonetoButton(title: 'Start a fundraiser', onTap: () {}),
-          )
+            padding: EdgeInsets.only(left: 18.w, right: 190.w),
+            child: DonetoButton(
+              title: 'Start a fundraiser',
+              onTap: () {
+                sl<Navigation>().push(path: Routes.fundraisingIndex);
+              },
+            ),
+          ),
         ],
       ),
     );

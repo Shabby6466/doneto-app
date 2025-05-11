@@ -9,11 +9,13 @@ class TextWidget extends StatelessWidget {
     this.color,
     this.textAlign,
     this.decoration,
+    this.maxLines,
     this.decorationColor,
     this.height,
   });
 
   final String text;
+  final int? maxLines;
   final double? size, height;
   final FontWeight? weight;
   final Color? color;
@@ -25,14 +27,15 @@ class TextWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
+      maxLines: maxLines ?? 1,
       style: Theme.of(context).textTheme.titleMedium?.copyWith(
-            fontSize: size,
-            fontWeight: weight,
-            color: color ?? Theme.of(context).textTheme.titleMedium?.color,
-            decoration: decoration,
-            decorationColor: decorationColor,
-            height: height,
-          ),
+        fontSize: size,
+        fontWeight: weight,
+        color: color ?? Theme.of(context).textTheme.titleMedium?.color,
+        decoration: decoration,
+        decorationColor: decorationColor,
+        height: height,
+      ),
       textAlign: textAlign,
     );
   }

@@ -22,9 +22,9 @@ class _FundraisingIndexState extends State<FundraisingIndex> {
   Widget build(BuildContext context) {
     return BlocConsumer<FundraiserBloc, FundraiserState>(
       listener: (context, state) {
-        if (state.beneficiaryType != BeneficiaryType.none) {
-          sl<Navigation>().push(path: Routes.fundraisingDetails);
-        }
+        // if (state.beneficiaryType != BeneficiaryType.none) {
+        //   sl<Navigation>().push(path: Routes.fundraisingDetails);
+        // }
       },
       builder: (context, state) {
         return Background(
@@ -52,12 +52,7 @@ class _FundraisingIndexState extends State<FundraisingIndex> {
               SizedBox(height: 48.h),
               FundraiserContainers(
                 onTap: () {
-                  context.read<FundraiserBloc>().add(
-                    BeneficiaryChangeStateEvent(
-                      beneficiaryName: BeneficiaryType.yourself,
-                      //
-                    ),
-                  );
+                  sl<Navigation>().push(path: Routes.fundraisingDetails);
                 },
                 svgImage: R.assets.graphics.svgIcons.yourselfIcon,
                 title: 'yourself',
@@ -65,28 +60,14 @@ class _FundraisingIndexState extends State<FundraisingIndex> {
               ),
               SizedBox(height: 40.h),
               FundraiserContainers(
-                onTap: () {
-                  context.read<FundraiserBloc>().add(
-                    BeneficiaryChangeStateEvent(
-                      beneficiaryName: BeneficiaryType.someoneElse,
-                      //
-                    ),
-                  );
-                },
+                onTap: () {},
                 svgImage: R.assets.graphics.svgIcons.someoneElse,
                 title: 'someone else',
                 //
               ),
               SizedBox(height: 40.h),
               FundraiserContainers(
-                onTap: () {
-                  context.read<FundraiserBloc>().add(
-                    BeneficiaryChangeStateEvent(
-                      beneficiaryName: BeneficiaryType.charity,
-                      //
-                    ),
-                  );
-                },
+                onTap: () {},
                 svgImage: R.assets.graphics.svgIcons.charity,
                 title: 'charity',
                 //

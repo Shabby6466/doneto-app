@@ -2,6 +2,7 @@ import 'package:doneto/core/utils/resource/r.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+
 class DonationCardsGrid extends StatelessWidget {
   const DonationCardsGrid({super.key});
 
@@ -16,24 +17,18 @@ class DonationCardsGrid extends StatelessWidget {
             children: [
               Text(
                 'Islamabad, PK',
-                style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                  fontSize: 24.sp,
-                  fontWeight: FontWeight.w800,
-                  height: 1.3.h,
-                  color: R.palette.blackColor,
-                ),
+                style: Theme.of(
+                  context,
+                ).textTheme.titleLarge!.copyWith(fontSize: 24.sp, fontWeight: FontWeight.w800, height: 1.3.h, color: R.palette.blackColor),
               ),
               const Spacer(),
               SvgPicture.asset(R.assets.graphics.svgIcons.gpsIcon),
               SizedBox(width: 3.5.w),
               Text(
                 '2678',
-                style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                  fontSize: 13.sp,
-                  fontWeight: FontWeight.w500,
-                  height: 1.2.h,
-                  color: R.palette.primary,
-                ),
+                style: Theme.of(
+                  context,
+                ).textTheme.titleLarge!.copyWith(fontSize: 13.sp, fontWeight: FontWeight.w500, height: 1.2.h, color: R.palette.primary),
               ),
             ],
           ),
@@ -44,19 +39,13 @@ class DonationCardsGrid extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 16.w),
           child: GridView.count(
             shrinkWrap: true,
-            physics:const NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             crossAxisCount: 2,
             crossAxisSpacing: 12.w,
             mainAxisSpacing: 12.h,
             childAspectRatio: 181 / 194,
             children: List.generate(4, (i) {
-              return _buildDonationCard(
-                'Help fizza to go to a school',
-                R.assets.graphics.pngIcons.img,
-                '12 mins',
-                '23,454',
-                context,
-              );
+              return _buildDonationCard('Help fizza to go to a school', R.assets.graphics.pngIcons.img, '12 mins', '23,454', context);
             }),
           ),
         ),
@@ -64,7 +53,6 @@ class DonationCardsGrid extends StatelessWidget {
     );
   }
 }
-
 
 Widget _buildDonationCard(String title, String image, String timeLeft, String donationAmount, BuildContext context) {
   return Stack(
@@ -116,8 +104,9 @@ Widget _buildDonationCard(String title, String image, String timeLeft, String do
             SizedBox(height: 4.h),
             ClipRRect(
               borderRadius: BorderRadius.circular(4),
-              child: const Expanded(
-                child: LinearProgressIndicator(
+              child: SizedBox(
+                height: 8.h,
+                child: const LinearProgressIndicator(
                   minHeight: 8,
                   value: 0.75,
                   backgroundColor: Color(0xFFE0E0E0),
