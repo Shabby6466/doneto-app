@@ -32,7 +32,7 @@ abstract class Repository {
 
   Future<Fundraiser> getFundraiserById(String id);
 
-  Stream<List<Fundraiser>> watchMyFundraisers();
+  Stream<List<Fundraiser>> watchMyFundraisers(NoParams params);
 
   Future<void> saveUserProfile(UserProfile draft);
 

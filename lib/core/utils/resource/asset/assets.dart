@@ -67,6 +67,8 @@ class SvgAssets {
 
   String get jazzcash => 'assets/svg/jazzcash.svg';
 
+  String get instaLogo => 'assets/svg/insta_logo.svg';
+
   String get nothingFound => 'assets/svg/nothing_found.svg';
 
   String get organizerGrey => 'assets/svg/organizer_grey.svg';

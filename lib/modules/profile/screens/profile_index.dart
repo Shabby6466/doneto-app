@@ -1,4 +1,5 @@
 import 'package:doneto/core/di/di.dart';
+import 'package:doneto/core/services/usecases/usecase.dart';
 import 'package:doneto/core/utils/go_router/routes_constant.dart';
 import 'package:doneto/core/utils/go_router/routes_navigation.dart';
 import 'package:doneto/core/utils/resource/r.dart';
@@ -6,11 +7,13 @@ import 'package:doneto/core/utils/utitily_methods/utils.dart';
 import 'package:doneto/core/widgets/base_widget.dart';
 import 'package:doneto/core/widgets/cache_network_image.dart';
 import 'package:doneto/modules/auth/bloc/auth_bloc.dart';
+import 'package:doneto/modules/fundraiser/usecases/get_my_fundraisers_useCase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
+import 'package:doneto/core/widgets/fundraiser_model.dart';
+import 'package:logger/logger.dart';
 import '../../fundraiser/widgets/doneto_button.dart';
 
 class ProfileIndex extends StatefulWidget {
@@ -21,6 +24,11 @@ class ProfileIndex extends StatefulWidget {
 }
 
 class _ProfileIndexState extends State<ProfileIndex> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
@@ -33,6 +41,7 @@ class _ProfileIndexState extends State<ProfileIndex> {
         }
       },
       builder: (context, state) {
+        final stream = sl<GetMyFundraisersUseCase>().calling(NoParams());
         return Background(
           safeAreaTop: true,
           child: SingleChildScrollView(
@@ -97,7 +106,7 @@ class _ProfileIndexState extends State<ProfileIndex> {
                     width: 318.w,
                     alignment: Alignment.center,
                     child: Text(
-                      'Passionate about crisis relif \nhelp the victms of society everyone \ndeserves ,happiness',
+                      'Description',
                       textAlign: TextAlign.center,
                       style: Theme.of(
                         context,
@@ -106,89 +115,52 @@ class _ProfileIndexState extends State<ProfileIndex> {
                   ),
                 ),
                 SizedBox(height: 43.h),
-                Padding(
-                  padding: const EdgeInsets.only(right: 113, left: 115),
-                  child: DonetoButton(
-                    title: 'Share Profile',
-                    onTap: () {
-                      sl<Navigation>().push(path: Routes.fundraisingIndex);
-                    },
-                  ),
-                ),
+                Padding(padding: const EdgeInsets.only(right: 113, left: 115), child: DonetoButton(title: 'Share Profile', onTap: () {})),
                 SizedBox(height: 28.h),
                 Text(
-                  'Fundraisers I support',
+                  'My Fundraisers',
                   textAlign: TextAlign.center,
                   style: Theme.of(
                     context,
                   ).textTheme.labelMedium!.copyWith(fontSize: 20.sp, fontWeight: FontWeight.w600, color: R.palette.blackColor, height: 1.4.h),
                 ),
                 SizedBox(height: 24.h),
+                StreamBuilder<List<Fundraiser>>(
+                  stream: stream,
+                  builder: (context, snapshot) {
+                    switch (snapshot.connectionState) {
+                      case ConnectionState.waiting:
+                        return const Center(child: CircularProgressIndicator());
 
-                /// Horizontal Scrollable List of Fundraisers
-                SizedBox(
-                  height: 100.h,
-                  child: ListView.separated(
-                    separatorBuilder: (context, index) => SizedBox(height: 15.h),
-                    scrollDirection: Axis.vertical,
-                    padding: EdgeInsets.symmetric(horizontal: 16.w),
-                    itemCount: 2,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: EdgeInsets.only(right: 12.w),
-                        child: Container(
-                          height: 78.h,
-                          width: 354.w,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.rectangle,
-                            color: R.palette.secondary2,
-                            borderRadius: BorderRadius.circular(20.r),
-                          ),
-                          child: Row(
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.only(topLeft: Radius.circular(20.r), bottomLeft: Radius.circular(20.r)),
-                                child: Image.asset(R.assets.graphics.pngIcons.bgFlowers, height: 78.h, width: 78.h, fit: BoxFit.cover),
-                              ),
-                              SizedBox(width: 10.w),
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 10),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text('54 supporters', style: Theme.of(context).textTheme.bodySmall),
-                                      Text(
-                                        'Help Fizza go to school',
-                                        style: Theme.of(context).textTheme.labelMedium!.copyWith(fontWeight: FontWeight.bold),
-                                      ),
-                                      SizedBox(height: 8.h),
-                                      const LinearProgressIndicator(
-                                        minHeight: 8,
-                                        value: 0.75,
-                                        backgroundColor: Color(0xFFE0E0E0),
-                                        valueColor: AlwaysStoppedAnimation(Color(0xFF4CAF50)),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                SizedBox(height: 25.h),
+                      case ConnectionState.active:
+                      case ConnectionState.done:
+                        if (snapshot.hasError) {
+                          sl<Logger>().f('My Fundraiser Error | ${snapshot.error}');
+                          return const Center(child: Text("Something went wrong"));
+                        }
 
-                Align(
-                  alignment: Alignment.bottomRight,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text('Show more', style: Theme.of(context).textTheme.labelMedium!.copyWith(color: R.palette.primary)),
-                  ),
+                        final fundraisers = snapshot.data ?? [];
+                        if (fundraisers.isEmpty) {
+                          return const Center(child: Text("No fundraisers yet."));
+                        }
+
+                        return SizedBox(
+                          height: 250.h,
+                          child: ListView.separated(
+                            itemCount: fundraisers.length,
+                            padding: EdgeInsets.symmetric(horizontal: 16.w),
+                            separatorBuilder: (context, index) => SizedBox(height: 15.h),
+                            itemBuilder: (ctx, i) {
+                              final f = fundraisers[i];
+                              return _buildFundraiserContainer(context, f.title, f.photoUrl ?? '');
+                            },
+                          ),
+                        );
+
+                      default:
+                        return const SizedBox.shrink();
+                    }
+                  },
                 ),
 
                 SizedBox(height: 41.h),
@@ -199,11 +171,26 @@ class _ProfileIndexState extends State<ProfileIndex> {
                   ).textTheme.labelMedium!.copyWith(fontSize: 20.sp, fontWeight: FontWeight.w600, color: R.palette.blackColor, height: 1.4.h),
                 ),
                 SizedBox(height: 25.h),
-                Text(
-                  'Instagram',
-                  style: Theme.of(
-                    context,
-                  ).textTheme.labelMedium!.copyWith(fontSize: 11.sp, fontWeight: FontWeight.w400, color: R.palette.blackColor, height: 1.4.h),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10.w),
+                  width: 120.w,
+                  height: 50.h,
+                  decoration: BoxDecoration(color: R.palette.skin, borderRadius: BorderRadius.circular(16.r)),
+                  child: Row(
+                    spacing: 4.w,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SvgPicture.asset(R.assets.graphics.svgIcons.instaLogo, height: 30.h, width: 30.w),
+                      Center(
+                        child: Text(
+                          'Instagram',
+                          style: Theme.of(
+                            context,
+                          ).textTheme.labelMedium!.copyWith(fontSize: 11.sp, fontWeight: FontWeight.w400, color: R.palette.blackColor, height: 1.4.h),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 SizedBox(height: 59.h),
                 Container(
@@ -243,6 +230,7 @@ class _ProfileIndexState extends State<ProfileIndex> {
                     ],
                   ),
                 ),
+                SizedBox(height: 30.h),
               ],
             ),
           ),
@@ -250,4 +238,43 @@ class _ProfileIndexState extends State<ProfileIndex> {
       },
     );
   }
+}
+
+Widget _buildFundraiserContainer(BuildContext context, String title, String image) {
+  return Padding(
+    padding: EdgeInsets.only(right: 12.w),
+    child: Container(
+      height: 78.h,
+      width: 354.w,
+      decoration: BoxDecoration(shape: BoxShape.rectangle, color: R.palette.secondary2, borderRadius: BorderRadius.circular(20.r)),
+      child: Row(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.only(topLeft: Radius.circular(20.r), bottomLeft: Radius.circular(20.r)),
+            child: Image.network(image, height: 78.h, width: 78.h, fit: BoxFit.fill),
+          ),
+          SizedBox(width: 10.w),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(title, style: Theme.of(context).textTheme.labelMedium!.copyWith(fontWeight: FontWeight.bold)),
+                  SizedBox(height: 8.h),
+                  const LinearProgressIndicator(
+                    minHeight: 8,
+                    value: 0.75,
+                    backgroundColor: Color(0xFFE0E0E0),
+                    valueColor: AlwaysStoppedAnimation(Color(0xFF4CAF50)),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
 }

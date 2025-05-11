@@ -55,7 +55,7 @@ class RepositoryImpl implements Repository {
   }
 
   @override
-  Stream<List<Fundraiser>> watchMyFundraisers() {
+  Stream<List<Fundraiser>> watchMyFundraisers(NoParams params) {
     return fireStoreService.watchMyFundraisers();
   }
 

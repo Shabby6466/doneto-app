@@ -68,9 +68,8 @@ class FirebaseServiceImp implements FireStoreService {
   @override
   Stream<List<Fundraiser>> watchMyFundraisers() {
     final uid = _auth.currentUser!.uid;
-    return _userCol
-        .doc(uid)
-        .collection('fundraisers')
+    return _fundCol
+        .where('ownerId', isEqualTo: uid)
         .orderBy('createdAt', descending: true)
         .snapshots()
         .map((qs) => qs.docs.map(Fundraiser.fromDoc).toList());

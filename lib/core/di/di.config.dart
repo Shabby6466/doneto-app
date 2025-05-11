@@ -37,6 +37,8 @@ import 'package:doneto/modules/auth/usecase/google_auth_usecase.dart' as _i730;
 import 'package:doneto/modules/auth/usecase/save_token_usecase.dart' as _i610;
 import 'package:doneto/modules/fundraiser/usecases/create_fundraiser_draft_usecase.dart'
     as _i286;
+import 'package:doneto/modules/fundraiser/usecases/get_my_fundraisers_useCase.dart'
+    as _i1048;
 import 'package:doneto/modules/fundraiser/usecases/save_user_profile_usecase.dart'
     as _i799;
 import 'package:firebase_auth/firebase_auth.dart' as _i59;
@@ -150,6 +152,11 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.singletonAsync<_i888.GetUserProfileUseCase>(
       () async => _i888.GetUserProfileUseCase(
+        repository: await getAsync<_i578.Repository>(),
+      ),
+    );
+    gh.singletonAsync<_i1048.GetMyFundraisersUseCase>(
+      () async => _i1048.GetMyFundraisersUseCase(
         repository: await getAsync<_i578.Repository>(),
       ),
     );
