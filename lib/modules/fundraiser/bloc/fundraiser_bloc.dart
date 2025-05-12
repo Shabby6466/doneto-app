@@ -48,16 +48,6 @@ class FundraiserBloc extends Bloc<FundraiserEvent, FundraiserState> {
     emit(getBlocState(email: event.email));
   }
 
-  // Future<void> _getMyFundraisers(GetMyFundraiserEvent event, Emitter<FundraiserState> emit) async {
-  //   try {
-  //     emit(getBlocState(loading: true));
-  //     final res = await getMyFundraisersUseCase.call(NoParams());
-  //     sl<Logger>().f('My Fundraisers | $res');
-  //   } on DefaultFailure catch (e) {
-  //     emit(getBlocState(loading: false, errMsg: e.message));
-  //   }
-  // }
-
   Future<void> _saveUserProfile(CreateUserProfileEvent event, Emitter<FundraiserState> emit) async {
     try {
       final userId = sl<FirebaseAuth>().currentUser;
@@ -110,8 +100,10 @@ class FundraiserBloc extends Bloc<FundraiserEvent, FundraiserState> {
         Fundraiser(
           id: '',
           ownerId: user!.uid,
+          supporters: 0,
           type: FundraiserType.charity,
-          targetAmount: 12000,
+          receivedAmount: 0,
+          targetAmount: double.tryParse(state.amount) ?? 0.0,
           location: state.country,
           category: state.category,
           photoUrl: state.imageUrl,

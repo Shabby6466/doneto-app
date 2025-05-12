@@ -1,18 +1,20 @@
 import 'package:doneto/core/utils/resource/r.dart';
+import 'package:doneto/modules/home/bloc/home_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class CustomSearchBar extends StatefulWidget {
-  const CustomSearchBar({super.key});
+  final TextEditingController searchController;
+
+  const CustomSearchBar({super.key, required this.searchController});
 
   @override
   State<CustomSearchBar> createState() => _CustomSearchBarState();
 }
 
 class _CustomSearchBarState extends State<CustomSearchBar> {
-  final TextEditingController _searchController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -27,7 +29,14 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
             SizedBox(width: 10.w),
             Expanded(
               child: TextFormField(
-                controller: _searchController,
+                controller: widget.searchController,
+                onChanged: (e) {
+                  if (e.isEmpty) {
+                    context.read<HomeBloc>().add(StopSearchingEvent());
+                  } else if (e.isNotEmpty) {
+                    context.read<HomeBloc>().add(SearchingEvent());
+                  }
+                },
                 decoration: InputDecoration(
                   hintText: 'Search fundraisers',
                   hintStyle: Theme.of(context).textTheme.labelLarge!.copyWith(

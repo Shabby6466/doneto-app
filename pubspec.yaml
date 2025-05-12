@@ -77,6 +77,7 @@ dependencies:
   path: ^1.9.1
   firebase_storage: ^12.4.5
   cloudinary_public: ^0.23.1
+  swipe_deck: ^1.1.0
 
 dev_dependencies:
   flutter_test:

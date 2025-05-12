@@ -60,6 +60,11 @@ class RepositoryImpl implements Repository {
   }
 
   @override
+  Stream<List<Fundraiser>> watchAllFundraisers(NoParams params) {
+    return fireStoreService.watchAllFundraisers();
+  }
+
+  @override
   Future<UserProfile> getUserProfile(NoParams params) {
     return fireStoreService.getUserProfile();
   }

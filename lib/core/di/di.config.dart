@@ -41,6 +41,8 @@ import 'package:doneto/modules/fundraiser/usecases/get_my_fundraisers_useCase.da
     as _i1048;
 import 'package:doneto/modules/fundraiser/usecases/save_user_profile_usecase.dart'
     as _i799;
+import 'package:doneto/modules/fundraiser/usecases/watch_all_fundraisers.dart'
+    as _i655;
 import 'package:firebase_auth/firebase_auth.dart' as _i59;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:google_sign_in/google_sign_in.dart' as _i116;
@@ -126,6 +128,11 @@ extension GetItInjectableX on _i174.GetIt {
         repository: await getAsync<_i578.Repository>(),
       ),
     );
+    gh.singletonAsync<_i888.GetUserProfileUseCase>(
+      () async => _i888.GetUserProfileUseCase(
+        repository: await getAsync<_i578.Repository>(),
+      ),
+    );
     gh.singletonAsync<_i694.DeleteTokenUseCase>(
       () async => _i694.DeleteTokenUseCase(
         repository: await getAsync<_i578.Repository>(),
@@ -140,23 +147,23 @@ extension GetItInjectableX on _i174.GetIt {
       () async =>
           _i398.GetTokenUseCase(repository: await getAsync<_i578.Repository>()),
     );
-    gh.singletonAsync<_i286.CreateFundraiserDraftUseCase>(
-      () async => _i286.CreateFundraiserDraftUseCase(
-        repository: await getAsync<_i578.Repository>(),
-      ),
-    );
     gh.singletonAsync<_i799.SaveUserProfileUsecase>(
       () async => _i799.SaveUserProfileUsecase(
         repository: await getAsync<_i578.Repository>(),
       ),
     );
-    gh.singletonAsync<_i888.GetUserProfileUseCase>(
-      () async => _i888.GetUserProfileUseCase(
+    gh.singletonAsync<_i1048.GetMyFundraisersUseCase>(
+      () async => _i1048.GetMyFundraisersUseCase(
         repository: await getAsync<_i578.Repository>(),
       ),
     );
-    gh.singletonAsync<_i1048.GetMyFundraisersUseCase>(
-      () async => _i1048.GetMyFundraisersUseCase(
+    gh.singletonAsync<_i286.CreateFundraiserDraftUseCase>(
+      () async => _i286.CreateFundraiserDraftUseCase(
+        repository: await getAsync<_i578.Repository>(),
+      ),
+    );
+    gh.singletonAsync<_i655.WatchAllFundraisersUseCase>(
+      () async => _i655.WatchAllFundraisersUseCase(
         repository: await getAsync<_i578.Repository>(),
       ),
     );

@@ -5,8 +5,10 @@ enum FundraiserType { yourself, someoneElse, charity }
 class Fundraiser {
   final String id;
   final String ownerId;
+  final int supporters;
   final FundraiserType type;
   final double targetAmount;
+  final double receivedAmount;
   final String category;
   final String? location;
   final String title;
@@ -16,9 +18,11 @@ class Fundraiser {
 
   Fundraiser({
     required this.id,
+    required this.supporters,
     required this.ownerId,
     required this.type,
     required this.targetAmount,
+    required this.receivedAmount,
     required this.category,
     this.location,
     required this.title,
@@ -29,8 +33,10 @@ class Fundraiser {
 
   Map<String, dynamic> toMap() => {
     'ownerId': ownerId,
+    'supporters': supporters,
     'type': type.name,
     'targetAmount': targetAmount,
+    'receivedAmount': receivedAmount,
     'category': category,
     'location': location,
     'title': title,
@@ -41,15 +47,25 @@ class Fundraiser {
 
   factory Fundraiser.fromDoc(DocumentSnapshot doc) {
     final d = doc.data()! as Map<String, dynamic>;
+    // print(
+    //   '[fromDoc] '
+    //   '${doc.id} → '
+    //   'supp=${d['supporters']}(${d['supporters']?.runtimeType}), '
+    //   'tgt=${d['targetAmount']}(${d['targetAmount']?.runtimeType}), '
+    //   'rcv=${d['receivedAmount']}(${d['receivedAmount']?.runtimeType})',
+    // );
+    // // ────────
     return Fundraiser(
       id: doc.id,
-      ownerId: d['ownerId'],
-      type: FundraiserType.values.firstWhere((e) => e.name == (d['type'] as String)),
+      ownerId: d['ownerId'] as String,
+      supporters: (d['supporters'] as num).toInt(),
+      type: FundraiserType.values.firstWhere((e) => e.name == (d['type'] as String), orElse: () => FundraiserType.charity),
       targetAmount: (d['targetAmount'] as num).toDouble(),
-      category: d['category'],
+      receivedAmount: (d['receivedAmount'] as num).toDouble(),
+      category: d['category'] as String,
       location: d['location'] as String?,
-      title: d['title'],
-      description: d['description'],
+      title: d['title'] as String,
+      description: d['description'] as String,
       photoUrl: d['photoUrl'] as String?,
       createdAt: d['createdAt'] as Timestamp,
     );
@@ -71,7 +87,6 @@ class UserProfile {
     required this.email,
     required this.phoneNumber,
     required this.instagramHandle,
-    //
   });
 
   Map<String, dynamic> toMap() => {
@@ -80,7 +95,6 @@ class UserProfile {
     'imageUrl': imageUrl,
     'phoneNumber': phoneNumber,
     'instagramHandle': instagramHandle,
-    //
   };
 
   factory UserProfile.fromDoc(DocumentSnapshot doc) {
