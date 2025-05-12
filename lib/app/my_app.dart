@@ -11,6 +11,7 @@ import 'package:doneto/modules/fundraiser/bloc/fundraiser_bloc.dart';
 import 'package:doneto/modules/fundraiser/usecases/create_fundraiser_draft_usecase.dart';
 import 'package:doneto/modules/fundraiser/usecases/get_my_fundraisers_useCase.dart';
 import 'package:doneto/modules/fundraiser/usecases/save_user_profile_usecase.dart';
+import 'package:doneto/modules/home/bloc/home_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/services.dart';
@@ -63,6 +64,7 @@ class _MyAppState extends State<MyApp> {
               ),
         ),
         BlocProvider<BottomTabBloc>(create: (context) => BottomTabBloc()),
+        BlocProvider<HomeBloc>(create: (context) => HomeBloc()),
         BlocProvider<AuthBloc>(
           create:
               (context) => AuthBloc(
