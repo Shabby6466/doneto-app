@@ -257,6 +257,7 @@ Widget _buildFundraiserContainer(
   double raisedAmount,
   //
 ) {
+  final double progress = amount > 0 ? (raisedAmount / amount).clamp(0.0, 1.0) : 0.0;
   return Padding(
     padding: EdgeInsets.only(right: 12.w, left: 12.w),
     child: Container(
@@ -280,7 +281,7 @@ Widget _buildFundraiserContainer(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 5.h),
+                SizedBox(height: 10.h),
                 Text(
                   '$supporters supporters',
                   style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.w600, fontSize: 11.sp),
@@ -294,8 +295,8 @@ Widget _buildFundraiserContainer(
                 SizedBox(height: 5.h),
                 LinearProgressIndicator(
                   minHeight: 5,
-                  value: 0.25,
-                  backgroundColor: R.palette.white,
+                  value: progress,
+                  backgroundColor: R.palette.blackColor.withValues(alpha: 0.06),
                   valueColor: AlwaysStoppedAnimation(R.palette.primary),
                 ),
                 SizedBox(height: 8.h),

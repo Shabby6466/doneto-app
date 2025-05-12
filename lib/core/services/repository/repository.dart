@@ -34,6 +34,8 @@ abstract class Repository {
 
   Stream<List<Fundraiser>> watchMyFundraisers(NoParams params);
 
+  Stream<List<Fundraiser>> watchAllFundraisers(NoParams params);
+
   Future<void> saveUserProfile(UserProfile draft);
 
   Future<UserProfile> getUserProfile(NoParams params);
