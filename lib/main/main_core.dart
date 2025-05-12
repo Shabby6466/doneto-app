@@ -4,6 +4,7 @@
 
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:doneto/app/my_app.dart';
 import 'package:doneto/core/di/di.dart';
 import 'package:doneto/core/utils/base_env.dart';
@@ -22,6 +23,7 @@ void initMainCore({required String enviormentPath}) async {
   await dotenv.load(fileName: enviormentPath);
   MyFirebase firebase = FirebaseImp();
   var result = await firebase.init();
+  await FirebaseFirestore.instance.clearPersistence();
   if (result) {
     Bloc.observer = BlocObservers();
     final mediaData = MediaQueryData.fromView(

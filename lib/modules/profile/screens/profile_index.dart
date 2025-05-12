@@ -59,7 +59,7 @@ class _ProfileIndexState extends State<ProfileIndex> {
                       Image.asset(R.assets.graphics.pngIcons.donetoLogo, width: 182.w),
                       const Spacer(),
                       GestureDetector(
-                        onTap: () {
+                        onTap: () async {
                           context.read<AuthBloc>().add(LogoutEvent());
                         },
                         child: SvgPicture.asset(R.assets.graphics.svgIcons.redCross, width: 35.h),
@@ -152,7 +152,15 @@ class _ProfileIndexState extends State<ProfileIndex> {
                             separatorBuilder: (context, index) => SizedBox(height: 15.h),
                             itemBuilder: (ctx, i) {
                               final f = fundraisers[i];
-                              return _buildFundraiserContainer(context, f.title, f.photoUrl ?? '');
+                              return _buildFundraiserContainer(
+                                context,
+                                f.title,
+                                f.photoUrl ?? '',
+                                f.targetAmount,
+                                f.supporters,
+                                f.receivedAmount,
+                                //
+                              );
                             },
                           ),
                         );
@@ -240,37 +248,76 @@ class _ProfileIndexState extends State<ProfileIndex> {
   }
 }
 
-Widget _buildFundraiserContainer(BuildContext context, String title, String image) {
+Widget _buildFundraiserContainer(
+  BuildContext context,
+  String title,
+  String image,
+  double amount,
+  int supporters,
+  double raisedAmount,
+  //
+) {
   return Padding(
-    padding: EdgeInsets.only(right: 12.w),
+    padding: EdgeInsets.only(right: 12.w, left: 12.w),
     child: Container(
-      height: 78.h,
+      padding: EdgeInsets.only(right: 20.w),
+      height: 85.h,
       width: 354.w,
-      decoration: BoxDecoration(shape: BoxShape.rectangle, color: R.palette.secondary2, borderRadius: BorderRadius.circular(20.r)),
+      decoration: BoxDecoration(shape: BoxShape.rectangle, color: R.palette.secondary, borderRadius: BorderRadius.circular(20.r)),
       child: Row(
         children: [
           ClipRRect(
-            borderRadius: BorderRadius.only(topLeft: Radius.circular(20.r), bottomLeft: Radius.circular(20.r)),
-            child: Image.network(image, height: 78.h, width: 78.h, fit: BoxFit.fill),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20.r),
+              bottomLeft: Radius.circular(20.r),
+              topRight: Radius.circular(20.r),
+              //
+            ),
+            child: Image.network(image, height: 85.h, width: 78.h, fit: BoxFit.fill),
           ),
           SizedBox(width: 10.w),
           Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(title, style: Theme.of(context).textTheme.labelMedium!.copyWith(fontWeight: FontWeight.bold)),
-                  SizedBox(height: 8.h),
-                  const LinearProgressIndicator(
-                    minHeight: 8,
-                    value: 0.75,
-                    backgroundColor: Color(0xFFE0E0E0),
-                    valueColor: AlwaysStoppedAnimation(Color(0xFF4CAF50)),
-                  ),
-                ],
-              ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 5.h),
+                Text(
+                  '$supporters supporters',
+                  style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.w600, fontSize: 11.sp),
+                ),
+                Text(
+                  title,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.labelMedium!.copyWith(fontWeight: FontWeight.w800, fontSize: 15.sp),
+                ),
+                SizedBox(height: 5.h),
+                LinearProgressIndicator(
+                  minHeight: 5,
+                  value: 0.25,
+                  backgroundColor: R.palette.white,
+                  valueColor: AlwaysStoppedAnimation(R.palette.primary),
+                ),
+                SizedBox(height: 8.h),
+                Row(
+                  children: [
+                    Text(
+                      '${raisedAmount.toString()} raised of ${amount.toString()}',
+                      style: Theme.of(context).textTheme.labelMedium!.copyWith(fontWeight: FontWeight.w100, fontSize: 10.sp),
+                    ),
+                    SizedBox(width: 2.w),
+                    Text(
+                      'PKR',
+                      style: Theme.of(context).textTheme.labelMedium!.copyWith(
+                        fontWeight: FontWeight.w100,
+                        fontSize: 10.sp,
+                        color: R.palette.primary,
+                        //
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
         ],
