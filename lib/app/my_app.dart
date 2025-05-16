@@ -11,6 +11,7 @@ import 'package:doneto/modules/fundraiser/bloc/fundraiser_bloc.dart';
 import 'package:doneto/modules/fundraiser/usecases/create_fundraiser_draft_usecase.dart';
 import 'package:doneto/modules/fundraiser/usecases/get_my_fundraisers_useCase.dart';
 import 'package:doneto/modules/fundraiser/usecases/save_user_profile_usecase.dart';
+import 'package:doneto/modules/fundraiser/usecases/watch_all_fundraisers.dart';
 import 'package:doneto/modules/home/bloc/home_bloc.dart';
 import 'package:doneto/modules/home/usecases/get_user_by_id_usecase.dart';
 import 'package:flutter/material.dart';
@@ -69,6 +70,7 @@ class _MyAppState extends State<MyApp> {
           create:
               (context) => HomeBloc(
                 getUserByIdUseCase: sl<GetUserByIdUseCase>(),
+                watchAllFundraisers: sl<WatchAllFundraisersUseCase>(),
                 //
               ),
         ),

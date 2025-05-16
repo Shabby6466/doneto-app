@@ -7,8 +7,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class CustomSearchBar extends StatefulWidget {
   final TextEditingController searchController;
+  final ValueChanged<String>? onChanged;
 
-  const CustomSearchBar({super.key, required this.searchController});
+  const CustomSearchBar({super.key, required this.searchController, this.onChanged});
 
   @override
   State<CustomSearchBar> createState() => _CustomSearchBarState();
@@ -31,6 +32,7 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
               child: TextFormField(
                 controller: widget.searchController,
                 onChanged: (e) {
+                  widget.onChanged!(e);
                   if (e.isEmpty) {
                     context.read<HomeBloc>().add(StopSearchingEvent());
                   } else if (e.isNotEmpty) {

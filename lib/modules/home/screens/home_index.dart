@@ -19,6 +19,12 @@ class _HomeIndexState extends State<HomeIndex> {
   final TextEditingController _searchController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    context.read<HomeBloc>().add(LoadFundraisersEvent());
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocConsumer<HomeBloc, HomeState>(
       listener: (context, state) {},
@@ -37,7 +43,18 @@ class _HomeIndexState extends State<HomeIndex> {
                     //
                   ),
                 ),
-                CustomSearchBar(searchController: _searchController),
+                CustomSearchBar(
+                  searchController: _searchController,
+                  onChanged: (e) {
+                    if (e.trim().isEmpty) {
+                      context.read<HomeBloc>().add(ClearSearchEvent());
+                      context.read<HomeBloc>().add(LoadFundraisersEvent());
+                    } else {
+                      context.read<HomeBloc>().add(SearchFundraisersEvent(query: e.trim()));
+                    }
+                  },
+                  //
+                ),
                 if (state is SearchingState) ...[
                   const HomeSearchScreen(),
                   //

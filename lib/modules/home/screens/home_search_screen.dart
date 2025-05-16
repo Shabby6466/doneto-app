@@ -1,133 +1,56 @@
-import 'package:doneto/core/di/di.dart';
-import 'package:doneto/core/services/usecases/usecase.dart';
 import 'package:doneto/core/utils/go_router/routes_constant.dart';
 import 'package:doneto/core/utils/go_router/routes_navigation.dart';
 import 'package:doneto/core/utils/resource/r.dart';
-import 'package:doneto/core/widgets/fundraiser_model.dart';
-import 'package:doneto/modules/fundraiser/usecases/watch_all_fundraisers.dart';
+import 'package:doneto/modules/home/bloc/home_bloc.dart';
 import 'package:doneto/modules/home/widgets/rounded_cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:logger/logger.dart';
 
-class HomeSearchScreen extends StatefulWidget {
+class HomeSearchScreen extends StatelessWidget {
   const HomeSearchScreen({super.key});
 
   @override
-  State<HomeSearchScreen> createState() => _HomeSearchScreenState();
-}
-
-class _HomeSearchScreenState extends State<HomeSearchScreen> {
-  final stream = sl<WatchAllFundraisersUseCase>().calling(NoParams());
-
-  @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(height: 22.h),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.w),
-          child: StreamBuilder<List<Fundraiser>>(
-            stream: stream,
-            builder: (context, snapshot) {
-              final total = snapshot.data?.length ?? 0;
-              switch (snapshot.connectionState) {
-                case ConnectionState.waiting:
-                  return const Center(child: CircularProgressIndicator());
-                case ConnectionState.active:
-                case ConnectionState.done:
-                  if (snapshot.hasError) {
-                    sl<Logger>().f('Error loading fundraisers ${snapshot.error}');
-                    return const Center(child: Text("Something went wrong"));
-                  }
-                  final list = snapshot.data ?? [];
-                  if (list.isEmpty) {
-                    return const Center(child: Text("No fundraisers available."));
-                  }
-                  return Padding(
-                    padding: EdgeInsets.only(left: 8.w, right: 10.w),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(left: 8.w, right: 10.w),
-                          child: Row(
-                            children: [
-                              Text(
-                                'Islamabad, PK',
-                                style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                                  fontSize: 24.sp,
-                                  fontWeight: FontWeight.w800,
-                                  height: 1.3.h,
-                                  color: R.palette.blackColor,
-                                ),
-                              ),
-                              const Spacer(),
-                              SizedBox(width: 3.5.w),
-                              Text(
-                                total.toString(),
-                                style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                                  fontSize: 13.sp,
-                                  fontWeight: FontWeight.w500,
-                                  height: 1.2.h,
-                                  color: R.palette.primary,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 16.h),
-                        GridView.builder(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: list.length,
-                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 1,
-                            mainAxisSpacing: 12.h,
-                            childAspectRatio: 181 / 150,
-                          ),
-                          itemBuilder: (ctx, i) {
-                            final f = list[i];
-                            final title = f.title;
-                            final imageUrl = f.photoUrl ?? '';
-                            final timeLeft = '12 min';
-                            final double raised = f.receivedAmount;
-                            final double totalAmount = f.targetAmount;
-                            return _buildFundraiserSearchContainer(
-                              context,
-                              title,
-                              imageUrl,
-                              timeLeft,
-                              raised,
-                              totalAmount,
-                              () {
-                                sl<Navigation>().pushNamedWithExtra(
-                                  path: Routes.previewFundraiser,
-                                  navigationData: PreviewFundraiserNavigationData(
-                                    fundraiserId: f.id,
-                                    fundraiserTitle: title,
-                                    fundraiserDescription: f.description,
-                                    imageUrl: imageUrl,
-                                    owner: f.ownerId,
-                                    raisedAmount: raised.toString(),
-                                    donationsGoal: totalAmount.toString(),
-                                  ),
-                                );
-                              },
-                              //
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                  );
-                default:
-                  return const SizedBox.shrink();
-              }
+    return BlocBuilder<HomeBloc, HomeState>(
+      buildWhen: (prev, cur) => prev.filteredFundraisers != cur.filteredFundraisers || prev.loading != cur.loading,
+      builder: (context, state) {
+        if (state.loading) {
+          return SizedBox(height: 500.h, child: const Center(child: CircularProgressIndicator()));
+        }
+
+        final results = state.filteredFundraisers;
+        if (results.isEmpty) {
+          return SizedBox(height: 500.h, child: const Center(child: Text("No fundraisers found.")));
+        }
+
+        return Padding(
+          padding: EdgeInsets.only(left: 16.w, right: 16.w, top: 16.h),
+          child: GridView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: results.length,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 1, mainAxisSpacing: 12.h, childAspectRatio: 181 / 150),
+            itemBuilder: (ctx, i) {
+              final f = results[i];
+              return _buildFundraiserSearchContainer(context, f.title, f.photoUrl ?? '', '12 min', f.receivedAmount, f.targetAmount, () {
+                context.read<Navigation>().pushNamedWithExtra(
+                  path: Routes.previewFundraiser,
+                  navigationData: PreviewFundraiserNavigationData(
+                    fundraiserId: f.id,
+                    fundraiserTitle: f.title,
+                    fundraiserDescription: f.description,
+                    imageUrl: f.photoUrl ?? '',
+                    owner: f.ownerId,
+                    raisedAmount: f.receivedAmount.toString(),
+                    donationsGoal: f.targetAmount.toString(),
+                  ),
+                );
+              });
             },
           ),
-        ),
-      ],
+        );
+      },
     );
   }
 }
