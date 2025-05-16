@@ -45,6 +45,8 @@ class SvgAssets {
 
   String get charity => 'assets/svg/charity.svg';
 
+  String get dropDownArrow => 'assets/svg/down_arrow.svg';
+
   String get easypaisa => 'assets/svg/easypaisa.svg';
 
   String get exploreIcon => 'assets/svg/explore_icon.svg';

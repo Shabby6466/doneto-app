@@ -43,7 +43,7 @@ class UnderlineTextField extends StatelessWidget {
       onChanged: (e) => onChange(e),
       decoration: InputDecoration(
         hintText: hintText,
-        hintStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: Colors.grey[500]),
+        hintStyle: Theme.of(context).textTheme.labelMedium!.copyWith(fontSize: 16, fontWeight: FontWeight.w400, color: Colors.grey[500]),
         // the grey underline when unfocused
         enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.grey[300]!)),
         // the green underline when focused
