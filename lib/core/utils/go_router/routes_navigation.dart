@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:doneto/core/utils/go_router/app_routes.dart';
 import 'package:injectable/injectable.dart';
 
-
 abstract class Navigation {
   // this method is used to move from one route to another without saving prev state of route stack
   bool go(String path);
@@ -62,10 +61,7 @@ class NavigationImpl implements Navigation {
 
   @override
   bool pushNamed({required path, required navigationData}) {
-    AppRouter.rootNavigatorKey.currentContext!.pushNamed(
-      path,
-      queryParameters: navigationData.toJson(),
-    );
+    AppRouter.rootNavigatorKey.currentContext!.pushNamed(path, queryParameters: navigationData.toJson());
     return true;
   }
 
@@ -164,4 +160,29 @@ class NavigationObserver extends NavigatorObserver {
 
 abstract class NavigationData extends Object {
   Map<String, dynamic> toJson();
+}
+
+class PreviewFundraiserNavigationData extends NavigationData {
+  final String fundraiserId;
+  final String fundraiserTitle;
+  final String fundraiserDescription;
+  final String imageUrl;
+  final String donationsGoal;
+  final String raisedAmount;
+  final String owner;
+
+  PreviewFundraiserNavigationData({
+    required this.fundraiserId,
+    required this.fundraiserTitle,
+    required this.fundraiserDescription,
+    required this.imageUrl,
+    required this.donationsGoal,
+    required this.raisedAmount,
+    required this.owner,
+  });
+
+  @override
+  Map<String, dynamic> toJson() {
+    throw UnimplementedError();
+  }
 }

@@ -1,5 +1,7 @@
 import 'package:doneto/core/di/di.dart';
 import 'package:doneto/core/services/usecases/usecase.dart';
+import 'package:doneto/core/utils/go_router/routes_constant.dart';
+import 'package:doneto/core/utils/go_router/routes_navigation.dart';
 import 'package:doneto/core/utils/resource/r.dart';
 import 'package:doneto/core/widgets/fundraiser_model.dart';
 import 'package:doneto/modules/fundraiser/usecases/watch_all_fundraisers.dart';
@@ -92,6 +94,20 @@ class _DonationCardsGridState extends State<DonationCardsGrid> {
                             raised,
                             totalAmount,
                             context,
+                            () {
+                              sl<Navigation>().pushNamedWithExtra(
+                                path: Routes.previewFundraiser,
+                                navigationData: PreviewFundraiserNavigationData(
+                                  fundraiserTitle: title,
+                                  imageUrl: imageUrl,
+                                  fundraiserId: f.id,
+                                  raisedAmount: raised.toString(),
+                                  donationsGoal: totalAmount.toString(),
+                                  owner: f.ownerId,
+                                  fundraiserDescription: f.description,
+                                ),
+                              );
+                            },
                             //
                           );
                         },
@@ -116,41 +132,83 @@ Widget _buildDonationCard(
   double raised,
   double totalAmount,
   BuildContext context,
+  final VoidCallback onTap,
   //
 ) {
   final double progress = totalAmount > 0 ? (raised / totalAmount).clamp(0.0, 1.0) : 0.0;
-  return Padding(
-    padding:  EdgeInsets.only(bottom: 15.h),
-    child: SizedBox(
-      child: Stack(
-        children: [
-          Container(
-            padding: EdgeInsets.only(left: 7.w, right: 17.w),
-            height: 194.h,
-            width: 181.w,
-            color: R.palette.secondary,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Spacer(),
-                Text(
-                  title,
-                  maxLines: 2,
-                  textAlign: TextAlign.start,
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    fontSize: 15.sp,
-                    fontWeight: FontWeight.w700,
-                    height: 1.3.h,
-                    color: R.palette.blackColor,
-                    //
+  return GestureDetector(
+    onTap: onTap,
+    child: Padding(
+      padding: EdgeInsets.only(bottom: 15.h),
+      child: SizedBox(
+        child: Stack(
+          children: [
+            Container(
+              padding: EdgeInsets.only(left: 7.w, right: 17.w),
+              height: 194.h,
+              width: 181.w,
+              color: R.palette.secondary,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Spacer(),
+                  Text(
+                    title,
+                    maxLines: 2,
+                    textAlign: TextAlign.start,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                      fontSize: 15.sp,
+                      fontWeight: FontWeight.w700,
+                      height: 1.3.h,
+                      color: R.palette.blackColor,
+                      //
+                    ),
                   ),
-                ),
-                SizedBox(height: 17.h),
-                Row(
-                  children: [
-                    Text(
-                      '${raised.toStringAsFixed(0)}  raised of ${totalAmount.toStringAsFixed(0)}',
+                  SizedBox(height: 17.h),
+                  Row(
+                    children: [
+                      Text(
+                        '${raised.toStringAsFixed(0)}  raised of ${totalAmount.toStringAsFixed(0)}',
+                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                          fontSize: 10.sp,
+                          fontWeight: FontWeight.w500,
+                          height: 1.3.h,
+                          color: R.palette.blackColor,
+                          //
+                        ),
+                      ),
+                      SizedBox(width: 3.w),
+                      Text(
+                        'PKR',
+                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                          fontSize: 10.sp,
+                          fontWeight: FontWeight.w500,
+                          height: 1.3.h,
+                          color: R.palette.primary,
+                          //
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 4.h),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(4),
+                    child: SizedBox(
+                      height: 8.h,
+                      child: LinearProgressIndicator(
+                        minHeight: 8,
+                        value: progress,
+                        backgroundColor: R.palette.blackColor.withValues(alpha: 0.06),
+                        valueColor: AlwaysStoppedAnimation(R.palette.primary),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 4.h),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Last donation $timeLeft ago',
                       style: Theme.of(context).textTheme.titleLarge!.copyWith(
                         fontSize: 10.sp,
                         fontWeight: FontWeight.w500,
@@ -159,64 +217,26 @@ Widget _buildDonationCard(
                         //
                       ),
                     ),
-                    SizedBox(width: 3.w),
-                    Text(
-                      'PKR',
-                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                        fontSize: 10.sp,
-                        fontWeight: FontWeight.w500,
-                        height: 1.3.h,
-                        color: R.palette.primary,
-                        //
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 4.h),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(4),
-                  child: SizedBox(
-                    height: 8.h,
-                    child: LinearProgressIndicator(
-                      minHeight: 8,
-                      value: progress,
-                      backgroundColor: R.palette.blackColor.withValues(alpha: 0.06),
-                      valueColor: AlwaysStoppedAnimation(R.palette.primary),
-                    ),
                   ),
-                ),
-                SizedBox(height: 4.h),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Last donation $timeLeft ago',
-                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                      fontSize: 10.sp,
-                      fontWeight: FontWeight.w500,
-                      height: 1.3.h,
-                      color: R.palette.blackColor,
-                      //
-                    ),
-                  ),
-                ),
-                SizedBox(height: 5.h),
-              ],
+                  SizedBox(height: 5.h),
+                ],
+              ),
             ),
-          ),
-          RoundedCacheImage(
-            imageUrl: image,
-            placeholderAsset: R.assets.graphics.pngIcons.bgFlowers,
-            width: 181.w,
-            height: 85.h,
-            fit: BoxFit.cover,
-            borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(16.r),
-              topLeft: Radius.circular(16.r),
-              topRight: Radius.circular(16.r),
-              //
+            RoundedCacheImage(
+              imageUrl: image,
+              placeholderAsset: R.assets.graphics.pngIcons.bgFlowers,
+              width: 181.w,
+              height: 85.h,
+              fit: BoxFit.cover,
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(16.r),
+                topLeft: Radius.circular(16.r),
+                topRight: Radius.circular(16.r),
+                //
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     ),
   );

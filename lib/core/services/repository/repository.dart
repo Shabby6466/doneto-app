@@ -41,4 +41,6 @@ abstract class Repository {
   Future<UserProfile> getUserProfile(NoParams params);
 
   Stream<UserProfile> watchUserProfile(String uid);
+
+  Future<UserProfile> getUserByIdProfile(String userId);
 }

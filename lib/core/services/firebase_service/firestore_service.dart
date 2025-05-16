@@ -14,6 +14,8 @@ abstract class FireStoreService {
 
   Future<UserProfile> getUserProfile();
 
+  Future<UserProfile> getUserByIdProfile(String userId);
+
   Stream<UserProfile> watchUserProfile(String uid);
 
   Stream<List<Fundraiser>> watchAllFundraisers();
@@ -95,5 +97,11 @@ class FirebaseServiceImp implements FireStoreService {
   @override
   Stream<List<Fundraiser>> watchAllFundraisers() {
     return _fundCol.orderBy('createdAt', descending: true).snapshots().map((qs) => qs.docs.map(Fundraiser.fromDoc).toList());
+  }
+
+  @override
+  Future<UserProfile> getUserByIdProfile(String userId) async {
+    final snap = await _userCol.doc(userId).get();
+    return UserProfile.fromDoc(snap);
   }
 }

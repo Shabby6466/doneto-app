@@ -78,4 +78,9 @@ class RepositoryImpl implements Repository {
   Stream<UserProfile> watchUserProfile(String uid) {
     return fireStoreService.watchUserProfile(uid);
   }
+
+  @override
+  Future<UserProfile> getUserByIdProfile(String userId) {
+    return fireStoreService.getUserByIdProfile(userId);
+  }
 }

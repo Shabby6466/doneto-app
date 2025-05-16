@@ -13,63 +13,75 @@ import 'package:doneto/modules/onbording/screen/splash_index.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-
 class AppRouter {
   static final rootNavigatorKey = GlobalKey<NavigatorState>();
 
   static final GoRouter _router = GoRouter(
     navigatorKey: rootNavigatorKey,
     initialLocation: Routes.splash,
-    routes:[
+    routes: [
       GoRoute(
         path: Routes.splash,
         name: Routes.splash,
         builder: (context, state) => const SplashIndex(),
+        //
       ),
       GoRoute(
         path: Routes.createProfile,
         name: Routes.createProfile,
         builder: (context, state) => const CreateProfile(),
+        //
       ),
       GoRoute(
         path: Routes.auth,
         name: Routes.auth,
         builder: (context, state) => const AuthIndex(),
+        //
       ),
       GoRoute(
         path: Routes.fundraisingIndex,
         name: Routes.fundraisingIndex,
-          builder: (context, state) => const FundraisingIndex(),
+        builder: (context, state) => const FundraisingIndex(),
+        //
       ),
       GoRoute(
         path: Routes.bottomTab,
         name: Routes.bottomTab,
         builder: (context, state) => const BottomTab(),
+        //
       ),
       GoRoute(
         path: Routes.signIn,
         name: Routes.signIn,
         builder: (context, state) => const SignInIndex(),
+        //
       ),
       GoRoute(
         path: Routes.fundraisingDetails,
         name: Routes.fundraisingDetails,
         builder: (context, state) => const FundraiserIndex(),
+        //
       ),
       GoRoute(
         path: Routes.signUp,
         name: Routes.signUp,
-        builder: (context, state) => const SignUpIndex() ,
+        builder: (context, state) => const SignUpIndex(),
+        //
       ),
       GoRoute(
         path: Routes.fundraiserPublishResponse,
         name: Routes.fundraiserPublishResponse,
-        builder: (context, state) => const FundraiserPublishResponse() ,
+        builder: (context, state) => const FundraiserPublishResponse(),
+        //
       ),
       GoRoute(
         path: Routes.previewFundraiser,
         name: Routes.previewFundraiser,
-        builder: (context, state) => const PreviewFundraiser() ,
+        builder:
+            (context, state) => PreviewFundraiser(
+              navigationData: state.extra as PreviewFundraiserNavigationData,
+              //
+            ),
       ),
     ],
     observers: [NavigationObserver()],

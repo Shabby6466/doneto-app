@@ -8,6 +8,8 @@ import 'package:doneto/core/utils/resource/r.dart';
 
 class CircularCacheNetworkImage extends StatelessWidget {
   final double size;
+  final double? height;
+  final double? width;
   final Color backgroundColor;
   final String imageUrl;
   final String errorIconPath;
@@ -19,6 +21,8 @@ class CircularCacheNetworkImage extends StatelessWidget {
     required this.backgroundColor,
     required this.imageUrl,
     required this.errorIconPath,
+    this.height,
+    this.width,
     this.imageFit = BoxFit.cover,
   });
 
@@ -28,8 +32,8 @@ class CircularCacheNetworkImage extends StatelessWidget {
   Widget build(BuildContext context) {
     if (imageUrl.isEmpty) {
       return Container(
-        width: 150.w,
-        height: 150.h,
+        width: height?? 150.w,
+        height: width ??150.h,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           border: Border.all(
@@ -39,7 +43,7 @@ class CircularCacheNetworkImage extends StatelessWidget {
         ),
         child: ClipOval(
           child: Image.asset(
-            R.assets.graphics.pngIcons.bgFlowers,
+            errorIconPath,
             width: 30.w,
             height: 30.h,
             fit: BoxFit.fill,

@@ -2,6 +2,7 @@ import 'package:doneto/core/di/di.dart';
 import 'package:doneto/core/utils/go_router/routes_navigation.dart';
 import 'package:doneto/core/utils/resource/r.dart';
 import 'package:doneto/core/widgets/base_widget.dart';
+import 'package:doneto/core/widgets/cache_network_image.dart';
 import 'package:doneto/core/widgets/text_widget.dart';
 import 'package:doneto/modules/auth/bloc/auth_bloc.dart';
 import 'package:doneto/modules/fundraiser/bloc/fundraiser_bloc.dart';
@@ -9,6 +10,7 @@ import 'package:doneto/modules/fundraiser/widgets/doneto_button.dart';
 import 'package:doneto/modules/fundraiser/widgets/doneto_button_white.dart';
 import 'package:doneto/modules/fundraiser/widgets/fundraiser_stroy_card.dart';
 import 'package:doneto/modules/fundraiser/widgets/publish_donation_bottom_popup.dart';
+import 'package:doneto/modules/home/bloc/home_bloc.dart';
 import 'package:doneto/modules/onbording/widgets/my_top_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,7 +19,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class PreviewFundraiser extends StatefulWidget {
-  const PreviewFundraiser({super.key});
+  final PreviewFundraiserNavigationData navigationData;
+
+  const PreviewFundraiser({super.key, required this.navigationData});
 
   @override
   State<PreviewFundraiser> createState() => _PreviewFundraiserState();
@@ -25,11 +29,19 @@ class PreviewFundraiser extends StatefulWidget {
 
 class _PreviewFundraiserState extends State<PreviewFundraiser> {
   final PanelController _panelController = PanelController();
+  late String ownerName;
+  late String ownerImage;
 
   @override
   void initState() {
     super.initState();
     context.read<AuthBloc>().add(GetTokenEvent());
+    context.read<HomeBloc>().add(GetUserProfileByIdEvent(userId: widget.navigationData.owner));
+    final homeCtx = context
+        .read<HomeBloc>()
+        .state;
+    ownerName = homeCtx.userProfile?.fullName ?? '';
+    ownerImage = homeCtx.userProfile?.imageUrl ?? '';
   }
 
   @override
@@ -52,7 +64,11 @@ class _PreviewFundraiserState extends State<PreviewFundraiser> {
               width: double.infinity,
               child: Stack(
                 children: [
-                  Image.network(state.imageUrl, fit: BoxFit.fill, width: double.infinity),
+                  Image.network(
+                    widget.navigationData.imageUrl.isNotEmpty ? widget.navigationData.imageUrl : state.imageUrl,
+                    fit: BoxFit.fill,
+                    width: double.infinity,
+                  ),
                   Positioned(
                     right: 6,
                     top: 6,
@@ -71,7 +87,7 @@ class _PreviewFundraiserState extends State<PreviewFundraiser> {
               padding: EdgeInsets.symmetric(horizontal: 20.w),
               child: TextWidget(
                 maxLines: 2,
-                state.fundraiserTitle,
+                widget.navigationData.fundraiserTitle.isNotEmpty ? widget.navigationData.fundraiserTitle : state.fundraiserTitle,
                 size: 20.h,
                 height: 1.1.h,
                 weight: FontWeight.w700,
@@ -82,7 +98,7 @@ class _PreviewFundraiserState extends State<PreviewFundraiser> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.w),
               child: TextWidget(
-                'PKR 3,000,000 GOAL · PKR ${state.amount ?? 'zero'} donations',
+                'GOAL · PKR ${widget.navigationData.donationsGoal.isNotEmpty ? widget.navigationData.donationsGoal : state.amount}',
                 size: 15.sp,
                 weight: FontWeight.w300,
                 color: R.palette.lightGray,
@@ -107,8 +123,12 @@ class _PreviewFundraiserState extends State<PreviewFundraiser> {
                     SizedBox(height: 22.h),
                     Center(
                       child: Text(
-                        'PKR 2,785,254 RAISED',
-                        style: Theme.of(context).textTheme.displayLarge!.copyWith(fontSize: 24.sp, fontWeight: FontWeight.w700),
+                        'PKR ${widget.navigationData.raisedAmount.isNotEmpty ? widget.navigationData.raisedAmount : ''} RAISED',
+                        style: Theme
+                            .of(context)
+                            .textTheme
+                            .displayLarge!
+                            .copyWith(fontSize: 24.sp, fontWeight: FontWeight.w700),
                       ),
                     ),
                     SizedBox(height: 15.h),
@@ -116,17 +136,22 @@ class _PreviewFundraiserState extends State<PreviewFundraiser> {
                       padding: EdgeInsets.symmetric(horizontal: 23.w),
                       child: Row(
                         children: [
-                          Container(
+                          CircularCacheNetworkImage(
+                            size: 49.r,
                             height: 49.h,
                             width: 49.w,
-                            decoration: BoxDecoration(color: R.palette.lightGrey2, shape: BoxShape.circle),
-                            child: Center(child: SvgPicture.asset(R.assets.graphics.svgIcons.organizerGrey, width: 24, height: 24)),
+                            backgroundColor: R.palette.lightGrey2,
+                            imageUrl: ownerImage,
+                            errorIconPath: R.assets.graphics.svgIcons.organizerGrey,
                           ),
                           SizedBox(width: 12.w),
                           Expanded(
                             child: Text(
-                              'bondh-e-shams is the organizer of the fundraiser.',
-                              style: Theme.of(context).textTheme.bodyMedium,
+                              '${widget.navigationData.owner.isNotEmpty ? ownerName : ''} is the organizer of the fundraiser.',
+                              style: Theme
+                                  .of(context)
+                                  .textTheme
+                                  .bodyMedium,
                               maxLines: 2,
                             ),
                           ),
@@ -148,14 +173,18 @@ class _PreviewFundraiserState extends State<PreviewFundraiser> {
                             SizedBox(width: 10.w),
                             Text(
                               'donation protected',
-                              style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: 10.sp, color: R.palette.primary),
+                              style: Theme
+                                  .of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .copyWith(fontSize: 10.sp, color: R.palette.primary),
                             ),
                           ],
                         ),
                       ),
                     ),
                     SizedBox(height: 15.h),
-                    const FundraiserStoryCard(),
+                    FundraiserStoryCard(story: widget.navigationData.fundraiserDescription),
                     SizedBox(height: 35.h),
                     Padding(
                       padding: EdgeInsets.only(left: 27.w, right: 25.w),
@@ -174,7 +203,10 @@ class _PreviewFundraiserState extends State<PreviewFundraiser> {
     );
 
     return Scaffold(
-      body: SlidingUpPanel(
+      body:
+      widget.navigationData.fundraiserId.isNotEmpty
+          ? Background(safeAreaTop: true, child: body)
+          : SlidingUpPanel(
         controller: _panelController,
         minHeight: 80.h,
         maxHeight: 220.h,
@@ -190,6 +222,10 @@ Widget _buildDonateShareButton(String title, BuildContext context) {
   return Container(
     padding: EdgeInsets.symmetric(horizontal: 54.w, vertical: 8.h),
     decoration: BoxDecoration(borderRadius: BorderRadius.circular(16.r), border: Border.all(color: R.palette.lightGray.withValues(alpha: 0.3))),
-    child: Text(title, style: Theme.of(context).textTheme.labelSmall!.copyWith(fontSize: 16.sp, fontWeight: FontWeight.w600, height: 1.3.h)),
+    child: Text(title, style: Theme
+        .of(context)
+        .textTheme
+        .labelSmall!
+        .copyWith(fontSize: 16.sp, fontWeight: FontWeight.w600, height: 1.3.h)),
   );
 }

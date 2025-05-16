@@ -109,4 +109,14 @@ class UserProfile {
       instagramHandle: data['instagramHandle'] as String? ?? '',
     );
   }
+
+  factory UserProfile.initial() => UserProfile(
+    uid: '',
+    fullName: '',
+    imageUrl: '',
+    email: '',
+    phoneNumber: '',
+    instagramHandle: '',
+    //
+  );
 }
