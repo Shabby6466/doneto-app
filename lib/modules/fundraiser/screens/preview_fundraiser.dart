@@ -19,9 +19,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class PreviewFundraiser extends StatefulWidget {
-  final PreviewFundraiserNavigationData navigationData;
+  final PreviewFundraiserNavigationData? navigationData;
 
-  const PreviewFundraiser({super.key, required this.navigationData});
+  const PreviewFundraiser({super.key,  this.navigationData});
 
   @override
   State<PreviewFundraiser> createState() => _PreviewFundraiserState();
@@ -36,7 +36,7 @@ class _PreviewFundraiserState extends State<PreviewFundraiser> {
   void initState() {
     super.initState();
     context.read<AuthBloc>().add(GetTokenEvent());
-    context.read<HomeBloc>().add(GetUserProfileByIdEvent(userId: widget.navigationData.owner));
+    context.read<HomeBloc>().add(GetUserProfileByIdEvent(userId: widget.navigationData!.owner));
     final homeCtx = context
         .read<HomeBloc>()
         .state;
@@ -65,7 +65,7 @@ class _PreviewFundraiserState extends State<PreviewFundraiser> {
               child: Stack(
                 children: [
                   Image.network(
-                    widget.navigationData.imageUrl.isNotEmpty ? widget.navigationData.imageUrl : state.imageUrl,
+                    widget.navigationData!.imageUrl.isNotEmpty ? widget.navigationData!.imageUrl : state.imageUrl,
                     fit: BoxFit.fill,
                     width: double.infinity,
                   ),
@@ -87,7 +87,7 @@ class _PreviewFundraiserState extends State<PreviewFundraiser> {
               padding: EdgeInsets.symmetric(horizontal: 20.w),
               child: TextWidget(
                 maxLines: 2,
-                widget.navigationData.fundraiserTitle.isNotEmpty ? widget.navigationData.fundraiserTitle : state.fundraiserTitle,
+                widget.navigationData!.fundraiserTitle.isNotEmpty ? widget.navigationData!.fundraiserTitle : state.fundraiserTitle,
                 size: 20.h,
                 height: 1.1.h,
                 weight: FontWeight.w700,
@@ -98,7 +98,7 @@ class _PreviewFundraiserState extends State<PreviewFundraiser> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.w),
               child: TextWidget(
-                'GOAL · PKR ${widget.navigationData.donationsGoal.isNotEmpty ? widget.navigationData.donationsGoal : state.amount}',
+                'GOAL · PKR ${widget.navigationData!.donationsGoal.isNotEmpty ? widget.navigationData!.donationsGoal : state.amount}',
                 size: 15.sp,
                 weight: FontWeight.w300,
                 color: R.palette.lightGray,
@@ -121,41 +121,47 @@ class _PreviewFundraiserState extends State<PreviewFundraiser> {
                     SizedBox(height: 11.h),
                     Padding(padding: EdgeInsets.symmetric(horizontal: 20.w), child: const DonetoButtonWhite(title: "SHARE")),
                     SizedBox(height: 22.h),
-                    Center(
-                      child: Text(
-                        'PKR ${widget.navigationData.raisedAmount.isNotEmpty ? widget.navigationData.raisedAmount : ''} RAISED',
-                        style: Theme
-                            .of(context)
-                            .textTheme
-                            .displayLarge!
-                            .copyWith(fontSize: 24.sp, fontWeight: FontWeight.w700),
+                    Visibility(
+                      visible: widget.navigationData!.raisedAmount.isNotEmpty,
+                      child: Center(
+                        child: Text(
+                          'PKR ${widget.navigationData!.raisedAmount.isNotEmpty ? widget.navigationData!.raisedAmount : ''} RAISED',
+                          style: Theme
+                              .of(context)
+                              .textTheme
+                              .displayLarge!
+                              .copyWith(fontSize: 24.sp, fontWeight: FontWeight.w700),
+                        ),
                       ),
                     ),
                     SizedBox(height: 15.h),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 23.w),
-                      child: Row(
-                        children: [
-                          CircularCacheNetworkImage(
-                            size: 49.r,
-                            height: 49.h,
-                            width: 49.w,
-                            backgroundColor: R.palette.lightGrey2,
-                            imageUrl: ownerImage,
-                            errorIconPath: R.assets.graphics.svgIcons.organizerGrey,
-                          ),
-                          SizedBox(width: 12.w),
-                          Expanded(
-                            child: Text(
-                              '${widget.navigationData.owner.isNotEmpty ? ownerName : ''} is the organizer of the fundraiser.',
-                              style: Theme
-                                  .of(context)
-                                  .textTheme
-                                  .bodyMedium,
-                              maxLines: 2,
+                    Visibility(
+                      visible: widget.navigationData!.owner.isNotEmpty,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 23.w),
+                        child: Row(
+                          children: [
+                            CircularCacheNetworkImage(
+                              size: 49.r,
+                              height: 49.h,
+                              width: 49.w,
+                              backgroundColor: R.palette.lightGrey2,
+                              imageUrl: ownerImage,
+                              errorIconPath: R.assets.graphics.svgIcons.organizerGrey,
                             ),
-                          ),
-                        ],
+                            SizedBox(width: 12.w),
+                            Expanded(
+                              child: Text(
+                                '${widget.navigationData!.owner.isNotEmpty ? ownerName : ''} is the organizer of the fundraiser.',
+                                style: Theme
+                                    .of(context)
+                                    .textTheme
+                                    .bodyMedium,
+                                maxLines: 2,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     SizedBox(height: 36.h),
@@ -184,7 +190,7 @@ class _PreviewFundraiserState extends State<PreviewFundraiser> {
                       ),
                     ),
                     SizedBox(height: 15.h),
-                    FundraiserStoryCard(story: widget.navigationData.fundraiserDescription),
+                    FundraiserStoryCard(story: widget.navigationData!.fundraiserDescription),
                     SizedBox(height: 35.h),
                     Padding(
                       padding: EdgeInsets.only(left: 27.w, right: 25.w),
@@ -204,7 +210,7 @@ class _PreviewFundraiserState extends State<PreviewFundraiser> {
 
     return Scaffold(
       body:
-      widget.navigationData.fundraiserId.isNotEmpty
+      widget.navigationData!.fundraiserId.isNotEmpty
           ? Background(safeAreaTop: true, child: body)
           : SlidingUpPanel(
         controller: _panelController,

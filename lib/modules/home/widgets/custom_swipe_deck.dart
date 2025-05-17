@@ -28,11 +28,9 @@ class _CustomSwipeDeckState extends State<CustomSwipeDeck> {
   void _onDragEnd() {
     if (_dragX.abs() > dragThreshold) {
       if (_dragX > 0) {
-        // swipe right → previous
         currentIndex = (currentIndex - 1) % widget.items.length;
         if (currentIndex < 0) currentIndex += widget.items.length;
       } else {
-        // swipe left → next
         currentIndex = (currentIndex + 1) % widget.items.length;
       }
     }
@@ -61,39 +59,40 @@ class _CustomSwipeDeckState extends State<CustomSwipeDeck> {
           return Stack(
             alignment: Alignment.center,
             children:
-                List.generate(min(itemCount, maxVisible), (layer) {
-                  // layer = 0 is top, 1 is behind, 2 is furthest behind
-                  final depth = layer;
-                  final index = (currentIndex + depth) % itemCount;
-                  final data = widget.items[index];
+            List.generate(min(itemCount, maxVisible), (layer) {
+              // layer = 0 is top, 1 is behind, 2 is furthest behind
+              final depth = layer;
+              final index = (currentIndex + depth) % itemCount;
+              final data = widget.items[index];
 
-                  // base card
-                  Widget card = _FundraiserCard(data: data);
+              // base card
+              Widget card = _FundraiserCard(data: data);
 
-                  // scale down for deeper layers
-                  card = Transform.scale(scale: 1 - depth * scaleGap, child: card);
+              // scale down for deeper layers
+              card = Transform.scale(scale: 1 - depth * scaleGap, child: card);
 
-                  // rotate for deeper layers
-                  card = Transform.rotate(angle: depth * tiltAngle, child: card);
+              // rotate for deeper layers
+              card = Transform.rotate(angle: depth * tiltAngle, child: card);
 
-                  // shift deeper layers slightly
-                  final dx = depth * offsetGap;
-                  card = Transform.translate(offset: Offset(dx, 0), child: card);
+              // shift deeper layers slightly
+              final dx = depth * offsetGap;
+              card = Transform.translate(offset: Offset(dx, 0), child: card);
 
-                  // if this is the top card and user is dragging, translate with drag
-                  if (layer == 0 && _isDragging) {
-                    card = Transform.translate(offset: Offset(_dragX, 0), child: card);
-                  }
+              // if this is the top card and user is dragging, translate with drag
+              if (layer == 0 && _isDragging) {
+                card = Transform.translate(offset: Offset(_dragX, 0), child: card);
+              }
 
-                  // draw furthest layer first
-                  return card;
-                }).reversed.toList(), // reverse so furthest is painted first
+              // draw furthest layer first
+              return card;
+            }).reversed.toList(), // reverse so furthest is painted first
           );
         },
       ),
     );
   }
 }
+
 
 class FundraiserData {
   final String imageUrl, title, subtitle, lastDonation;
@@ -143,12 +142,7 @@ class _FundraiserCard extends StatelessWidget {
                       SizedBox(height: 10.h),
                       Text(
                         data.description,
-                        style: textTheme.bodyMedium!.copyWith(
-                          fontSize: 10.sp,
-                          color: colors.onSurfaceVariant,
-                          height: 1.8.h,
-                          fontWeight: FontWeight.w500,
-                        ),
+                        style: textTheme.bodyMedium!.copyWith(fontSize: 10.sp, color: colors.onSurfaceVariant, height: 1.8.h,fontWeight: FontWeight.w500),
                         maxLines: 5,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -181,7 +175,7 @@ class _FundraiserCard extends StatelessWidget {
                       ),
                       SizedBox(height: 8.h),
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 65.w),
+                        padding:  EdgeInsets.symmetric(horizontal: 65.w),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(100.r),
                           child: LinearProgressIndicator(
@@ -194,14 +188,8 @@ class _FundraiserCard extends StatelessWidget {
                       ),
                       SizedBox(height: 12.h),
                       Visibility(
-                        visible: false,
-                        child: Center(
-                          child: Text(
-                            '22 mins',
-                            style: textTheme.bodySmall!.copyWith(fontSize: 8.sp, color: colors.onSurfaceVariant, fontWeight: FontWeight.w400),
-                          ),
-                        ),
-                      ),
+                          visible: false,
+                          child: Center(child: Text('22 mins', style: textTheme.bodySmall!.copyWith(fontSize: 8.sp, color: colors.onSurfaceVariant,fontWeight: FontWeight.w400)))),
                     ],
                   ),
                 ),

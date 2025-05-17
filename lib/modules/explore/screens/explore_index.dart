@@ -27,29 +27,89 @@ class _ExploreIndexState extends State<ExploreIndex> {
       builder: (ctx, state) {
         return Background(
           safeAreaTop: true,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 16.h),
-              Center(child: Image.asset(R.assets.graphics.pngIcons.donetoLogo, width: 182.w)),
-              SizedBox(height: 20.h),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 18.w),
-                child: Text(
-                  'Featured Fundraisers',
-                  style: Theme.of(
-                    context,
-                  ).textTheme.labelMedium!.copyWith(fontSize: 24.sp, fontWeight: FontWeight.w800, color: R.palette.blackColor, height: 1.5),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 16.h),
+                Center(child: Image.asset(R.assets.graphics.pngIcons.donetoLogo, width: 182.w)),
+                SizedBox(height: 20.h),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 18.w),
+                  child: Text(
+                    'Featured Fundraisers',
+                    style: Theme.of(
+                      context,
+                    ).textTheme.labelMedium!.copyWith(fontSize: 24.sp, fontWeight: FontWeight.w800, color: R.palette.blackColor, height: 1.5),
+                  ),
                 ),
-              ),
-              SizedBox(height: 30.h),
-              Container(
-                height: 450.h,
-                width: double.infinity,
-                alignment: Alignment.center,
-                child: FractionallySizedBox(widthFactor: 0.8, child: CustomSwipeDeck(items: state.featuredFundraisers)),
-              ),
-            ],
+                SizedBox(height: 30.h),
+                Container(
+                  height: 450.h,
+                  width: double.infinity,
+                  alignment: Alignment.center,
+                  child: FractionallySizedBox(widthFactor: 0.8, child: CustomSwipeDeck(items: state.featuredFundraisers)),
+                ),
+                SizedBox(height: 30.h),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 18.w),
+                  child: Divider(color: R.palette.gray),
+                ),
+                SizedBox(height: 30.h),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 18.w),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Doneto Verified',
+                        style: Theme.of(
+                          context,
+                        ).textTheme.labelMedium!.copyWith(fontSize: 24.sp, fontWeight: FontWeight.w800, color: R.palette.blackColor, height: 1.5),
+                      ),
+                      Text(
+                        'see all',
+                        style: Theme.of(
+                          context,
+                        ).textTheme.labelMedium!.copyWith(fontSize: 12.sp, fontWeight: FontWeight.w300, color: R.palette.blackColor, height: 1.5),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 30.h),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 18.w),
+                  child: Divider(color: R.palette.gray),
+                ),
+                SizedBox(height: 30.h),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 18.w),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Explore Fundraisers',
+                        style: Theme.of(
+                          context,
+                        ).textTheme.labelMedium!.copyWith(fontSize: 24.sp, fontWeight: FontWeight.w800, color: R.palette.blackColor, height: 1.5),
+                      ),
+                      Text(
+                        'see all',
+                        style: Theme.of(
+                          context,
+                        ).textTheme.labelMedium!.copyWith(fontSize: 12.sp, fontWeight: FontWeight.w300, color: R.palette.blackColor, height: 1.5),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 30.h),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 18.w),
+                  child: Divider(color: R.palette.gray),
+                ),
+            
+              ],
+            ),
           ),
         );
       },

@@ -89,7 +89,18 @@ class _FundraiserIndexState extends State<FundraiserIndex> {
                             key: const ValueKey('previewBtn'),
                             child: GestureDetector(
                               onTap: () {
-                                sl<Navigation>().push(path: Routes.previewFundraiser);
+                                sl<Navigation>().pushNamedWithExtra(
+                                  path: Routes.previewFundraiser,
+                                  navigationData: PreviewFundraiserNavigationData(
+                                    fundraiserId: '',
+                                    fundraiserTitle: '',
+                                    fundraiserDescription: '',
+                                    imageUrl: '',
+                                    donationsGoal: '',
+                                    raisedAmount: '',
+                                    owner: '',
+                                  ),
+                                );
                               },
                               child: Container(
                                 height: 48.h,
