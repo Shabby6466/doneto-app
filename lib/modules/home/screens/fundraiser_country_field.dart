@@ -21,7 +21,7 @@ class _FundraiserCountryFieldState extends State<FundraiserCountryField> {
       child: Row(
         children: [
           Text(
-            widget.country.isNotEmpty ? widget.country : 'Enter your country',
+            widget.country.isNotEmpty ? widget.country : 'Enter your city',
             style: Theme.of(context).textTheme.labelMedium!.copyWith(
               fontSize: 16,
               fontWeight: FontWeight.w400,

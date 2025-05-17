@@ -1,6 +1,7 @@
 import 'package:doneto/core/utils/resource/r.dart';
 import 'package:doneto/core/widgets/base_widget.dart';
 import 'package:doneto/modules/fundraiser/bloc/fundraiser_bloc.dart';
+import 'package:doneto/modules/fundraiser/widgets/province_city_dialog.dart';
 import 'package:doneto/modules/fundraiser/widgets/underline_text_field.dart';
 import 'package:doneto/modules/fundraiser/widgets/donation_disclaimer.dart';
 import 'package:doneto/modules/home/screens/fundraiser_category_field.dart';
@@ -9,8 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:country_picker/country_picker.dart';
-
 
 class FirstFundraiserDetail extends StatefulWidget {
   const FirstFundraiserDetail({super.key});
@@ -114,21 +113,23 @@ class _FirstFundraiserDetailState extends State<FirstFundraiserDetail> {
                   SizedBox(height: 30.h),
                   GestureDetector(
                     onTap: () async {
-                      final selectedCountry = await showModalBottomSheet<Country>(
+                      final result = await showModalBottomSheet<Map<String, String>>(
                         context: context,
                         isScrollControlled: true,
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(16.r))),
-                        builder: (_) => _countrySelection(context),
+                        builder: (_) => const ProvinceCityDialog(),
                       );
-
-                      if (selectedCountry != null) {
-                        _categoryController.text = selectedCountry.displayName;
+                      if (result != null) {
+                        final prov = result['province']!;
+                        final city = result['city']!;
+                        _countryController.text = '$prov, $city';
+                        final provCity = '$prov, $city';
                         if (context.mounted) {
-                          context.read<FundraiserBloc>().add(FundraiserCountryChangeEvent(country: selectedCountry.displayName));
+                          context.read<FundraiserBloc>().add(FundraiserCountryChangeEvent(country: provCity));
                         }
                       }
                     },
-                    child: const FundraiserCountryField(country: ''),
+                    child: FundraiserCountryField(country: state.country),
                   ),
                   Divider(color: Colors.grey[300]),
                   SizedBox(height: 35.h),
@@ -291,66 +292,4 @@ extension FundraiserCategoryX on FundraiserCategory {
         return 'Other';
     }
   }
-}
-
-/*
-  Country Selection
-*/
-
-Widget _countrySelection(BuildContext context) {
-  return Container(
-    padding: EdgeInsets.symmetric(horizontal: 5.h, vertical: 20.h),
-    height: 600.h,
-    decoration: BoxDecoration(color: R.palette.white, borderRadius: BorderRadius.circular(16.r)),
-    child: Column(
-      children: [
-        // — header row —
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.h),
-          child: Row(
-            children: [
-              GestureDetector(onTap: () => Navigator.of(context).pop(), child: SvgPicture.asset(R.assets.graphics.svgIcons.backArrow)),
-              const Spacer(),
-              Text(
-                'Select your country',
-                style: Theme.of(context).textTheme.displayLarge!.copyWith(color: R.palette.blackColor, fontSize: 16.sp, fontWeight: FontWeight.w600),
-              ),
-            ],
-          ),
-        ),
-        SizedBox(height: 40.5.h),
-        Text(
-          'Search your country',
-          textAlign: TextAlign.center,
-          style: Theme.of(
-            context,
-          ).textTheme.displayLarge!.copyWith(color: R.palette.textFieldBgColor, fontSize: 16.sp, fontWeight: FontWeight.w500, height: 1.5.h),
-        ),
-        SizedBox(height: 14.h),
-        Padding(padding: EdgeInsets.symmetric(horizontal: 20.h), child: Divider(color: R.palette.textFieldBgColor)),
-        SizedBox(height: 26.h),
-
-        // — the country list with built-in search —
-        // Expanded(
-        //   child: CountryListView(
-        //     onCountrySelected: (country) {
-        //       Navigator.of(context).pop(country);
-        //     },
-        //     // optional: copy your sheet theming in here
-        //     countryListTheme: CountryListThemeData(
-        //       // match your sheet’s border radius
-        //       borderRadius: BorderRadius.vertical(top: Radius.circular(16.r)),
-        //       inputDecoration: InputDecoration(
-        //         labelText: 'Search',
-        //         hintText: 'Start typing to search',
-        //         prefixIcon: const Icon(Icons.search),
-        //         border: OutlineInputBorder(borderSide: BorderSide(color: R.palette.textFieldBgColor.withOpacity(0.2))),
-        //       ),
-        //       searchTextStyle: TextStyle(color: R.palette.primary, fontSize: 16.sp),
-        //     ),
-        //   ),
-        // ),
-      ],
-    ),
-  );
 }

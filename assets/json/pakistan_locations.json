@@ -1,0 +1,36 @@
+{
+  "Punjab": [
+    "Lahore",
+    "Faisalabad",
+    "Rawalpindi",
+    "Gujranwala",
+    "Multan"
+  ],
+  "Sindh": [
+    "Karachi",
+    "Hyderabad",
+    "Sukkur",
+    "Larkana"
+  ],
+  "Khyber Pakhtunkhwa": [
+    "Peshawar",
+    "Mardan",
+    "Abbottabad"
+  ],
+  "Balochistan": [
+    "Quetta",
+    "Gwadar",
+    "Turbat"
+  ],
+  "Islamabad Capital Territory": [
+    "Islamabad"
+  ],
+  "Gilgit-Baltistan": [
+    "Gilgit",
+    "Skardu"
+  ],
+  "Azad Jammu & Kashmir": [
+    "Muzaffarabad",
+    "Mirpur"
+  ]
+}

@@ -21,7 +21,7 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 class PreviewFundraiser extends StatefulWidget {
   final PreviewFundraiserNavigationData? navigationData;
 
-  const PreviewFundraiser({super.key,  this.navigationData});
+  const PreviewFundraiser({super.key, this.navigationData});
 
   @override
   State<PreviewFundraiser> createState() => _PreviewFundraiserState();
@@ -37,9 +37,7 @@ class _PreviewFundraiserState extends State<PreviewFundraiser> {
     super.initState();
     context.read<AuthBloc>().add(GetTokenEvent());
     context.read<HomeBloc>().add(GetUserProfileByIdEvent(userId: widget.navigationData!.owner));
-    final homeCtx = context
-        .read<HomeBloc>()
-        .state;
+    final homeCtx = context.read<HomeBloc>().state;
     ownerName = homeCtx.userProfile?.fullName ?? '';
     ownerImage = homeCtx.userProfile?.imageUrl ?? '';
   }
@@ -126,11 +124,7 @@ class _PreviewFundraiserState extends State<PreviewFundraiser> {
                       child: Center(
                         child: Text(
                           'PKR ${widget.navigationData!.raisedAmount.isNotEmpty ? widget.navigationData!.raisedAmount : ''} RAISED',
-                          style: Theme
-                              .of(context)
-                              .textTheme
-                              .displayLarge!
-                              .copyWith(fontSize: 24.sp, fontWeight: FontWeight.w700),
+                          style: Theme.of(context).textTheme.displayLarge!.copyWith(fontSize: 24.sp, fontWeight: FontWeight.w700),
                         ),
                       ),
                     ),
@@ -153,10 +147,7 @@ class _PreviewFundraiserState extends State<PreviewFundraiser> {
                             Expanded(
                               child: Text(
                                 '${widget.navigationData!.owner.isNotEmpty ? ownerName : ''} is the organizer of the fundraiser.',
-                                style: Theme
-                                    .of(context)
-                                    .textTheme
-                                    .bodyMedium,
+                                style: Theme.of(context).textTheme.bodyMedium,
                                 maxLines: 2,
                               ),
                             ),
@@ -179,18 +170,19 @@ class _PreviewFundraiserState extends State<PreviewFundraiser> {
                             SizedBox(width: 10.w),
                             Text(
                               'donation protected',
-                              style: Theme
-                                  .of(context)
-                                  .textTheme
-                                  .bodySmall!
-                                  .copyWith(fontSize: 10.sp, color: R.palette.primary),
+                              style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: 10.sp, color: R.palette.primary),
                             ),
                           ],
                         ),
                       ),
                     ),
                     SizedBox(height: 15.h),
-                    FundraiserStoryCard(story: widget.navigationData!.fundraiserDescription),
+                    FundraiserStoryCard(
+                      story:
+                          widget.navigationData!.fundraiserDescription.isNotEmpty
+                              ? widget.navigationData!.fundraiserDescription
+                              : state.fundraiserDescription,
+                    ),
                     SizedBox(height: 35.h),
                     Padding(
                       padding: EdgeInsets.only(left: 27.w, right: 25.w),
@@ -210,16 +202,16 @@ class _PreviewFundraiserState extends State<PreviewFundraiser> {
 
     return Scaffold(
       body:
-      widget.navigationData!.fundraiserId.isNotEmpty
-          ? Background(safeAreaTop: true, child: body)
-          : SlidingUpPanel(
-        controller: _panelController,
-        minHeight: 80.h,
-        maxHeight: 220.h,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
-        panelBuilder: (scrollCam) => DonationPopupSheet(scrollCam: scrollCam, controller: _panelController),
-        body: Background(safeAreaTop: true, child: body),
-      ),
+          widget.navigationData!.fundraiserId.isNotEmpty
+              ? Background(safeAreaTop: true, child: body)
+              : SlidingUpPanel(
+                controller: _panelController,
+                minHeight: 80.h,
+                maxHeight: 220.h,
+                borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
+                panelBuilder: (scrollCam) => DonationPopupSheet(scrollCam: scrollCam, controller: _panelController),
+                body: Background(safeAreaTop: true, child: body),
+              ),
     );
   }
 }
@@ -228,10 +220,6 @@ Widget _buildDonateShareButton(String title, BuildContext context) {
   return Container(
     padding: EdgeInsets.symmetric(horizontal: 54.w, vertical: 8.h),
     decoration: BoxDecoration(borderRadius: BorderRadius.circular(16.r), border: Border.all(color: R.palette.lightGray.withValues(alpha: 0.3))),
-    child: Text(title, style: Theme
-        .of(context)
-        .textTheme
-        .labelSmall!
-        .copyWith(fontSize: 16.sp, fontWeight: FontWeight.w600, height: 1.3.h)),
+    child: Text(title, style: Theme.of(context).textTheme.labelSmall!.copyWith(fontSize: 16.sp, fontWeight: FontWeight.w600, height: 1.3.h)),
   );
 }

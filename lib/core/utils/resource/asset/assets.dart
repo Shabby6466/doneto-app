@@ -4,12 +4,15 @@ part of '../r.dart';
 class Assets {
   final IconsData _icons;
   final Graphics _graphics;
+  final JsonData _jsonData;
 
-  Assets._() : _icons = const IconsData._(), _graphics = Graphics._();
+  Assets._() : _icons = const IconsData._(), _graphics = Graphics._(), _jsonData = const JsonData._();
 
   IconsData get icons => _icons;
 
   Graphics get graphics => _graphics;
+
+  JsonData get jsonData => _jsonData;
 }
 
 class IconsData {
@@ -24,10 +27,7 @@ class Graphics {
   final PngAssets _pngIcon;
   final LottieAssets _lottieAssets;
 
-  Graphics._()
-    : _svgIcons = const SvgAssets._(),
-      _pngIcon = const PngAssets._(),
-      _lottieAssets = const LottieAssets._();
+  Graphics._() : _svgIcons = const SvgAssets._(), _pngIcon = const PngAssets._(), _lottieAssets = const LottieAssets._();
 
   SvgAssets get svgIcons => _svgIcons;
 
@@ -120,4 +120,10 @@ class LottieAssets {
   String get noInternet => 'assets/lottie/no_net.json';
 
   String get warning => 'assets/lottie/warning.json';
+}
+
+class JsonData {
+  const JsonData._();
+
+  String get jsonData => 'assets/json/pakistan_locations.json';
 }
