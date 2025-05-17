@@ -102,6 +102,8 @@ class FundraiserBloc extends Bloc<FundraiserEvent, FundraiserState> {
           ownerId: user!.uid,
           supporters: 0,
           type: FundraiserType.charity,
+          featured: false,
+          donetoVerified: false,
           receivedAmount: 0,
           targetAmount: double.tryParse(state.amount) ?? 0.0,
           location: state.country,

@@ -7,6 +7,8 @@ class Fundraiser {
   final String ownerId;
   final int supporters;
   final FundraiserType type;
+  final bool featured;
+  final bool donetoVerified;
   final double targetAmount;
   final double receivedAmount;
   final String category;
@@ -21,6 +23,8 @@ class Fundraiser {
     required this.supporters,
     required this.ownerId,
     required this.type,
+    required this.featured,
+    required this.donetoVerified,
     required this.targetAmount,
     required this.receivedAmount,
     required this.category,
@@ -37,6 +41,8 @@ class Fundraiser {
     'type': type.name,
     'targetAmount': targetAmount,
     'receivedAmount': receivedAmount,
+    'donetoVerified': donetoVerified,
+    'featured': featured,
     'category': category,
     'location': location,
     'title': title,
@@ -61,6 +67,8 @@ class Fundraiser {
       supporters: (d['supporters'] as num).toInt(),
       type: FundraiserType.values.firstWhere((e) => e.name == (d['type'] as String), orElse: () => FundraiserType.charity),
       targetAmount: (d['targetAmount'] as num).toDouble(),
+      featured: (d['featured'] as bool?) ?? false,
+      donetoVerified: (d['donetoVerified'] as bool?) ?? false,
       receivedAmount: (d['receivedAmount'] as num).toDouble(),
       category: d['category'] as String,
       location: d['location'] as String?,

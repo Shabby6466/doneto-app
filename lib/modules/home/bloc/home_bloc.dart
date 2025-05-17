@@ -18,12 +18,25 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<LoadFundraisersEvent>(_onLoadFundraisers);
     on<SearchFundraisersEvent>(_onSearchFundraisers);
     on<ClearSearchEvent>(_onClearSearch);
+    on<FeaturedFundraisersEvent>(_featuredFundraisers);
     //
   }
 
   final WatchAllFundraisersUseCase watchAllFundraisers;
-
   final GetUserByIdUseCase getUserByIdUseCase;
+
+  void _featuredFundraisers(FeaturedFundraisersEvent event, Emitter<HomeState> emit) async {
+    try {
+      emit(getBlocState(loading: true, errMsg: ''));
+      final res = watchAllFundraisers.calling(NoParams());
+      await for (final list in res) {
+        final featured = _applyFilter(list, state.query);
+        emit(getBlocState(loading: false, featuredFundraisers: featured));
+      }
+    } on DefaultFailure catch (e) {
+      emit(getBlocState(loading: false, errMsg: e.message));
+    }
+  }
 
   void _getUserById(GetUserProfileByIdEvent event, Emitter<HomeState> emit) async {
     try {
@@ -75,6 +88,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       SearchingState(
         loading: state.loading,
         allFundraisers: state.allFundraisers,
+        featuredFundraisers: state.featuredFundraisers,
         filteredFundraisers: state.filteredFundraisers,
         query: state.query,
         userProfile: state.userProfile,
@@ -98,6 +112,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     UserProfile? userProfile,
     List<Fundraiser>? allFundraisers,
     List<Fundraiser>? filteredFundraisers,
+    List<Fundraiser>? featuredFundraisers,
     //
   }) {
     return HomeChangeState(
@@ -106,6 +121,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       errMsg: errMsg ?? state.errMsg,
       allFundraisers: allFundraisers ?? state.allFundraisers,
       filteredFundraisers: filteredFundraisers ?? state.filteredFundraisers,
+      featuredFundraisers: featuredFundraisers ?? state.featuredFundraisers,
       userProfile: userProfile ?? state.userProfile,
       index: index ?? state.index,
       //
@@ -120,6 +136,7 @@ class HomeState {
     required this.loading,
     required this.userProfile,
     required this.allFundraisers,
+    required this.featuredFundraisers,
     required this.query,
     required this.filteredFundraisers,
     required this.errMsg,
@@ -131,6 +148,7 @@ class HomeState {
   final String errMsg;
   final String query;
   final List<Fundraiser> allFundraisers;
+  final List<Fundraiser> featuredFundraisers;
   final List<Fundraiser> filteredFundraisers;
   final UserProfile? userProfile;
   final int index;
@@ -142,6 +160,7 @@ class HomeChangeState extends HomeState {
     required super.query,
     required super.allFundraisers,
     required super.filteredFundraisers,
+    required super.featuredFundraisers,
     required super.userProfile,
     required super.errMsg,
     required super.index,
@@ -154,6 +173,7 @@ class HomeChangeState extends HomeState {
     userProfile: UserProfile.initial(),
     query: '',
     allFundraisers: [],
+    featuredFundraisers: [],
     filteredFundraisers: [],
     index: 0,
     //
@@ -168,6 +188,7 @@ class SearchingState extends HomeState {
     required super.index,
     required super.allFundraisers,
     required super.filteredFundraisers,
+    required super.featuredFundraisers,
     required super.userProfile,
     //
   });
@@ -196,3 +217,5 @@ class SearchFundraisersEvent extends HomeEvent {
 }
 
 class LoadFundraisersEvent extends HomeEvent {}
+
+class FeaturedFundraisersEvent extends HomeEvent {}

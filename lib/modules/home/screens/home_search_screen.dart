@@ -1,3 +1,4 @@
+import 'package:doneto/core/di/di.dart';
 import 'package:doneto/core/utils/go_router/routes_constant.dart';
 import 'package:doneto/core/utils/go_router/routes_navigation.dart';
 import 'package:doneto/core/utils/resource/r.dart';
@@ -23,7 +24,6 @@ class HomeSearchScreen extends StatelessWidget {
         if (results.isEmpty) {
           return SizedBox(height: 500.h, child: const Center(child: Text("No fundraisers found.")));
         }
-
         return Padding(
           padding: EdgeInsets.only(left: 16.w, right: 16.w, top: 16.h),
           child: GridView.builder(
@@ -34,7 +34,7 @@ class HomeSearchScreen extends StatelessWidget {
             itemBuilder: (ctx, i) {
               final f = results[i];
               return _buildFundraiserSearchContainer(context, f.title, f.photoUrl ?? '', '12 min', f.receivedAmount, f.targetAmount, () {
-                context.read<Navigation>().pushNamedWithExtra(
+                sl<Navigation>().pushNamedWithExtra(
                   path: Routes.previewFundraiser,
                   navigationData: PreviewFundraiserNavigationData(
                     fundraiserId: f.id,
@@ -62,7 +62,6 @@ Widget _buildFundraiserSearchContainer(
   String timeLeft,
   double raised,
   double totalAmount,
-
   final VoidCallback onTap,
   //
 ) {
