@@ -1,3 +1,4 @@
+import 'package:doneto/core/di/di.dart';
 import 'package:doneto/core/network_calls/dio_wrapper/index.dart';
 import 'package:doneto/core/services/usecases/usecase.dart';
 import 'package:doneto/core/widgets/fundraiser_model.dart';
@@ -5,6 +6,7 @@ import 'package:doneto/modules/fundraiser/usecases/watch_all_fundraisers.dart';
 import 'package:doneto/modules/home/usecases/get_user_by_id_usecase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:logger/logger.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc({
@@ -28,15 +30,21 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   void _featuredFundraisers(FeaturedFundraisersEvent event, Emitter<HomeState> emit) async {
     try {
       emit(getBlocState(loading: true, errMsg: ''));
-      final res = watchAllFundraisers.calling(NoParams());
-      await for (final list in res) {
-        final featured = _applyFilter(list, state.query);
-        emit(getBlocState(loading: false, featuredFundraisers: featured));
+      final Stream<List<Fundraiser>> stream = watchAllFundraisers.calling(NoParams());
+      sl<Logger>().f('STREAM | $stream');
+      await for (final allList in stream) {
+        final featuredList = allList.where((f) => f.featured == false).toList();
+
+        emit(getBlocState(
+          loading: false,
+          featuredFundraisers: featuredList,
+        ));
       }
     } on DefaultFailure catch (e) {
       emit(getBlocState(loading: false, errMsg: e.message));
     }
   }
+
 
   void _getUserById(GetUserProfileByIdEvent event, Emitter<HomeState> emit) async {
     try {
