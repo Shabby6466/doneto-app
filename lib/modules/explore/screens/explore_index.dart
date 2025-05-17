@@ -84,7 +84,7 @@ class _ExploreIndexState extends State<ExploreIndex> {
                     ],
                   ),
                 ),
-                DonationCardsGrid(maxItems: 2, fundraiserStream: state.donetoVerifiedFundraisers),
+                DonationCardsGrid(maxItems: 2, fundraiserStream: state.donetoVerifiedFundraisers,donetoVerified: true,),
                 SizedBox(height: 20.h),
                 Padding(padding: EdgeInsets.symmetric(horizontal: 18.w), child: Divider(color: R.palette.gray)),
                 SizedBox(height: 30.h),

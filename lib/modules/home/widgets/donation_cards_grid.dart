@@ -7,6 +7,7 @@ import 'package:doneto/modules/home/widgets/rounded_cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:logger/logger.dart';
 
 import '../bloc/home_bloc.dart';
@@ -18,8 +19,9 @@ import '../bloc/home_bloc.dart';
 class DonationCardsGrid extends StatelessWidget {
   final Stream<List<Fundraiser>>? fundraiserStream;
   final int? maxItems;
+  final bool? donetoVerified;
 
-  const DonationCardsGrid({super.key, this.fundraiserStream, this.maxItems});
+  const DonationCardsGrid({super.key, this.fundraiserStream, this.maxItems, this.donetoVerified});
 
   @override
   Widget build(BuildContext context) {
@@ -33,8 +35,7 @@ class DonationCardsGrid extends StatelessWidget {
             stream: stream,
             builder: (context, snapshot) {
               final allList = snapshot.data ?? <Fundraiser>[];
-              if (context.read<HomeBloc>().state.totalFundraisers != allList.length) {
-              }
+              if (context.read<HomeBloc>().state.totalFundraisers != allList.length) {}
 
               switch (snapshot.connectionState) {
                 case ConnectionState.waiting:
@@ -63,7 +64,7 @@ class DonationCardsGrid extends StatelessWidget {
                           crossAxisCount: 2,
                           crossAxisSpacing: 12.w,
                           mainAxisSpacing: 12.h,
-                          childAspectRatio: 181 / 194,
+                          childAspectRatio: donetoVerified ?? false ? 170 / 194 : 181 / 194,
                         ),
                         itemBuilder: (ctx, i) {
                           final f = displayList[i];
@@ -89,6 +90,7 @@ class DonationCardsGrid extends StatelessWidget {
                                 ),
                               );
                             },
+                            donetoVerified ?? false,
                           );
                         },
                       ),
@@ -105,7 +107,17 @@ class DonationCardsGrid extends StatelessWidget {
   }
 }
 
-Widget _buildDonationCard(String title, String image, String timeLeft, double raised, double totalAmount, BuildContext context, VoidCallback onTap) {
+Widget _buildDonationCard(
+  String title,
+  String image,
+  String timeLeft,
+  double raised,
+  double totalAmount,
+  BuildContext context,
+  VoidCallback onTap,
+  bool donetoVerified,
+  //
+) {
   final double progress = totalAmount > 0 ? (raised / totalAmount).clamp(0.0, 1.0) : 0.0;
 
   return GestureDetector(
@@ -171,6 +183,18 @@ Widget _buildDonationCard(String title, String image, String timeLeft, double ra
                     ).textTheme.titleLarge!.copyWith(fontSize: 10.sp, fontWeight: FontWeight.w500, height: 1.3.h, color: R.palette.blackColor),
                   ),
                   SizedBox(height: 5.h),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Visibility(
+                      visible: donetoVerified,
+                      child: SvgPicture.asset(
+                        R.assets.graphics.svgIcons.donetoVerified,
+                        width: 10.w,
+                        height: 10.h,
+                        //
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),

@@ -70,7 +70,7 @@ class _DonetoVerifiedFundraisersState extends State<DonetoVerifiedFundraisers> {
               ] else ...[
                 Expanded(
                   child: SingleChildScrollView(
-                    child: DonationCardsGrid(fundraiserStream: state.donetoVerifiedFundraisers)
+                    child: DonationCardsGrid(fundraiserStream: state.donetoVerifiedFundraisers,donetoVerified: true,)
                   ),
                 ),
               ],

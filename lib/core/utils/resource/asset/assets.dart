@@ -96,6 +96,8 @@ class SvgAssets {
   String get whiteDone => 'assets/svg/white_done.svg';
 
   String get yourselfIcon => 'assets/svg/yourself_icon.svg';
+
+  String get donetoVerified => 'assets/svg/doneto_verified.svg';
 }
 
 class PngAssets {
