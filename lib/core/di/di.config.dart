@@ -45,6 +45,8 @@ import 'package:doneto/modules/fundraiser/usecases/watch_all_fundraisers.dart'
     as _i655;
 import 'package:doneto/modules/home/usecases/get_user_by_id_usecase.dart'
     as _i645;
+import 'package:doneto/modules/home/usecases/watch_fundraisers_by_city.dart'
+    as _i32;
 import 'package:firebase_auth/firebase_auth.dart' as _i59;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:google_sign_in/google_sign_in.dart' as _i116;
@@ -124,6 +126,11 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i524.PermissionEngine>(
       () => _i524.PermissionEngineImp(gh<_i671.PermissionService>()),
+    );
+    gh.singletonAsync<_i32.WatchFundraisersByCityUseCase>(
+      () async => _i32.WatchFundraisersByCityUseCase(
+        repository: await getAsync<_i578.Repository>(),
+      ),
     );
     gh.singletonAsync<_i645.GetUserByIdUseCase>(
       () async => _i645.GetUserByIdUseCase(

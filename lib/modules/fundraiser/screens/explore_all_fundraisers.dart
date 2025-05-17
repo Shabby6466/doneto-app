@@ -1,6 +1,8 @@
 import 'package:doneto/core/di/di.dart';
+import 'package:doneto/core/services/usecases/usecase.dart';
 import 'package:doneto/core/utils/go_router/routes_navigation.dart';
 import 'package:doneto/core/widgets/base_widget.dart';
+import 'package:doneto/modules/fundraiser/usecases/watch_all_fundraisers.dart';
 import 'package:doneto/modules/home/bloc/home_bloc.dart';
 import 'package:doneto/modules/home/screens/home_search_screen.dart';
 import 'package:doneto/modules/home/widgets/donation_cards_grid.dart';
@@ -24,6 +26,7 @@ class _ExploreAllFundraisersState extends State<ExploreAllFundraisers> {
   Widget build(BuildContext context) {
     return BlocConsumer<HomeBloc, HomeState>(
       builder: (context, state) {
+        final stream = sl<WatchAllFundraisersUseCase>().calling(NoParams());
         return Background(
           safeAreaTop: true,
           child: Column(
@@ -51,7 +54,7 @@ class _ExploreAllFundraisersState extends State<ExploreAllFundraisers> {
               if (state is SearchingState) ...[
                 const Expanded(child: HomeSearchScreen()),
               ] else ...[
-                const SingleChildScrollView(child: DonationCardsGrid()),
+                SingleChildScrollView(child: DonationCardsGrid(fundraiserStream: stream)),
               ],
             ],
             //

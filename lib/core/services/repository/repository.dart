@@ -43,4 +43,6 @@ abstract class Repository {
   Stream<UserProfile> watchUserProfile(String uid);
 
   Future<UserProfile> getUserByIdProfile(String userId);
+
+  Stream<List<Fundraiser>> getFundraiserByCity(String city);
 }

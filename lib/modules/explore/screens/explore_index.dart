@@ -1,8 +1,10 @@
 import 'package:doneto/core/di/di.dart';
+import 'package:doneto/core/services/usecases/usecase.dart';
 import 'package:doneto/core/utils/go_router/routes_constant.dart';
 import 'package:doneto/core/utils/go_router/routes_navigation.dart';
 import 'package:doneto/core/utils/resource/r.dart';
 import 'package:doneto/core/widgets/base_widget.dart';
+import 'package:doneto/modules/fundraiser/usecases/watch_all_fundraisers.dart';
 import 'package:doneto/modules/home/bloc/home_bloc.dart';
 import 'package:doneto/modules/home/widgets/custom_swipe_deck.dart';
 import 'package:doneto/modules/home/widgets/donation_cards_grid.dart';
@@ -22,6 +24,7 @@ class _ExploreIndexState extends State<ExploreIndex> {
   void initState() {
     super.initState();
     context.read<HomeBloc>().add(FeaturedFundraisersEvent());
+    context.read<HomeBloc>().add(DonetoVerifiedFundraisersEvent());
   }
 
   @override
@@ -29,6 +32,7 @@ class _ExploreIndexState extends State<ExploreIndex> {
     return BlocConsumer<HomeBloc, HomeState>(
       listener: (ctx, state) {},
       builder: (ctx, state) {
+        final stream = sl<WatchAllFundraisersUseCase>().calling(NoParams());
         return Background(
           safeAreaTop: true,
           child: SingleChildScrollView(
@@ -80,7 +84,8 @@ class _ExploreIndexState extends State<ExploreIndex> {
                     ],
                   ),
                 ),
-                SizedBox(height: 30.h),
+                DonationCardsGrid(maxItems: 2, fundraiserStream: state.donetoVerifiedFundraisers),
+                SizedBox(height: 20.h),
                 Padding(padding: EdgeInsets.symmetric(horizontal: 18.w), child: Divider(color: R.palette.gray)),
                 SizedBox(height: 30.h),
                 Padding(
@@ -108,7 +113,7 @@ class _ExploreIndexState extends State<ExploreIndex> {
                     ],
                   ),
                 ),
-                const DonationCardsGrid(maxItems: 2),
+                DonationCardsGrid(maxItems: 4, fundraiserStream: stream),
                 SizedBox(height: 30.h),
                 Padding(padding: EdgeInsets.symmetric(horizontal: 18.w), child: Divider(color: R.palette.gray)),
               ],

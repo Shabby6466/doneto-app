@@ -4,6 +4,7 @@ import 'package:doneto/core/utils/go_router/routes_navigation.dart';
 import 'package:doneto/core/utils/resource/r.dart';
 import 'package:doneto/core/widgets/base_widget.dart';
 import 'package:doneto/modules/auth/bloc/auth_bloc.dart';
+import 'package:doneto/modules/home/bloc/home_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -20,6 +21,8 @@ class _SplashIndexState extends State<SplashIndex> {
   void initState() {
     super.initState();
     context.read<AuthBloc>().add(GetTokenEvent());
+    context.read<HomeBloc>().add(DonetoVerifiedFundraisersEvent());
+    context.read<HomeBloc>().add(FeaturedFundraisersEvent());
   }
 
   @override

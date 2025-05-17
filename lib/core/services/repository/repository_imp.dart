@@ -83,4 +83,9 @@ class RepositoryImpl implements Repository {
   Future<UserProfile> getUserByIdProfile(String userId) {
     return fireStoreService.getUserByIdProfile(userId);
   }
+
+  @override
+  Stream<List<Fundraiser>> getFundraiserByCity(String city) {
+    return fireStoreService.getFundraiserByCity(city);
+  }
 }

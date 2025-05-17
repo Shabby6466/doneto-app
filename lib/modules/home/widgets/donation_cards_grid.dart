@@ -1,30 +1,29 @@
 import 'package:doneto/core/di/di.dart';
-import 'package:doneto/core/services/usecases/usecase.dart';
 import 'package:doneto/core/utils/go_router/routes_constant.dart';
 import 'package:doneto/core/utils/go_router/routes_navigation.dart';
 import 'package:doneto/core/utils/resource/r.dart';
 import 'package:doneto/core/widgets/fundraiser_model.dart';
-import 'package:doneto/modules/fundraiser/usecases/watch_all_fundraisers.dart';
-import 'package:doneto/modules/home/bloc/home_bloc.dart';
 import 'package:doneto/modules/home/widgets/rounded_cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logger/logger.dart';
 
-class DonationCardsGrid extends StatefulWidget {
+import '../bloc/home_bloc.dart';
+
+/// Renders a grid of donation cards, backed by a stream of [Fundraiser].
+///
+/// - [fundraiserStream]: allow overriding the source stream (e.g. city-specific). Defaults to all fundraisers.
+/// - [maxItems]: if set, limits the number of items shown.
+class DonationCardsGrid extends StatelessWidget {
+  final Stream<List<Fundraiser>>? fundraiserStream;
   final int? maxItems;
 
-  const DonationCardsGrid({super.key, this.maxItems});
+  const DonationCardsGrid({super.key, this.fundraiserStream, this.maxItems});
 
-  @override
-  State<DonationCardsGrid> createState() => _DonationCardsGridState();
-}
-
-class _DonationCardsGridState extends State<DonationCardsGrid> {
   @override
   Widget build(BuildContext context) {
-    final stream = sl<WatchAllFundraisersUseCase>().calling(NoParams());
+    final Stream<List<Fundraiser>> stream = fundraiserStream ?? const Stream.empty();
     return Column(
       children: [
         SizedBox(height: 22.h),
@@ -34,23 +33,23 @@ class _DonationCardsGridState extends State<DonationCardsGrid> {
             stream: stream,
             builder: (context, snapshot) {
               final allList = snapshot.data ?? <Fundraiser>[];
-              context.read<HomeBloc>().add(TotalFundraisersEvent(total: allList.length));
+              if (context.read<HomeBloc>().state.totalFundraisers != allList.length) {
+              }
 
               switch (snapshot.connectionState) {
                 case ConnectionState.waiting:
-                  return const Center(child: CircularProgressIndicator());
+                  return SizedBox(height: 250.h, child: const Center(child: CircularProgressIndicator()));
                 case ConnectionState.active:
                 case ConnectionState.done:
                   if (snapshot.hasError) {
                     sl<Logger>().f('Error loading fundraisers ${snapshot.error}');
-                    return const Center(child: Text("Something went wrong"));
+                    return SizedBox(height: 250.h, child: const Center(child: Text("Something went wrong")));
                   }
                   if (allList.isEmpty) {
-                    return const Center(child: Text("No fundraisers available."));
+                    return SizedBox(height: 250.h, child: const Center(child: Text("No fundraisers available.")));
                   }
 
-                  // Apply limit if maxItems is set
-                  final displayList = widget.maxItems != null ? allList.take(widget.maxItems!).toList() : allList;
+                  final displayList = maxItems != null ? allList.take(maxItems!).toList() : allList;
 
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -72,7 +71,7 @@ class _DonationCardsGridState extends State<DonationCardsGrid> {
                             f.title,
                             f.photoUrl ?? '',
                             '12 mins',
-                            // TODO: Replace with actual timeLeft
+                            // TODO: replace with actual time calculation
                             f.receivedAmount,
                             f.targetAmount,
                             context,
@@ -108,6 +107,7 @@ class _DonationCardsGridState extends State<DonationCardsGrid> {
 
 Widget _buildDonationCard(String title, String image, String timeLeft, double raised, double totalAmount, BuildContext context, VoidCallback onTap) {
   final double progress = totalAmount > 0 ? (raised / totalAmount).clamp(0.0, 1.0) : 0.0;
+
   return GestureDetector(
     onTap: onTap,
     child: Padding(
@@ -164,14 +164,11 @@ Widget _buildDonationCard(String title, String image, String timeLeft, double ra
                     ),
                   ),
                   SizedBox(height: 4.h),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Last donation $timeLeft ago',
-                      style: Theme.of(
-                        context,
-                      ).textTheme.titleLarge!.copyWith(fontSize: 10.sp, fontWeight: FontWeight.w500, height: 1.3.h, color: R.palette.blackColor),
-                    ),
+                  Text(
+                    'Last donation $timeLeft ago',
+                    style: Theme.of(
+                      context,
+                    ).textTheme.titleLarge!.copyWith(fontSize: 10.sp, fontWeight: FontWeight.w500, height: 1.3.h, color: R.palette.blackColor),
                   ),
                   SizedBox(height: 5.h),
                 ],

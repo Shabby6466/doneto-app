@@ -10,6 +10,8 @@ abstract class FireStoreService {
 
   Future<Fundraiser> getFundraiserById(String id);
 
+  Stream<List<Fundraiser>> getFundraiserByCity(String city);
+
   Future<void> saveUserProfile(UserProfile draft);
 
   Future<UserProfile> getUserProfile();
@@ -103,5 +105,14 @@ class FirebaseServiceImp implements FireStoreService {
   Future<UserProfile> getUserByIdProfile(String userId) async {
     final snap = await _userCol.doc(userId).get();
     return UserProfile.fromDoc(snap);
+  }
+
+  @override
+  Stream<List<Fundraiser>> getFundraiserByCity(String city) {
+    return _fundCol
+        .where('location', isEqualTo: city)
+        .orderBy('createdAt', descending: true)
+        .snapshots()
+        .map((qs) => qs.docs.map(Fundraiser.fromDoc).toList());
   }
 }
