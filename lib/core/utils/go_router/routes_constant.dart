@@ -15,6 +15,8 @@ class Routes {
   static const bottomTab = '/bottom_tab';
   static const createProfile = '/create_profile';
   static const fundraiserPublishResponse = '/fundraiser_publish_response';
+  static const exploreAllFundraisers = '/explore_all_fundraisers';
+  static const donetoVerifiedFundraisers = '/doneto_verified_fundraisers';
   static const previewFundraiser = '/preview_fundraiser';
 
   static Widget errorWidget(BuildContext context, GoRouterState state) => const NotFoundScreen();

@@ -5,6 +5,8 @@ import 'package:doneto/modules/auth/screens/sign_in.dart';
 import 'package:doneto/modules/auth/screens/sign_up.dart';
 import 'package:doneto/modules/auth/screens/start_screen_index.dart';
 import 'package:doneto/modules/bottom_tab/screens/bottom_tab.dart';
+import 'package:doneto/modules/fundraiser/screens/doneto_verified_fundraisers.dart';
+import 'package:doneto/modules/fundraiser/screens/explore_all_fundraisers.dart';
 import 'package:doneto/modules/fundraiser/screens/fundraiser_index.dart';
 import 'package:doneto/modules/fundraiser/screens/fundraiser_publish_response.dart';
 import 'package:doneto/modules/fundraiser/screens/fundraising_index.dart';
@@ -72,6 +74,18 @@ class AppRouter {
         path: Routes.fundraiserPublishResponse,
         name: Routes.fundraiserPublishResponse,
         builder: (context, state) => const FundraiserPublishResponse(),
+        //
+      ),
+      GoRoute(
+        path: Routes.exploreAllFundraisers,
+        name: Routes.exploreAllFundraisers,
+        builder: (context, state) =>  const ExploreAllFundraisers(),
+        //
+      ),
+      GoRoute(
+        path: Routes.donetoVerifiedFundraisers,
+        name: Routes.donetoVerifiedFundraisers,
+        builder: (context, state) => const DonetoVerifiedFundraisers(),
         //
       ),
       GoRoute(

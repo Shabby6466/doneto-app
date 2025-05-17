@@ -28,7 +28,6 @@ class HomeSearchScreen extends StatelessWidget {
           padding: EdgeInsets.only(left: 16.w, right: 16.w, top: 16.h),
           child: GridView.builder(
             shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
             itemCount: results.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 1, mainAxisSpacing: 12.h, childAspectRatio: 181 / 150),
             itemBuilder: (ctx, i) {

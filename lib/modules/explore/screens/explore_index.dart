@@ -1,7 +1,11 @@
+import 'package:doneto/core/di/di.dart';
+import 'package:doneto/core/utils/go_router/routes_constant.dart';
+import 'package:doneto/core/utils/go_router/routes_navigation.dart';
 import 'package:doneto/core/utils/resource/r.dart';
 import 'package:doneto/core/widgets/base_widget.dart';
 import 'package:doneto/modules/home/bloc/home_bloc.dart';
 import 'package:doneto/modules/home/widgets/custom_swipe_deck.dart';
+import 'package:doneto/modules/home/widgets/donation_cards_grid.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -48,13 +52,10 @@ class _ExploreIndexState extends State<ExploreIndex> {
                   height: 450.h,
                   width: double.infinity,
                   alignment: Alignment.center,
-                  child: FractionallySizedBox(widthFactor: 0.8, child: CustomSwipeDeck(items: state.featuredFundraisers)),
+                  child: CustomSwipeDeck(items: state.featuredFundraisers),
                 ),
                 SizedBox(height: 30.h),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 18.w),
-                  child: Divider(color: R.palette.gray),
-                ),
+                Padding(padding: EdgeInsets.symmetric(horizontal: 18.w), child: Divider(color: R.palette.gray)),
                 SizedBox(height: 30.h),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 18.w),
@@ -67,20 +68,20 @@ class _ExploreIndexState extends State<ExploreIndex> {
                           context,
                         ).textTheme.labelMedium!.copyWith(fontSize: 24.sp, fontWeight: FontWeight.w800, color: R.palette.blackColor, height: 1.5),
                       ),
-                      Text(
-                        'see all',
-                        style: Theme.of(
-                          context,
-                        ).textTheme.labelMedium!.copyWith(fontSize: 12.sp, fontWeight: FontWeight.w300, color: R.palette.blackColor, height: 1.5),
+                      GestureDetector(
+                        onTap: () => sl<Navigation>().push(path: Routes.donetoVerifiedFundraisers),
+                        child: Text(
+                          'see all',
+                          style: Theme.of(
+                            context,
+                          ).textTheme.labelMedium!.copyWith(fontSize: 12.sp, fontWeight: FontWeight.w300, color: R.palette.blackColor, height: 1.5),
+                        ),
                       ),
                     ],
                   ),
                 ),
                 SizedBox(height: 30.h),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 18.w),
-                  child: Divider(color: R.palette.gray),
-                ),
+                Padding(padding: EdgeInsets.symmetric(horizontal: 18.w), child: Divider(color: R.palette.gray)),
                 SizedBox(height: 30.h),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 18.w),
@@ -93,21 +94,23 @@ class _ExploreIndexState extends State<ExploreIndex> {
                           context,
                         ).textTheme.labelMedium!.copyWith(fontSize: 24.sp, fontWeight: FontWeight.w800, color: R.palette.blackColor, height: 1.5),
                       ),
-                      Text(
-                        'see all',
-                        style: Theme.of(
-                          context,
-                        ).textTheme.labelMedium!.copyWith(fontSize: 12.sp, fontWeight: FontWeight.w300, color: R.palette.blackColor, height: 1.5),
+                      GestureDetector(
+                        onTap: () {
+                          sl<Navigation>().push(path: Routes.exploreAllFundraisers);
+                        },
+                        child: Text(
+                          'see all',
+                          style: Theme.of(
+                            context,
+                          ).textTheme.labelMedium!.copyWith(fontSize: 12.sp, fontWeight: FontWeight.w300, color: R.palette.blackColor, height: 1.5),
+                        ),
                       ),
                     ],
                   ),
                 ),
+                const DonationCardsGrid(maxItems: 2),
                 SizedBox(height: 30.h),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 18.w),
-                  child: Divider(color: R.palette.gray),
-                ),
-            
+                Padding(padding: EdgeInsets.symmetric(horizontal: 18.w), child: Divider(color: R.palette.gray)),
               ],
             ),
           ),

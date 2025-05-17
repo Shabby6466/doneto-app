@@ -21,11 +21,16 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<SearchFundraisersEvent>(_onSearchFundraisers);
     on<ClearSearchEvent>(_onClearSearch);
     on<FeaturedFundraisersEvent>(_featuredFundraisers);
+    on<TotalFundraisersEvent>(_totalFundraisers);
     //
   }
 
   final WatchAllFundraisersUseCase watchAllFundraisers;
   final GetUserByIdUseCase getUserByIdUseCase;
+
+  void _totalFundraisers(TotalFundraisersEvent event, Emitter<HomeState> emit) {
+    emit(getBlocState(totalFundraisers: event.total));
+  }
 
   void _featuredFundraisers(FeaturedFundraisersEvent event, Emitter<HomeState> emit) async {
     try {
@@ -33,18 +38,14 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       final Stream<List<Fundraiser>> stream = watchAllFundraisers.calling(NoParams());
       sl<Logger>().f('STREAM | $stream');
       await for (final allList in stream) {
-        final featuredList = allList.where((f) => f.featured == false).toList();
+        final featuredList = allList.where((f) => f.featured == true).toList();
 
-        emit(getBlocState(
-          loading: false,
-          featuredFundraisers: featuredList,
-        ));
+        emit(getBlocState(loading: false, featuredFundraisers: featuredList));
       }
     } on DefaultFailure catch (e) {
       emit(getBlocState(loading: false, errMsg: e.message));
     }
   }
-
 
   void _getUserById(GetUserProfileByIdEvent event, Emitter<HomeState> emit) async {
     try {
@@ -97,6 +98,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         loading: state.loading,
         allFundraisers: state.allFundraisers,
         featuredFundraisers: state.featuredFundraisers,
+        totalFundraisers: state.totalFundraisers,
         filteredFundraisers: state.filteredFundraisers,
         query: state.query,
         userProfile: state.userProfile,
@@ -116,6 +118,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     bool? loading,
     String? errMsg,
     int? index,
+    int? totalFundraisers,
     String? query,
     UserProfile? userProfile,
     List<Fundraiser>? allFundraisers,
@@ -126,6 +129,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     return HomeChangeState(
       loading: loading ?? state.loading,
       query: query ?? state.query,
+      totalFundraisers: totalFundraisers ?? state.totalFundraisers,
       errMsg: errMsg ?? state.errMsg,
       allFundraisers: allFundraisers ?? state.allFundraisers,
       filteredFundraisers: filteredFundraisers ?? state.filteredFundraisers,
@@ -148,6 +152,7 @@ class HomeState {
     required this.query,
     required this.filteredFundraisers,
     required this.errMsg,
+    required this.totalFundraisers,
     required this.index,
     //
   });
@@ -155,6 +160,7 @@ class HomeState {
   final bool loading;
   final String errMsg;
   final String query;
+  final int totalFundraisers;
   final List<Fundraiser> allFundraisers;
   final List<Fundraiser> featuredFundraisers;
   final List<Fundraiser> filteredFundraisers;
@@ -167,6 +173,7 @@ class HomeChangeState extends HomeState {
     required super.loading,
     required super.query,
     required super.allFundraisers,
+    required super.totalFundraisers,
     required super.filteredFundraisers,
     required super.featuredFundraisers,
     required super.userProfile,
@@ -178,6 +185,7 @@ class HomeChangeState extends HomeState {
   factory HomeChangeState.initial() => HomeChangeState(
     loading: false,
     errMsg: '',
+    totalFundraisers: 0,
     userProfile: UserProfile.initial(),
     query: '',
     allFundraisers: [],
@@ -196,6 +204,7 @@ class SearchingState extends HomeState {
     required super.index,
     required super.allFundraisers,
     required super.filteredFundraisers,
+    required super.totalFundraisers,
     required super.featuredFundraisers,
     required super.userProfile,
     //
@@ -227,3 +236,9 @@ class SearchFundraisersEvent extends HomeEvent {
 class LoadFundraisersEvent extends HomeEvent {}
 
 class FeaturedFundraisersEvent extends HomeEvent {}
+
+class TotalFundraisersEvent extends HomeEvent {
+  final int total;
+
+  TotalFundraisersEvent({required this.total});
+}
